@@ -1,0 +1,91 @@
+﻿<!-- app-header-->
+<div class="header">
+
+    <!-- LOGO -->
+    <div class="logo">
+        <img src="assets\img\logo.jpg">
+    </div>
+
+    <!-- Logg inn knapp-->
+    <div class="loggin">
+        <span class="glyphicon glyphicon-log-in"></span> <a href=""></a>
+    </div>
+</div>
+
+
+
+<!-- app-meny-->
+<div class="menydiv">
+    <nav class="navigation">
+        <ul class="mainmenu">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                <a routerLink="/dokumenter">
+                    <i class="fa fa-arrow-right"></i>
+                    <i class="fa fa-folder-open-o"></i> Mine dokumenter
+                </a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                <a routerLink="/deltmedmeg">
+                    <i class="fa fa-arrow-right"></i>
+                    <i class="fa fa-users"></i>Delt med meg
+                </a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                <a routerLink="/nylige">
+                    <i class="fa fa-arrow-right"></i>
+                    <i class="fa fa-clock-o"></i>Nylige
+                </a>
+            </li>
+
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                <a routerLink="/sikkerhetskopier">
+                    <i class="fa fa-arrow-right"></i>
+                    <i class="fa fa-cloud"></i>Sikkerhetskopier
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+<!-- app-meny-->
+<div class="dokumenter-full">
+
+    <h4>Alle signerte dokumenter</h4>
+
+    <div class="dokumentvisning">
+        <!-- app-dokument1-->
+        <div class="dokument">
+            <div class="dokument-forhandvisning">
+                <!--Thumb: husk link i href -->
+                <a href="#"><img src="assets\img\kontrakt3thumb.jpg"></a>
+            </div>
+            <div class="dokument-navn">
+                <!-- Informasjon om dokumentet: img=dokumenttype,a=dokumentnavn -->
+                <a href="#"><img src="assets\img\pdf2.png" height="30">dokument1.pdf</a>
+            </div>
+        </div>
+        <!-- app-dokument2-->
+        <div class="dokument">
+            <div class="dokument-forhandvisning">
+                <!--Thumb: husk link i href -->
+                <a href="#"><img src="assets\img\kontrakt3thumb.jpg"></a>
+            </div>
+            <div class="dokument-navn">
+                <!-- Informasjon om dokumentet: img=dokumenttype,a=dokumentnavn -->
+                <a href="#"><img src="assets\img\pdf2.png" height="30">dokument1.pdf</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h2>Welcome @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
+
+<dl>
+    @foreach (var claim in User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+</dl>
