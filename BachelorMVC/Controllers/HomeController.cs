@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using BachelorMVC.Models;
 using BachelorMVC.Persistence;
 using Microsoft.AspNetCore.Mvc;
@@ -49,28 +46,6 @@ namespace BachelorMVC.Controllers
         public IActionResult Innlogget()
         {
             return View();
-        }
-
-        public async Task UploadToSDS() 
-        {
-            var httpClientHandler = new httpClientHandler {
-                Credentials = new NetworkCredential("demo", "Bond007")
-            };
-
-            using (var client = new HttpClient(httpClientHandler)) 
-            {
-                // todo: HTML File som parameter
-                HttpContent content = new ByteArrayContent(File.ReadAllBytes("vedlegg1.pdf"));
-                
-                // Mulighet for flere filtyper og validering
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                
-                // Dokumentet blir lastet opp til demo-SDS og responsen lagres for videre bruk
-                HttpResponseMessage response = 
-                    await client.postAsync("https://preprod.signicat.com/doc/demo/sds", content);
-
-                String documentId = await response.Content.ReadAsStringAsync();
-            }
         }
 
     }
