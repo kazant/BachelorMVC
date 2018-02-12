@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 using BachelorMVC.Models;
 using BachelorMVC.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace BachelorMVC.Controllers
 {
@@ -48,5 +53,41 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
+         public async Task UploadToSDS() 
+        {
+            
+            var httpClientHandler = new HttpClientHandler 
+            {
+                Credentials = new NetworkCredential("demo", "Bond007")
+            };
+
+            using (var client = new HttpClient(httpClientHandler)) 
+            {
+                // todo: HTML File som parameter
+                Byte[] file = System.IO.File.ReadAllBytes("Controllers/vedlegg1.pdf");
+                HttpContent content = new ByteArrayContent(file);
+                
+                // Mulighet for flere filtyper og validering
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+                
+                // Dokumentet blir lastet opp til demo-SDS og responsen lagres for videre bruk
+                HttpResponseMessage response = 
+                    await client.PostAsync("https://preprod.signicat.com/doc/demo/sds", content);
+
+                string documentId = await response.Content.ReadAsStringAsync();
+
+                // For testing av responsen
+                using(StreamWriter sw = System.IO.File.CreateText("Controllers/output.txt"))
+                {
+                    sw.WriteLine(documentId);
+                }
+                
+            }
+
+            
+                
+        
+
+        }
     }
 }
