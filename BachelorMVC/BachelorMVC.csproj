@@ -24,4 +24,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="./signicat-lib/Signicat.DocumentService.dll" />
+  </ItemGroup>
+
 </Project>
