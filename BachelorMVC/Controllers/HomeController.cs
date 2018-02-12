@@ -53,7 +53,7 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-         public async Task UploadToSDS() 
+         public async void UploadToSDS() 
         {
             
             var httpClientHandler = new HttpClientHandler 
@@ -76,7 +76,7 @@ namespace BachelorMVC.Controllers
 
                 string documentId = await response.Content.ReadAsStringAsync();
 
-                // For testing av responsen
+                // For testing av respons
                 using(StreamWriter sw = System.IO.File.CreateText("Controllers/output.txt"))
                 {
                     sw.WriteLine(documentId);
@@ -84,7 +84,29 @@ namespace BachelorMVC.Controllers
                 
             }
 
-            
+            // Rut bruker til signicat
+            Dokumenter dokument = new Dokumenter
+            {
+                dokumentID = "dokumentid",
+                dokumentIDFraSDS = "fraSDS",
+                Name = "navn",
+                signert = false,
+                beskrivelse = "beskrivelse"
+
+            };
+
+            var request = new CreateRequest
+            {
+                password = "Bond007",
+                service = "demo",
+                new request {
+                    klientReferanse = "klientreferanse",
+                    language = "nb",
+                    profil = "profil",
+                    dokument = dokument
+                
+                }
+            };
                 
         
 

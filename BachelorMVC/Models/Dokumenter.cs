@@ -12,7 +12,9 @@ namespace BachelorMVC.Models
         [Key]
         public int DokumentID { get; set; }
         
+        public string dokumentIDFraSDS {get; set;}
         public string Name { get; set; }
-        public string signatur { get; set; }
+        public bool signert { get; set; }
+        public string beskrivelse {get; set;}
     }
 }
