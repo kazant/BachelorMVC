@@ -9,6 +9,8 @@ namespace BachelorMVC.Models
     public class Dokumenter
     {
 
+
+
         [Key]
         public int DokumentID { get; set; }
         
