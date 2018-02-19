@@ -1,3 +1,5 @@
+using signicat.documentservicev3;
+
 namespace BachelorMVC.Models
 {
     public class SigneringsOppgave 
@@ -6,6 +8,6 @@ namespace BachelorMVC.Models
         public string subjektRef {get; set;}
         public bool bundleSpecified {get; set;}
         public bool bundle {get; set;}
-        public DokumentHandling dokumentHandling {get; set;}
+        public documentactiontype type {get; set;}
     }
 }
