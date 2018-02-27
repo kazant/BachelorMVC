@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Assently.Client;
+using Assently.ServiceModel;
+using Assently.ServiceModel.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,10 +12,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using System.Xml;
-
-using signicat.documentservicev3;
 
 namespace BachelorMVC.Controllers
 {
@@ -53,6 +53,46 @@ namespace BachelorMVC.Controllers
         [Microsoft.AspNetCore.Authorization.Authorize]
         public IActionResult Innlogget()
         {
+            return View();
+        }
+
+        public IActionResult test()
+        {
+            
+
+            var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "E76l9Vt91QiU6AJTZPX4vzXXjloVWpVa4vib4mio");
+
+            CreateCaseModel model = new CreateCaseModel();
+            model.Id = Guid.NewGuid();
+            Console.WriteLine(model.Id);
+            model.AllowedSignatureTypes.Add(SignatureType.ElectronicId);
+            model.SendSignRequestEmailToParties = true;
+            model.SendFinishEmailToParties = true;
+            model.Name = "sign me pl0x";
+            model.NameAlias = "testAlias";
+
+            model.Parties.Add(new PartyModel
+            {
+                EmailAddress = "ErlendAHall@gmail.com",
+                Name = "Erlend Andreas Hall"
+            });
+           
+
+            model.Documents.Add("Controllers\\vedlegg1.pdf");
+            model.Metadata.Add("test","test");
+            client.CreateCase(model);
+            client.SendCase(model.Id);
+           
+            CaseModel caseModel = client.GetCase(model.Id);
+
+            if (caseModel.Status == CaseStatus.Sent)
+            {
+
+                var receipt = caseModel.Documents.Where(d => d.Type == DocumentType.Original).Single();
+                client.GetDocumentData(Guid.Parse(receipt.Id), "Controllers\\test");
+            }
+
+
             return View();
         }
         
