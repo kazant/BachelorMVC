@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using BachelorMVC.Models;
 using BachelorMVC.Persistence;
-using BachelorMVC.Services;
+using BachelorMVC.Models.Services;
 using Microsoft.AspNetCore.Mvc;
+using Assently.Client;
+using Assently.ServiceModel;
+using Assently.ServiceModel.Messages;
 
 namespace BachelorMVC.Controllers
 {
@@ -76,6 +79,49 @@ namespace BachelorMVC.Controllers
             }
 
            
+        }
+
+        public IActionResult test()
+        {
+            
+
+            var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "E76l9Vt91QiU6AJTZPX4vzXXjloVWpVa4vib4mio");
+
+            CreateCaseModel model = new CreateCaseModel();
+            model.Id = Guid.NewGuid();
+            Console.WriteLine(model.Id);
+            model.AllowedSignatureTypes.Add(SignatureType.ElectronicId);
+            model.SendSignRequestEmailToParties = true;
+            model.SendFinishEmailToParties = true;
+            model.Name = "sign me pl0x";
+            model.NameAlias = "testAlias";
+
+            model.Parties.Add(new PartyModel
+            {
+                EmailAddress = "ErlendAHall@gmail.com",
+                Name = "Erlend Andreas Hall"
+            });
+           
+
+            model.Documents.Add("Controllers\\vedlegg1.pdf");
+            model.Metadata.Add("test","test");
+            client.CreateCase(model);
+            client.SendCase(model.Id);
+           
+            CaseModel caseModel = client.GetCase(model.Id);
+
+            if (caseModel.Status == CaseStatus.Sent)
+            {
+
+                var receipt = caseModel.Documents.Where(d => d.Type == DocumentType.Original).Single();
+                var stream = client.GetDocumentData(Guid.Parse(receipt.Id), "Controllers\\test");
+               
+            }
+
+
+            return View();
+        }
+        
         }
 
     }
