@@ -85,7 +85,10 @@ namespace BachelorMVC.Controllers
            
         }
 
+        //Er linket til dokumentgriden
         public IActionResult SignerDokument() { 
+
+
 
             return View();
         }
@@ -102,46 +105,81 @@ namespace BachelorMVC.Controllers
             Bruker bruker = _brukerService.findbruker(id, navn);
 
             //Hent info om brukerens dokument
+            // Trenger en kobling mellom klassen Bruker og klassen Dokument
+
+
 
             var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "E76l9Vt91QiU6AJTZPX4vzXXjloVWpVa4vib4mio");
 
-            CreateCaseModel model = new CreateCaseModel();
-            model.Id = Guid.NewGuid();
-            Console.WriteLine(model.Id);
-            model.AllowedSignatureTypes.Add(SignatureType.ElectronicId);
+            //En CreateCaseModel skal bestå av et dokument, en eller flere brukere og annen info (se UML)
+            CreateCaseModel model = new CreateCaseModel
+            {
+                //Påkrevd
+                Id = Guid.NewGuid()
+            };
+
+            //Påkrevd
             model.SendSignRequestEmailToParties = true;
             model.SendFinishEmailToParties = true;
-            model.Name = "";
-            model.NameAlias = "";
+            model.Name = "Test";
+            model.NameAlias = "TestAlias";
 
+            //Kan gi valg mellom eID signatur eller signbyhand (på mobil). Påkrevd
+            model.AllowedSignatureTypes.Add(SignatureType.ElectronicId);
+
+
+            //PartyModel er en samling brukere. Påkrevd.
+            //Skal flere brukere signere ett dokument, må denne kodebiten gjentas.
             model.Parties.Add(new PartyModel
             {
+                //Her kan info hentes fra klassen Bruker
                 EmailAddress = "ErlendAHall@gmail.com",
                 Name = "Erlend Andreas Hall"
             });
            
+            //En eller flere dokumenter angis til en Liste med dokumenter
+            //I prinsippet er det nok med en filsti til dokumentet. Påkrevd
+            string statiskFilsti = "Controllers//EnTomPDF.pdf";
+            model.Documents.Add(new DocumentModel
+            {
+                //id = id
+                Filename = statiskFilsti
+            });
 
-            model.Documents.Add("Controllers\\vedlegg1.pdf");
-            model.Metadata.Add("test","test");
+            model.Metadata.Add("nøkkel","verdi");
+
+            //CreateCaseModel objektet sendes til Assently
             client.CreateCase(model);
+
+            //Her blir brukerene evt tilsendt en epost med signaturlink
+            //Evt kan også SMS benyttes
             client.SendCase(model.Id);
            
-            CaseModel caseModel = client.GetCase(model.Id);
+
+           
+
+            return View();
+        }
+
+        public void LastNedSignertDokument()
+        {
+            var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "E76l9Vt91QiU6AJTZPX4vzXXjloVWpVa4vib4mio");
+
+            //Må her hente en eksisterende CaseModel fra Assently ved hjelp av et GUID
+            CaseModel caseModel = null;  //client.GetCase(Guid.Parse(caseId guid));
 
             if (caseModel.Status == CaseStatus.Sent)
             {
 
                 var receipt = caseModel.Documents.Where(d => d.Type == DocumentType.Original).Single();
                 var stream = client.GetDocumentData(Guid.Parse(receipt.Id), "Controllers\\test");
-                
-               
+
+
             }
 
+        }
 
-            return View();
-        }
-        
-        }
+    }
 
     }
 
