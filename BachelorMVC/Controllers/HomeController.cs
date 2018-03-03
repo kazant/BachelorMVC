@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BachelorMVC.Models;
 using BachelorMVC.Persistence;
-using BachelorMVC.Models.Services;
+using BachelorMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Assently.Client;
 using Assently.ServiceModel;
@@ -14,6 +14,10 @@ namespace BachelorMVC.Controllers
 {
     public class HomeController : Controller
     {
+
+        string id;
+        string navn;
+
         private readonly BachelorDbContext _context;
         private readonly IbrukerService _brukerService;
 
@@ -58,8 +62,8 @@ namespace BachelorMVC.Controllers
         [Microsoft.AspNetCore.Authorization.Authorize]
         public IActionResult Innlogget()
         {
-            string id = User.Claims.Where(c => c.Type == "socialno").FirstOrDefault().Value;
-            string navn = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
+            id = User.Claims.Where(c => c.Type == "socialno").FirstOrDefault().Value;
+            navn = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
             string[] fulltnavn = navn.Split(',');
             string fornavn = fulltnavn[1];
             string etternavn = fulltnavn[0];
@@ -81,9 +85,13 @@ namespace BachelorMVC.Controllers
            
         }
 
-        public IActionResult test()
+        public IActionResult Sign()
         {
-            
+
+            //Hent info om bruker
+            Bruker bruker = _brukerService.findbruker(id, navn);
+
+            //Hent info om brukerens dokument
 
             var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "E76l9Vt91QiU6AJTZPX4vzXXjloVWpVa4vib4mio");
 
@@ -93,8 +101,8 @@ namespace BachelorMVC.Controllers
             model.AllowedSignatureTypes.Add(SignatureType.ElectronicId);
             model.SendSignRequestEmailToParties = true;
             model.SendFinishEmailToParties = true;
-            model.Name = "sign me pl0x";
-            model.NameAlias = "testAlias";
+            model.Name = "";
+            model.NameAlias = "";
 
             model.Parties.Add(new PartyModel
             {
@@ -115,6 +123,7 @@ namespace BachelorMVC.Controllers
 
                 var receipt = caseModel.Documents.Where(d => d.Type == DocumentType.Original).Single();
                 var stream = client.GetDocumentData(Guid.Parse(receipt.Id), "Controllers\\test");
+                
                
             }
 
@@ -125,4 +134,5 @@ namespace BachelorMVC.Controllers
         }
 
     }
-}
+
+
