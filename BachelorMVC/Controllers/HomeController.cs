@@ -85,7 +85,7 @@ namespace BachelorMVC.Controllers
            
         }
 
-        public IActionResult SignerDokument() {
+        public IActionResult SignerDokument() { 
 
             return View();
         }
