@@ -85,7 +85,17 @@ namespace BachelorMVC.Controllers
            
         }
 
-        public IActionResult Sign()
+        public IActionResult SignerDokument() {
+
+            return View();
+        }
+
+        public IActionResult InspiserDokument() {
+
+            return View();
+        }
+
+        public IActionResult OpprettCaseOgSendEpost()
         {
 
             //Hent info om bruker
