@@ -97,11 +97,10 @@
 
 <form>
 
-
-
     <p>Velg fil for opplasting</p>
     <input type="file" id="myFile">
     <input type="button" onclick="addInput()" value="Legg til medlemmer" />
+    <input type="button" onclick="removeLastInput()" value="Fjern medlem" />
     <div class="flex-container">
         <span id="EmailsForSignering"> </span>
     </div>
@@ -109,14 +108,22 @@
 </form>
 
 <script>
+
+    //Variabler for å holde informasjon antall bokser
     var AntallMedlemmer = 1;
     var boxName = 0;
+
+    //Funksjon for å legge til ny input felt for emails
     function addInput() {
+        if (AntallMedlemmer == 0) {
+            AntallMedlemmer = 1;
+        }
         var boxName = "Email " + AntallMedlemmer;
         document.getElementById('EmailsForSignering').innerHTML += '<input class="inputFields" type="text" id="' + AntallMedlemmer + '"/>';
         AntallMedlemmer += 1;
     }
 
+    //Funksjon for å slette sist lagt inn input felt
     function removeLastInput() {
         var test = document.getElementById('EmailsForSignering');
         var childNode = test.lastChild;
@@ -124,6 +131,7 @@
         AntallMedlemmer -= 1;
     }
 
+    //Funksjon for å legge til medlemmer
     function submitMembers() {
 
     }
