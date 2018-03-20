@@ -85,13 +85,16 @@ namespace BachelorMVC.Controllers
            
         }
 
-        //Er linket til dokumentgriden
-        public IActionResult SignerDokument() { 
+
+        public IActionResult LagDokumentGrid()
+        {
 
 
 
             return View();
         }
+
+       
 
         public IActionResult InspiserDokument() {
 
@@ -102,7 +105,7 @@ namespace BachelorMVC.Controllers
         {
 
             //Hent info om bruker
-            Bruker bruker = _brukerService.findbruker(id, navn);
+            //Bruker bruker = _brukerService.findbruker(id, navn);
 
             //Hent info om brukerens dokument
             // Trenger en kobling mellom klassen Bruker og klassen Dokument
@@ -112,15 +115,15 @@ namespace BachelorMVC.Controllers
             var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "E76l9Vt91QiU6AJTZPX4vzXXjloVWpVa4vib4mio");
 
             //En CreateCaseModel skal bestå av et dokument, en eller flere brukere og annen info (se UML)
-            CreateCaseModel model = new CreateCaseModel
-            {
-                //Påkrevd
-                Id = Guid.NewGuid()
-            };
-
+            CreateCaseModel model = new CreateCaseModel();
+            
+            //Påkrevd
+            model.Id = Guid.NewGuid();
+ 
             //Påkrevd
             model.SendSignRequestEmailToParties = true;
             model.SendFinishEmailToParties = true;
+            model.SendFinishEmailToCreator = true;
             model.Name = "Test";
             model.NameAlias = "TestAlias";
 
@@ -133,20 +136,16 @@ namespace BachelorMVC.Controllers
             model.Parties.Add(new PartyModel
             {
                 //Her kan info hentes fra klassen Bruker
-                EmailAddress = "ErlendAHall@gmail.com",
+                EmailAddress = "HailTheUser@gmail.com",
                 Name = "Erlend Andreas Hall"
             });
-           
+
             //En eller flere dokumenter angis til en Liste med dokumenter
             //I prinsippet er det nok med en filsti til dokumentet. Påkrevd
-            string statiskFilsti = "Controllers//EnTomPDF.pdf";
-            model.Documents.Add(new DocumentModel
-            {
-                //id = id
-                Filename = statiskFilsti
-            });
-
+            string statiskFilsti = "Controllers\\debug_attest.pdf";
+            model.Documents.Add(statiskFilsti);
             model.Metadata.Add("nøkkel","verdi");
+
 
             //CreateCaseModel objektet sendes til Assently
             client.CreateCase(model);
@@ -154,9 +153,6 @@ namespace BachelorMVC.Controllers
             //Her blir brukerene evt tilsendt en epost med signaturlink
             //Evt kan også SMS benyttes
             client.SendCase(model.Id);
-           
-
-           
 
             return View();
         }
@@ -172,7 +168,7 @@ namespace BachelorMVC.Controllers
             {
 
                 var receipt = caseModel.Documents.Where(d => d.Type == DocumentType.Original).Single();
-                var stream = client.GetDocumentData(Guid.Parse(receipt.Id), "Controllers\\test");
+                var stream = client.GetDocumentData(Guid.Parse(receipt.Id), ".\\Controllers\\debug_attest.pfd");
 
 
             }
