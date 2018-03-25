@@ -63,15 +63,7 @@
                         <!-- Informasjon om dokumentet: img=dokumenttype,a=dokumentnavn -->
                         <a href="#"><img src="assets\img\pdf2.png" height="30">dokument1.pdf</a>
 
-        <dl>
-        @foreach (var claim in User.Claims)
-        {
-            <dt>@claim.Type</dt>
-            <dd>@claim.Value</dd>
-        }
-
-        <dd> @ViewBag.testtext</dd>
-    </dl>
+        
                     </div>
                 </div>
                 <!-- app-dokument2-->
@@ -108,6 +100,15 @@
     <input type="button" onclick="submitMembers()" value="Send" />
 </form>
 
+<dl>
+    @foreach (var claim in User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+
+    <dd> @ViewBag.testtext</dd>
+</dl>
 <script>
 
     //Variabler for å holde informasjon antall bokser
