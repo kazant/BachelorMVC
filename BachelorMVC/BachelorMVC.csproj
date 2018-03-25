@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Assently.Client" Version="4.3.0" />
+    <PackageReference Include="Auth0-ASPNET" Version="2.1.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.3" />

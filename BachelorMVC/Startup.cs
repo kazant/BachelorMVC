@@ -77,13 +77,15 @@ namespace BachelorMVC
 
             var options = new OpenIdConnectOptions()
             {
-                AuthenticationScheme = "http://localhost:52817/signin-oidc", // callback will be on /signin-oidc
+                
+                AuthenticationScheme = "Oidc", // callback will be on /signin-oidc
                 SignInScheme = "Cookies",
                 ResponseType = "code",
-                Authority = "https://dp.grean.id/", // For testing: "https://acme-corp.grean.id/"
-                ClientId = "urn:auth0:document", // For testing: "0m4bGC+LO7QSBk7zf4d2Uhhlq48IRHbUC/D5yM4EROU="
-                ClientSecret = "HTWOKZbnz90BOzMhkr/h/Q5JCGRgK1d7Ssu0dA5hfUQ=" // For testing: "0m4bGC+LO7QSBk7zf4d2Uhhlq48IRHbUC/D5yM4EROU="
+                Authority = "https://document.eu.auth0.com", // For testing: "https://acme-corp.grean.id/"
+                ClientId = "mP7idivyJncZ0XWvo3zC9K65Fr843FZk", // For testing: "0m4bGC+LO7QSBk7zf4d2Uhhlq48IRHbUC/D5yM4EROU="
+                ClientSecret = "tpXUWzv0ylsN8b3Af7sTpeMQl62EnQwsO6RvuuYdCtvgl7FJiscyjau3F7-LsDkG" // For testing: "0m4bGC+LO7QSBk7zf4d2Uhhlq48IRHbUC/D5yM4EROU="
             };
+            options.RequireHttpsMetadata = false;
 
             // This may be modified to get the choice of authentication method from
             // some other source, e.g. a dropdown in the UI
@@ -91,13 +93,16 @@ namespace BachelorMVC
             options.Events = new OpenIdConnectEvents()
             {
                 OnRedirectToIdentityProvider = context => {
-                    context.ProtocolMessage.AcrValues = "urn:grn:authn:no:bankid:central";
+                    
+                    context.ProtocolMessage.AcrValues = "tenant:default";
                     return Task.FromResult(0);
                 }
             };
 
             // Wire in OIDC middelware
             app.UseOpenIdConnectAuthentication(options);
+
+
 
             ////////////////////////////////////////////////////////////
 

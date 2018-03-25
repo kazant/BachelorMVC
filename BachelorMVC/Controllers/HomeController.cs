@@ -62,25 +62,25 @@ namespace BachelorMVC.Controllers
         [Microsoft.AspNetCore.Authorization.Authorize]
         public IActionResult Innlogget()
         {
-            id = User.Claims.Where(c => c.Type == "socialno").FirstOrDefault().Value;
-            navn = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
-            string[] fulltnavn = navn.Split(',');
-            string fornavn = fulltnavn[1];
-            string etternavn = fulltnavn[0];
-            var result = _brukerService.findbruker(navn,id);
+            //id = User.Claims.Where(c => c.Type == "socialno").FirstOrDefault().Value;
+            //navn = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
+            //string[] fulltnavn = navn.Split(',');
+            //string fornavn = fulltnavn[1];
+            //string etternavn = fulltnavn[0];
+            //var result = _brukerService.findbruker(navn,id);
 
 
-            if (result != null)
-            {                
-                ViewBag.testtext = result.Fornavn;
+            //if (result != null)
+            //{                
+            //    ViewBag.testtext = result.Fornavn;
+            //    return View();
+            //}
+            //else
+            //{
+            //    Bruker nybruker =_brukerService.addbruker(fornavn, etternavn, id);
+            //    ViewBag.testtext = nybruker.Fornavn;
                 return View();
-            }
-            else
-            {
-                Bruker nybruker =_brukerService.addbruker(fornavn, etternavn, id);
-                ViewBag.testtext = nybruker.Fornavn;
-                return View();
-            }
+            //}
 
            
         }
