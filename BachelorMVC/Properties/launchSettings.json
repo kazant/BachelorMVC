@@ -21,7 +21,10 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:52817/"
+      "applicationUrl": "http://localhost:52817"
+    },
+    "Local IIS": {
+      "commandName": "Executable"
     }
   }
 }
