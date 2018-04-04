@@ -83,9 +83,13 @@ namespace BachelorMVC
                 ResponseType = "code",
                 Authority = "https://document.eu.auth0.com", // For testing: "https://acme-corp.grean.id/"
                 ClientId = "mP7idivyJncZ0XWvo3zC9K65Fr843FZk", // For testing: "0m4bGC+LO7QSBk7zf4d2Uhhlq48IRHbUC/D5yM4EROU="
-                ClientSecret = "tpXUWzv0ylsN8b3Af7sTpeMQl62EnQwsO6RvuuYdCtvgl7FJiscyjau3F7-LsDkG" // For testing: "0m4bGC+LO7QSBk7zf4d2Uhhlq48IRHbUC/D5yM4EROU="
-            };
+                ClientSecret = "tpXUWzv0ylsN8b3Af7sTpeMQl62EnQwsO6RvuuYdCtvgl7FJiscyjau3F7-LsDkG", // For testing: "0m4bGC+LO7QSBk7zf4d2Uhhlq48IRHbUC/D5yM4EROU="
+                
+                
+        };
             options.RequireHttpsMetadata = false;
+            
+            
 
             // This may be modified to get the choice of authentication method from
             // some other source, e.g. a dropdown in the UI
