@@ -1,11 +1,28 @@
 ﻿.header {
-  
     background-color: #FFFFFF !important;
     padding: 30px 0px 30px 0px;
+    //box-shadow: 1px 3px 6px rgba(0, 0, 0, .3);
 }
 
 .topspace {
     margin-top: 80px;
+}
+.header-image{
+    width:100%;
+    background-image:url(../images/development.jpg);
+}
+.btn-lg {
+    
+}
+.container > .navbar-header, .container-fluid > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-collapse {
+    margin-right: 15px;
+    margin-left: 0;
+}
+.jumbotron {
+    background-color:#fff;
+}
+.navbar-link {
+    color: #012f53;
 }
 
 .logo {
@@ -14,7 +31,7 @@
     height: 50px;
     font-size: 18px;
     line-height: 20px;
-    margin:0px;
+    margin: 0px;
 }
 
 .jumbotron h1, .jumbotron .h1 {
