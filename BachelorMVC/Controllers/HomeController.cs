@@ -212,6 +212,11 @@ namespace BachelorMVC.Controllers
 
         }
 
+        public void Remove()
+        {
+
+        }
+
     }
 
     }

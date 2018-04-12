@@ -9,7 +9,7 @@
 
 <p>Use this area to provide additional information.</p>
 
-<table class="table">
+<table class="table table-bordered table-hover">
     <tr>
         <th>
             BrukerID
@@ -23,6 +23,9 @@
         <th>
             Godkjent
         </th>
+        <th>
+            Slett
+        </th>
     </tr>
 
 
@@ -32,14 +35,26 @@
         <td>
             @item.user_id
         </td>
-        <td>         
+        <td>
             @item.email
         </td>
         <td>
-            @item.user_metadata.godkjent
+            Her skal det stå firma
         </td>
         <td>
-            @item.Godkjent
+
+            
+            @if (@item.user_metadata.godkjent == 0)
+            {
+                @Html.ActionLink("Ikke godkjent", "approveUser", "Home", null)
+            }
+            else
+            {
+                @Html.Label("Godkjent");
+            }
+        </td>
+        <td>
+            <button>@Html.ActionLink("Slett", "Remove", "Home", null)</button>
         </td>
     </tr>
     }
