@@ -16,5 +16,6 @@ namespace BachelorMVC.Models
         
         public string Name { get; set; }
         public string signatur { get; set; }
+
     }
 }

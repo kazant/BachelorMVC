@@ -30,7 +30,6 @@ namespace BachelorMVC.Services
 
             var result = _context.Bruker.FirstOrDefault(x => x.unikID == id);
 
-
             if (result != null)
             {
                 return result;

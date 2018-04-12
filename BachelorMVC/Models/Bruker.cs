@@ -13,5 +13,6 @@ namespace BachelorMVC.Models
         public string Etternavn { get; set; }
         public string unikID { get; set; }
 
+
     }
 }
