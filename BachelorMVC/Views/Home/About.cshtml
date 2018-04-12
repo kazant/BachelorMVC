@@ -44,9 +44,9 @@
         <td>
 
             
-            @if (@item.user_metadata.godkjent == 0)
+            @if (@item.user_metadata.nickname == "0")
             {
-                @Html.ActionLink("Ikke godkjent", "approveUser", "Home", null)
+                @Html.ActionLink("Ikke godkjent", "setGodkjent", "Home", new { id = item.user_id }, null)
             }
             else
             {
