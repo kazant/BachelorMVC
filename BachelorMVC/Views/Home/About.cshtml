@@ -54,7 +54,7 @@
             }
         </td>
         <td>
-            <button>@Html.ActionLink("Slett", "Remove", "Home", null)</button>
+            <button>@Html.ActionLink("Slett", "deleteUser", "Home", new { id = item.user_id }, null)</button>
         </td>
     </tr>
     }
