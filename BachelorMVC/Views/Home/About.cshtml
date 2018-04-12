@@ -9,4 +9,39 @@
 
 <p>Use this area to provide additional information.</p>
 
+<table class="table">
+    <tr>
+        <th>
+            BrukerID
+        </th>
+        <th>
+            E-mail
+        </th>
+        <th>
+            Firma
+        </th>
+        <th>
+            Godkjent
+        </th>
+    </tr>
+    @{ 
+        var test = ViewData["test"];
+        
+    }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RollNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudLastName)
+            </td>
+            <a href="#">@item.RollNo</a>
+        </tr>
+    }
 
+</table>
