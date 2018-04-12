@@ -24,7 +24,6 @@ namespace BachelorMVC.Services
 
         }
         public Bruker findbruker(string navn, string id) {
-
             string[] fulltnavn = navn.Split(',');
             string fornavn = fulltnavn[1];
             string etternavn = fulltnavn[0];

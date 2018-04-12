@@ -116,11 +116,13 @@ namespace BachelorMVC.Controllers
             string[] words = test.Split(',');
             List<string> verdier = new List<string>();
             JsonDeserializer jsonDeserializer = new JsonDeserializer();
+            jsonDeserializer.Deserialize<IRestResponse>(response);
             //Dokumenter bruker = (Dokumenter)jsonDeserializer.Deserialize<IRestResponse>(response);  // funker ikke <-----
 
 
 
             return View("about", response);
+
         }
 
 
