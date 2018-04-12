@@ -28,11 +28,11 @@
         var test = ViewData["test"];
         
     }
-    @foreach (var item in Model)
+    @*@foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RollNo)
+                @Html.DisplayFor(modelItem => item.RollNo) 
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StudFirstName)
@@ -42,6 +42,6 @@
             </td>
             <a href="#">@item.RollNo</a>
         </tr>
-    }
+    }*@
 
 </table>
