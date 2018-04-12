@@ -11,6 +11,8 @@ using Assently.ServiceModel;
 using Assently.ServiceModel.Messages;
 using RestSharp;
 using RestSharp.Deserializers;
+using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace BachelorMVC.Controllers
 {
@@ -109,19 +111,22 @@ namespace BachelorMVC.Controllers
             //request.AddParameter("application/json", "{\"user_metadata\": {\"addresses\": {\"home\": \"123456 Main Streetssss, Anytown, ST 12345\"}}}", ParameterType.RequestBody); //test endring
             IRestResponse response = client.Execute(request);
             */
-           
+
+
+            List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(response.Content);
+            List<string> resultat = new List<string>();
+            string email = "", user_id = "";
+            foreach (Testbruker t in myobj)
+            {
+                resultat.Add(t.email);
+                resultat.Add(t.user_id);
+                Console.WriteLine(t.email + "   " + t.user_id);
+                Console.ReadLine();
+            }
             
-            string test = (response.Content);
-            System.Diagnostics.Debug.WriteLine(test);
-            string[] words = test.Split(',');
-            List<string> verdier = new List<string>();
-            JsonDeserializer jsonDeserializer = new JsonDeserializer();
-            jsonDeserializer.Deserialize<IRestResponse>(response);
-            //Dokumenter bruker = (Dokumenter)jsonDeserializer.Deserialize<IRestResponse>(response);  // funker ikke <-----
 
 
-
-            return View("about", response);
+            return View("about", myobj);
 
         }
 
