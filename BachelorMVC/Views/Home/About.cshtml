@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<BachelorMVC.Models.Testbruker>
 @{
     ViewData["Title"] = "About";
 }
@@ -24,25 +24,24 @@
             Godkjent
         </th>
     </tr>
-    @{ 
-        
-        var ell = ViewData["myuser"];
 
-    }
-    
-   @foreach (var item in Model)
-{
+
+    @foreach (var item in Model)
+    {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item)
+            @item.user_id
+        </td>
+        <td>         
+            @item.email
         </td>
         <td>
-           
+            @item.user_metadata.godkjent
         </td>
         <td>
-            
+            @item.Godkjent
         </td>
     </tr>
-}
+    }
 
 </table>

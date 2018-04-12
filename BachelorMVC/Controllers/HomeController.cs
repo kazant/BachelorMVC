@@ -114,17 +114,6 @@ namespace BachelorMVC.Controllers
 
 
             List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(response.Content);
-            List<string> resultat = new List<string>();
-            string email = "", user_id = "";
-            foreach (Testbruker t in myobj)
-            {
-                resultat.Add(t.email);
-                resultat.Add(t.user_id);
-                Console.WriteLine(t.email + "   " + t.user_id);
-                Console.ReadLine();
-            }
-            
-
 
             return View("about", myobj);
 
