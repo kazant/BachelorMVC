@@ -3114,9 +3114,9 @@ fieldset[disabled] .btn-default.focus {
   background-color: #333;
 }
 .btn-primary {
-  color: #fff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
+    color: #fff;
+    background-color: #fff;
+    border-color: #012f53;
 }
 .btn-primary:focus,
 .btn-primary.focus {
@@ -4166,8 +4166,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   min-height: 50px;
-  margin-bottom: 20px;
-  border: 1px solid transparent;
+ 
 }
 @media (min-width: 768px) {
   .navbar {
@@ -4354,14 +4353,13 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 @media (min-width: 768px) {
   .navbar-nav {
     float: right;
-    margin: 0;
   }
   .navbar-nav > li {
     float: right;
   }
   .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    
+    margin-left: 20px;
   }
 }
 .navbar-form {
@@ -4573,7 +4571,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     }
 }
 .navbar-default .navbar-link {
-  color: #777;
+    color: #012f53;
 }
 .navbar-default .navbar-link:hover {
   color: #333;
@@ -4609,11 +4607,11 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-nav > li > a {
   color: #9d9d9d;
 }
-.navbar-inverse .navbar-nav > li > a:hover,
-.navbar-inverse .navbar-nav > li > a:focus {
-  color: #fff;
-  background-color: transparent;
-}
+    .navbar-inverse .navbar-nav > li > a:hover,
+    .navbar-inverse .navbar-nav > li > a:focus {
+        color: #204d74;
+        //background-color: #204d74;
+    }
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
@@ -4675,13 +4673,13 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   }
 }
 .navbar-inverse .navbar-link {
-  color: #9d9d9d;
+    color: #012f53;
 }
 .navbar-inverse .navbar-link:hover {
   color: #fff;
 }
 .navbar-inverse .btn-link {
-  color: #9d9d9d;
+    color: #012f53;
 }
 .navbar-inverse .btn-link:hover,
 .navbar-inverse .btn-link:focus {
