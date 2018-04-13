@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Claims;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using BachelorMVC.Models;
 using BachelorMVC.Services;
@@ -52,7 +53,9 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-        public ActionResult getAuth0()
+
+        //Henter JSON Resultat utifra spørring (nickname = 0)
+        public JsonResult getAuth0()
         {
             //var client = new RestClient("https://document.eu.auth0.com/api/v2/users?q=godkjent%3A%220%22&search_engine=v2");
             var client = new RestClient(" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%220%22&search_engine=v2");
@@ -62,11 +65,21 @@ namespace BachelorMVC.Controllers
 
             List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(response.Content);
 
-            return View("AdminUserListForm", myobj);
+            return Json(response.Content);
 
         }
 
-        public ActionResult setGodkjent(string id)
+        //ActionResult for UserList view'et
+        public ActionResult AdminUserListForm()
+        {
+            JsonResult myobjs = getAuth0();
+            List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(myobjs.Value.ToString());
+
+            return View("AdminUserListForm", myobj);
+        }
+
+        //Setter godkjent (Nickname = 1) på brukere
+        public async Task<ActionResult> setGodkjent(string id)
         {
             //gi verdi til nickname
             var client = new RestClient("https://document.eu.auth0.com/api/v2/users/" + id);
@@ -76,12 +89,12 @@ namespace BachelorMVC.Controllers
             request.AddParameter("application/json", "{\"user_metadata\": {\"nickname\": \"1\"}}", ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
 
-
-
-            return getAuth0();
+            await Task.Run(() => waitTimer());
+            return RedirectToAction("AdminUserListForm");
         }
 
-        public ActionResult deleteUser(string id)
+        //Sletter valgt bruker
+        public async Task<ActionResult> deleteUser(string id)
         {
             //gi verdi til nickname
             var client = new RestClient("https://document.eu.auth0.com/api/v2/users/" + id);
@@ -92,8 +105,15 @@ namespace BachelorMVC.Controllers
             IRestResponse response = client.Execute(request);
 
 
+            await Task.Run(() => waitTimer());
+            return RedirectToAction("AdminUserListForm");
+        }
 
-            return getAuth0();
+
+        //Bruker for å sette en await (auth0 er treig)
+        public void waitTimer()
+        {
+            Thread.Sleep(2000);
         }
     }
 
