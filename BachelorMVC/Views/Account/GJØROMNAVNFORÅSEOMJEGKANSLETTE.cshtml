@@ -58,6 +58,15 @@
 
     //Funksjon for å legge til medlemmer
     function submitMembers() {
+        var fields = document.getElementById('EmailsForSignering').childNodes;
+
+        $.ajax ({
+            type: "POST",
+            url: ".//Controllers",
+            dataType: JSON,
+            data: { dokumenter: fields },
+            traditional: true
+        });
 
     }
 
