@@ -1,0 +1,18 @@
+﻿@model IEnumerable<BachelorMVC.Models.Testbruker>
+
+@{
+    Layout = "_AdminLayout";
+}
+
+@{
+    ViewData["Title"] = "Hovedside for admin";
+}
+<h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
+
+
+<h2>@ViewData["Title"].</h2>
+<h3>@ViewData["Message"]</h3>
+
+<button class="btn btn-default">
+    @Html.ActionLink("ListeBrukere", "AdminUserListForm", "Account")
+</button>
