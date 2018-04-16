@@ -104,8 +104,7 @@
     <input type="button" value="Go Somewhere Else" onclick="location.href='@Url.Action("getAuth0", "Home" )'" />
     
 
-    <input type="button" onclick="location.href='@Url.Action("getAuth0", "Home")'" value="Send" />
-
+    
 </form>
 
 <dl>
@@ -144,6 +143,15 @@
     //Funksjon for å legge til medlemmer
     function submitMembers() {
 
+        var fields = document.getElementById('EmailsForSignering').childNodes;
+
+        $.ajax ({
+            type: "POST",
+            url: ".//Controllers",
+            dataType: JSON,
+            data: { dokumenter: fields },
+            traditional: true
+        });
     }
 
 </script>

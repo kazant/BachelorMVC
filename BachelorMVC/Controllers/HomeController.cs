@@ -105,7 +105,7 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-        public IActionResult OpprettCaseOgSendEpost()
+        public IActionResult OpprettCaseOgSendEpost(List<Dokumenter> dokumenter)
         {
 
             //Hent info om bruker
@@ -132,7 +132,7 @@ namespace BachelorMVC.Controllers
             model.NameAlias = "TestAlias";
 
             //Kan gi valg mellom eID signatur eller signbyhand (på mobil). Påkrevd
-            model.AllowedSignatureTypes.Add(SignatureType.ElectronicId);
+            model.AllowedSignatureTypes.Add(SignatureType.Touch);
 
 
             //PartyModel er en samling brukere. Påkrevd.
