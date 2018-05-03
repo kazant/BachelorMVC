@@ -13,9 +13,10 @@
     <p>Velg fil for opplasting</p>
     <input type="file" id="myFile">
     <input type="button" onclick="addInput()" value="Legg til medlemmer" />
-    <input type="button" onclick="removeLastInput()" value="Fjer n medlem" />
+    <input type="button" onclick="removeLastInput()" value="Fjern medlem" />
     <div class="flex-container">
         <span id="EmailsForSignering"> </span>
+        
     </div>
 
     <input type="button" onclick="submitMembers()" value="Send" />
@@ -58,19 +59,30 @@
 
     //Funksjon for å legge til medlemmer
     function submitMembers() {
-        var fields = document.getElementById('EmailsForSignering').value;
-        var url = '@Url.Action("OpprettCaseOgSendEpost", "HomeController")';
+        var fields = document.getElementById('EmailsForSignering').childNodes;
+        var url = '@Url.Action("OpprettCaseOgSendEpost", "Home")';
         alert(url);
+
+        var emails;
+
+        for (var i = 1, len = fields.length; i < len; i++) {
+            emails += fields[i].value + ",";
+        }
         
+    alert(emails);
+
+
         $.ajax({
             type: 'POST',
+            data: JSON.stringify(fields),
             dataType: 'json',
+            contentType: 'application/json',
             url: url,
-            
             success: function (data) {
                 alert("sendt");
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
             }
 
         });

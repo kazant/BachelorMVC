@@ -79,8 +79,8 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-        
-        public IActionResult OpprettCaseOgSendEpost()
+        [HttpPost]
+        public void OpprettCaseOgSendEpost(string epost)
         {
 
             //Hent info om bruker
@@ -88,7 +88,8 @@ namespace BachelorMVC.Controllers
 
             //Hent info om brukerens dokument
             // Trenger en kobling mellom klassen Bruker og klassen Dokument
-
+            Console.Write("hei");
+            string[] emails = epost.Split(',');
 
 
             var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "OMw4uXqu1QgCX_ESA8XpI00Z7EKyIlypwgrlv-qu");
@@ -112,12 +113,16 @@ namespace BachelorMVC.Controllers
 
             //PartyModel er en samling brukere. Påkrevd.
             //Skal flere brukere signere ett dokument, må denne kodebiten gjentas.
-            model.Parties.Add(new PartyModel
+            for (var i = 0; i < emails.Length; i++)
             {
-                //Her kan info hentes fra klassen Bruker
-                EmailAddress = "HailTheUser@gmail.com",
-                Name = "Erlend Andreas Hall"
-            });
+
+                model.Parties.Add(new PartyModel
+                {
+                    //Her kan info hentes fra klassen Bruker
+                    EmailAddress = emails[i],
+                    Name = "Erlend Andreas Hall"
+                });
+            }
             
             
 
@@ -135,7 +140,7 @@ namespace BachelorMVC.Controllers
             //Evt kan også SMS benyttes
             client.SendCase(model.Id);
 
-            return View();
+            
         }
 
         public void LastNedSignertDokument()
