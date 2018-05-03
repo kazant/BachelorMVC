@@ -79,7 +79,7 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-        [HttpPost]
+       
         public void OpprettCaseOgSendEpost(string epost)
         {
 
@@ -89,7 +89,16 @@ namespace BachelorMVC.Controllers
             //Hent info om brukerens dokument
             // Trenger en kobling mellom klassen Bruker og klassen Dokument
             Console.Write("hei");
-            string[] emails = epost.Split(',');
+            string[] emails;
+
+            if(!(epost == null))
+            {
+                emails = epost.Split(',');
+            } else
+            {
+                return; 
+            }
+            
 
 
             var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "OMw4uXqu1QgCX_ESA8XpI00Z7EKyIlypwgrlv-qu");

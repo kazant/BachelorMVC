@@ -61,7 +61,6 @@
     function submitMembers() {
         var fields = document.getElementById('EmailsForSignering').childNodes;
         var url = '@Url.Action("OpprettCaseOgSendEpost", "Home")';
-        alert(url);
 
         var emails;
 
@@ -69,21 +68,19 @@
             emails += fields[i].value + ",";
         }
         
-    alert(emails);
-
-
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify(fields),
-            dataType: 'json',
-            contentType: 'application/json',
-            url: url,
-            success: function (data) {
-                alert("sendt");
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(errorThrown);
-            }
+        var postTest = { epost: 'HailTheUser@gmail.com' };
+    $.ajax({
+        type: 'POST',
+        data: postTest,
+        dataType: 'json',
+        url: url,
+        traditional: true,
+        success: function (data) {
+            alert("sendt");
+         },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
 
         });
  
