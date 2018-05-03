@@ -115,6 +115,12 @@ namespace BachelorMVC
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                
+                /*routes.MapRoute(
+                    name: "OpprettCaseOgSendEpost",
+                    template: "{controller=HomeController}/{action=OpprettCaseOgSendEpost}",
+                    defaults: new { controller = "HomeController", action = "OpprettCaseOgSendEpost" }
+                    );*/
             });
         }
     }

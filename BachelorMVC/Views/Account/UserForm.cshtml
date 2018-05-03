@@ -20,6 +20,7 @@
 
     <input type="button" onclick="submitMembers()" value="Send" />
 
+
 </form>
 
 @*<dl>
@@ -57,15 +58,23 @@
 
     //Funksjon for å legge til medlemmer
     function submitMembers() {
-        var fields = document.getElementById('EmailsForSignering').childNodes;
-
+        var fields = document.getElementById('EmailsForSignering').value;
+        var url = '@Url.Action("OpprettCaseOgSendEpost", "HomeController")';
+        alert(url);
+        
         $.ajax({
-            type: "POST",
-            url: ".//Controllers",
-            dataType: JSON,
-            data: { dokumenter: fields },
-            traditional: true
+            type: 'POST',
+            dataType: 'json',
+            url: url,
+            
+            success: function (data) {
+                alert("sendt");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            }
+
         });
-    }
+ 
+        }
 
 </script>

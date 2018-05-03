@@ -79,7 +79,8 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-        public IActionResult OpprettCaseOgSendEpost(List<Dokumenter> dokumenter)
+        
+        public IActionResult OpprettCaseOgSendEpost()
         {
 
             //Hent info om bruker
@@ -90,7 +91,7 @@ namespace BachelorMVC.Controllers
 
 
 
-            var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "E76l9Vt91QiU6AJTZPX4vzXXjloVWpVa4vib4mio");
+            var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "OMw4uXqu1QgCX_ESA8XpI00Z7EKyIlypwgrlv-qu");
 
             //En CreateCaseModel skal bestå av et dokument, en eller flere brukere og annen info (se UML)
             CreateCaseModel model = new CreateCaseModel();
@@ -117,10 +118,12 @@ namespace BachelorMVC.Controllers
                 EmailAddress = "HailTheUser@gmail.com",
                 Name = "Erlend Andreas Hall"
             });
+            
+            
 
             //En eller flere dokumenter angis til en Liste med dokumenter
             //I prinsippet er det nok med en filsti til dokumentet. Påkrevd
-            string statiskFilsti = "Controllers\\debug_attest.pdf";
+            string statiskFilsti = "Controllers\\EnTomPDF.pdf";
             model.Documents.Add(statiskFilsti);
             model.Metadata.Add("nøkkel","verdi");
 
