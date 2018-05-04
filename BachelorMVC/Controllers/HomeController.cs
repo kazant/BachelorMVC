@@ -80,7 +80,7 @@ namespace BachelorMVC.Controllers
         }
 
        
-        public void OpprettCaseOgSendEpost(string epost)
+        public void OpprettCaseOgSendEpost(string epost, string navn)
         {
 
             //Hent info om bruker
@@ -88,7 +88,7 @@ namespace BachelorMVC.Controllers
 
             //Hent info om brukerens dokument
             // Trenger en kobling mellom klassen Bruker og klassen Dokument
-            Console.Write("hei");
+
             string[] emails;
 
             if(!(epost == null))
@@ -113,7 +113,7 @@ namespace BachelorMVC.Controllers
             model.SendSignRequestEmailToParties = true;
             model.SendFinishEmailToParties = true;
             model.SendFinishEmailToCreator = true;
-            model.Name = "Test";
+            model.Name = navn;
             model.NameAlias = "TestAlias";
 
             //Kan gi valg mellom eID signatur eller signbyhand (på mobil). Påkrevd
@@ -122,7 +122,7 @@ namespace BachelorMVC.Controllers
 
             //PartyModel er en samling brukere. Påkrevd.
             //Skal flere brukere signere ett dokument, må denne kodebiten gjentas.
-            for (var i = 0; i < emails.Length; i++)
+            for (var i = 0; i < emails.Length - 1; i++)
             {
 
                 model.Parties.Add(new PartyModel
