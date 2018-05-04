@@ -6,12 +6,16 @@
 
 <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
 
-
+<form id="file-upload-form">
+    <p>Velg fil for opplasting</p>
+    <input type="file" id="file-upload-input">
+    <button type="submit" id="file-upload-button">Last Opp</button>
+</form>
+    
 
 <form>
 
-    <p>Velg fil for opplasting</p>
-    <input type="file" id="myFile">
+    
     
     <p>Gi signeringsoppdraget et navn</p>
     <input type="text" id="case-navn" />
@@ -19,7 +23,7 @@
     <input type="button" onclick="addInput()" value="Legg til medlemmer" />
     <input type="button" onclick="removeLastInput()" value="Fjern medlem" />
     <div class="flex-container">
-        <span id="EmailsForSignering"> </span>
+        <span id="EmailsForSigning"> </span>
         
     </div>
 
@@ -27,6 +31,9 @@
 
 
 </form>
+
+ 
+
 
 @*<dl>
     @foreach (var claim in User.Claims)
@@ -39,6 +46,45 @@
 </dl>*@
 <script>
 
+    function uploadDocument() {
+        let form = document.getElementById('file-upload-form');
+        let fileSelect = document.getElementById('file-upload-input');
+        let uploadButton = document.getElementById('file-upload-button');
+
+        form.onsubmit = function(e) {
+
+            //Hindre nettleser fra å poste formen
+            e.preventDefault();
+
+            uploadButton.innerHTML = 'Laster opp..';
+
+
+            //Hent objekt som FileList
+            //Løsning for enkel filopplasting
+            let file = fileSelect.files[0];
+            var formData = new FormData();
+            formData.append('document-to-sign', file, 'test.pdf');
+
+            //todo: løsning for flere filer
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Persistence/Documents', true);
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    uploadButton.innerHTML = 'Lastet opp';
+                } else {
+                    alert('Opplasting feilet');
+                }
+            }
+            xhr.send(formData);
+
+
+            
+
+        }
+    }
+
     //Variabler for å holde informasjon antall bokser
     var AntallMedlemmer = 1;
     var boxName = 0;
@@ -49,21 +95,22 @@
             AntallMedlemmer = 1;
         }
         var boxName = "Email " + AntallMedlemmer;
-        document.getElementById('EmailsForSignering').innerHTML += '<input class="inputFields" type="text" tag="epost" id="' + AntallMedlemmer + '"/>';
+        document.getElementById('EmailsForSigning').innerHTML += '<input class="inputFields" type="text" tag="epost" id="' + AntallMedlemmer + '"/>';
         AntallMedlemmer += 1;
     }
 
     //Funksjon for å slette sist lagt inn input felt
     function removeLastInput() {
-        var test = document.getElementById('EmailsForSignering');
+        var test = document.getElementById('EmailsForSigning');
         var childNode = test.lastChild;
         test.removeChild(childNode);
         AntallMedlemmer -= 1;
     }
 
+   
     //Funksjon for å legge til medlemmer
     function submitMembers() {
-        var fields = document.getElementById('EmailsForSignering').childNodes;
+        var fields = document.getElementById('EmailsForSigning').childNodes;
         var url = '@Url.Action("OpprettCaseOgSendEpost", "Home")';
 
         //Ta imot navn på signeringsoppdrag
