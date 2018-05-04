@@ -6,7 +6,7 @@
 
 <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
 
-<form id="file-upload-form">
+<form id="file-upload-form" action=@Url.Action("DokumentMottak", "Home") method="post">
     <p>Velg fil for opplasting</p>
     <input type="file" id="file-upload-input">
     <button type="submit" id="file-upload-button">Last Opp</button>
@@ -65,10 +65,13 @@
             var formData = new FormData();
             formData.append('document-to-sign', file, 'test.pdf');
 
-            //todo: løsning for flere filer
 
+
+            //todo: løsning for flere filer
+            var url = '@Url.Action("DokumentMottak", "Home")';
+            alert(url);
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/Persistence/Documents', true);
+            xhr.open('POST', url, true);
 
             xhr.onload = function() {
                 if (xhr.status === 200) {
@@ -80,7 +83,7 @@
             xhr.send(formData);
 
 
-            
+
 
         }
     }
@@ -107,12 +110,12 @@
         AntallMedlemmer -= 1;
     }
 
-   
+
     //Funksjon for å legge til medlemmer
     function submitMembers() {
         var fields = document.getElementById('EmailsForSigning').childNodes;
         var url = '@Url.Action("OpprettCaseOgSendEpost", "Home")';
-
+        
         //Ta imot navn på signeringsoppdrag
         let navn = document.getElementById('case-navn').value;
 
@@ -140,7 +143,7 @@
         }
 
         });
- 
+
         }
 
 </script>

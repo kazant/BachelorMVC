@@ -13,6 +13,7 @@ using RestSharp;
 using RestSharp.Deserializers;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace BachelorMVC.Controllers
 {
@@ -150,6 +151,14 @@ namespace BachelorMVC.Controllers
             client.SendCase(model.Id);
 
             
+        }
+        [HttpPost]
+        public void DokumentMottak()
+        {
+            
+            var test = Request.Form;
+            int test2 = test.Count;
+            int tes = 0;
         }
 
         public void LastNedSignertDokument()
