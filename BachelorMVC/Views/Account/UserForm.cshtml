@@ -9,7 +9,7 @@
 <form id="file-upload-form" action=@Url.Action("DokumentMottak", "Home") method="post">
     <p>Velg fil for opplasting</p>
     <input type="file" id="file-upload-input">
-    <button type="submit" id="file-upload-button">Last Opp</button>
+    <button type="submit" id="file-upload-button" onclick="uploadDocument()">Last Opp</button>
 </form>
     
 
@@ -51,41 +51,48 @@
         let fileSelect = document.getElementById('file-upload-input');
         let uploadButton = document.getElementById('file-upload-button');
 
-        form.onsubmit = function(e) {
 
-            //Hindre nettleser fra å poste formen
-            e.preventDefault();
-
-            uploadButton.innerHTML = 'Laster opp..';
-
-
-            //Hent objekt som FileList
-            //Løsning for enkel filopplasting
-            let file = fileSelect.files[0];
-            var formData = new FormData();
-            formData.append('document-to-sign', file, 'test.pdf');
+        //Hent objekt som FileList
+        //Løsning for enkel filopplasting
+        let file = fileSelect.files[0];
+        var formData = new FormData();
+        formData.append('document-to-sign', file, 'test.pdf');
+        alert(formData);
 
 
-
-            //todo: løsning for flere filer
-            var url = '@Url.Action("DokumentMottak", "Home")';
-            alert(url);
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', url, true);
-
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    uploadButton.innerHTML = 'Lastet opp';
-                } else {
-                    alert('Opplasting feilet');
-                }
+        //todo: løsning for flere filer
+        var url = '@Url.Action("DokumentMottak", "Home")';
+        $.ajax({
+            type: 'POST',
+            data: { doc: formData },
+            dataType: 'json',
+            url: url,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (data) {
+                alert("sendt");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
             }
-            xhr.send(formData);
 
+        });
+        /*
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
 
-
-
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                uploadButton.innerHTML = 'Lastet opp';
+            } else {
+                alert('Opplasting feilet');
+            }
         }
+        xhr.send(formData);*/
+
+
+
+
+        
     }
 
     //Variabler for å holde informasjon antall bokser

@@ -153,12 +153,13 @@ namespace BachelorMVC.Controllers
             
         }
         [HttpPost]
-        public void DokumentMottak()
+        public ActionResult DokumentMottak(FileUpload upload)
         {
-            
-            var test = Request.Form;
-            int test2 = test.Count;
-            int tes = 0;
+
+            var req = upload;
+            int test2 = 0;
+
+            return View();
         }
 
         public void LastNedSignertDokument()
