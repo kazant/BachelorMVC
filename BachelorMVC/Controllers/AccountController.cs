@@ -1,17 +1,16 @@
-﻿using BachelorMVC.Persistence;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Claims;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using BachelorMVC.Models;
-using BachelorMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
 using Claim = System.Security.Claims.Claim;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Authentication;
+using System.Net;
 
 namespace BachelorMVC.Controllers
 {
@@ -115,6 +114,14 @@ namespace BachelorMVC.Controllers
         {
             Thread.Sleep(2000);
         }
+
+
+        //public void logOutAuth0()
+        //{
+        //    FeederatedAuthentication.SessionAuthenticationModule.SignOut();
+        //}
+
+ 
     }
 
 

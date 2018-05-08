@@ -1,4 +1,6 @@
-﻿<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
+﻿@{
+    Layout = "_signedInLayout";
+}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 
@@ -11,7 +13,7 @@
     <input type="file" id="imageUploadForm">
     <div id="transit-status">Test</div>
 </form>
-    
+
 
 <form id="create-sign-request-form">
 
@@ -30,18 +32,18 @@
 
 </form>
 
- 
+
 
 
 @*<dl>
-    @foreach (var claim in User.Claims)
-    {
-        <dt>@claim.Type</dt>
-        <dd>@claim.Value</dd>
-    }
+        @foreach (var claim in User.Claims)
+        {
+            <dt>@claim.Type</dt>
+            <dd>@claim.Value</dd>
+        }
 
-    <dd> @ViewBag.testtext</dd>
-</dl>*@
+        <dd> @ViewBag.testtext</dd>
+    </dl>*@
 <script>
 
     $(document).ready(function () {
@@ -128,7 +130,7 @@
     function submitMembers() {
         var fields = document.getElementById('EmailsForSigning').childNodes;
         var url = '@Url.Action("OpprettCaseOgSendEpost", "Home")';
-        
+
         //Ta imot navn på signeringsoppdrag
         let navn = document.getElementById('case-navn').value;
 
