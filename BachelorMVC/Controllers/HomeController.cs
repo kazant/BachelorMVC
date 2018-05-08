@@ -84,7 +84,7 @@ namespace BachelorMVC.Controllers
         }
 
        
-        public void OpprettCaseOgSendEpost(string epost, string navn)
+        public void OpprettCaseOgSendEpost(string epost, string caseNavn, string dokumentNavn)
         {
 
             //Hent info om bruker
@@ -117,7 +117,7 @@ namespace BachelorMVC.Controllers
             model.SendSignRequestEmailToParties = true;
             model.SendFinishEmailToParties = true;
             model.SendFinishEmailToCreator = true;
-            model.Name = navn;
+            model.Name = caseNavn;
             model.NameAlias = "TestAlias";
 
             //Kan gi valg mellom eID signatur eller signbyhand (på mobil). Påkrevd
@@ -141,8 +141,7 @@ namespace BachelorMVC.Controllers
 
             //En eller flere dokumenter angis til en Liste med dokumenter
             //I prinsippet er det nok med en filsti til dokumentet. Påkrevd
-            string statiskFilsti = "Controllers\\EnTomPDF.pdf";
-            model.Documents.Add(statiskFilsti);
+            model.Documents.Add("./Persistence/Dokumenter/" + dokumentNavn);
             model.Metadata.Add("nøkkel","verdi");
 
 

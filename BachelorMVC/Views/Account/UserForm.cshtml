@@ -9,14 +9,12 @@
 <form id="file-upload-form" enctype="multipart/form-data" method="post">
     <p>Velg fil for opplasting</p>
     <input type="file" id="imageUploadForm">
-    <button type="submit" id="file-upload-button" onclick="uploadDocument()">Last Opp</button>
+    <div id="transit-status">Test</div>
 </form>
     
 
-<form>
+<form id="create-sign-request-form">
 
-    
-    
     <p>Gi signeringsoppdraget et navn</p>
     <input type="text" id="case-navn" />
 
@@ -62,6 +60,10 @@
                 dataType: 'json',
                 contentType: false,
                 processData: false,
+                complete: function (data) {
+                    $("#transit-status").html("Dokument ble sendt");
+
+                }
             });
         });
     })
@@ -135,13 +137,14 @@
                 emails += fields[i].value + ",";
         }
 
-        alert(emails);
+        //Hent filnavn
+        var dokumentNavn = $('input[type=file]').val().split('\\').pop()
 
 
         //Send oppdrag til backend
     $.ajax({
         type: 'POST',
-        data: { epost: emails, navn: navn },
+        data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn},
         dataType: 'json',
         url: url,
         traditional: true,
