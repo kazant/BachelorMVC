@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Persistence\NewFolder\" />
+    <Folder Include="Persistence\Dokumenter\" />
   </ItemGroup>
 
 </Project>

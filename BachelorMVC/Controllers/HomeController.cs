@@ -165,12 +165,12 @@ namespace BachelorMVC.Controllers
             {
 
                 var file = Request.Form.Files[i];
-                var fileName = "./Persistence/" + System.IO.Path.GetFileName(file.FileName);
+                var fileName = "./Persistence/Dokumenter/" + System.IO.Path.GetFileName(file.FileName);
 
                 using (var fileStream = new FileStream(fileName, FileMode.Create))
                 {
                     Console.Write(file);
-                    file.CopyToAsync(fileStream);
+                    file.CopyTo(fileStream);
                 }
             }
 
