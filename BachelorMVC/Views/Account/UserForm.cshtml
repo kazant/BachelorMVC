@@ -1,5 +1,7 @@
 ﻿<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
+<link rel="stylesheet" type="text/css" href="~/css/UserForm.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="~/js/signeringseventer.js"></script>
 
 
 
@@ -8,10 +10,14 @@
 
 <form id="file-upload-form" enctype="multipart/form-data" method="post">
     <p>Velg fil for opplasting</p>
-    <input type="file" id="imageUploadForm">
+    <input type="file" id="imageUploadForm" value="Velg dokument for signering">
+    <label for="imageUploadForm" id="label-imageUploadForm">
+        <span id="upload-description">Velg dokument for signering</span>
+    </label>
     <div id="transit-status">Test</div>
 </form>
-    
+
+
 
 <form id="create-sign-request-form">
 
@@ -25,7 +31,7 @@
         <span id="EmailsForSigning"> </span>
     </div>
 
-    <input type="button" onclick="submitMembers()" value="Send" />
+    <input type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send" />
 
 
 </form>
@@ -69,51 +75,11 @@
         });
     })
 
-    function uploadDocument() {
-        let fileSelect = document.getElementById('file-upload-input');
-        let uploadButton = document.getElementById('file-upload-button');
+    
 
-
-        //Hent objekt som FileList
-        //Løsning for enkel filopplasting
-        var form = $('file-upload-form');
-        var formData = new FormData(form);
-        alert(formData);
-
-
-        //todo: løsning for flere filer
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("Upload", "Home")',
-            data: formData,
-            dataType: 'json',
-            contentType: 'false',
-            processData: 'false',
-            cache: 'false',
-            success: function (data) {
-                alert("sendt");
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(errorThrown);
-            }
-
-        });
-
-    }
-
-    //Variabler for å holde informasjon antall bokser
+    //Variabler for å holde informasjon om antall bokser
     var AntallMedlemmer = 1;
     var boxName = 0;
-
-    //Funksjon for å legge til ny input felt for emails
-    function addInput() {
-        if (AntallMedlemmer == 0) {
-            AntallMedlemmer = 1;
-        }
-        var boxName = "Email " + AntallMedlemmer;
-        document.getElementById('EmailsForSigning').innerHTML += '<input class="inputFields" type="text" tag="epost" id="' + AntallMedlemmer + '"/>';
-        AntallMedlemmer += 1;
-    }
 
     //Funksjon for å slette sist lagt inn input felt
     function removeLastInput() {
@@ -123,41 +89,14 @@
         AntallMedlemmer -= 1;
     }
 
-
-    //Funksjon for å legge til medlemmer
-    function submitMembers() {
-        var fields = document.getElementById('EmailsForSigning').childNodes;
-        var url = '@Url.Action("OpprettCaseOgSendEpost", "Home")';
-        
-        //Ta imot navn på signeringsoppdrag
-        let navn = document.getElementById('case-navn').value;
-
-        //Ta imot eposter
-        var emails = "";
-        for (var i = 1, len = fields.length; i < len; i++) {
-                emails += fields[i].value + ",";
-        }
-
-        //Hent filnavn
-        var dokumentNavn = $('input[type=file]').val().split('\\').pop()
-
-
-        //Send oppdrag til backend
-    $.ajax({
-        type: 'POST',
-        data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn},
-        dataType: 'json',
-        url: url,
-        traditional: true,
-        success: function (data) {
-            alert("sendt");
-         },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
-
-        });
-
+     //Funksjon for å legge til ny input felt for emails
+ function addInput() {
+    if (AntallMedlemmer == 0) {
+        AntallMedlemmer = 1;
     }
+    var boxName = "Email " + AntallMedlemmer;
+    document.getElementById('EmailsForSigning').innerHTML += '<input class="inputFields" type="text" tag="epost" id="' + AntallMedlemmer + '"/>';
+    AntallMedlemmer += 1;
+}
 
 </script>
