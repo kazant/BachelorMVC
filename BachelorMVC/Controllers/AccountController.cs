@@ -11,12 +11,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Authentication;
 using System.Net;
+using System;
+using System.Linq;
 
 namespace BachelorMVC.Controllers
 {
     public class AccountController : Controller
     {
-
+        private String autString = "";
 
 
         // The Authorize attribute requires the user to be authenticated and will
@@ -41,15 +43,26 @@ namespace BachelorMVC.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
+        [Microsoft.AspNetCore.Authorization.Authorize]
         public IActionResult AdminFormPage()
         {
-            return View();
-        }
+           
+            if (sjekkAutentisering() == "admin")
+            {
+                return View();
+            }
 
+            return View("Error");
+        }
+        [Microsoft.AspNetCore.Authorization.Authorize]
         public IActionResult UserForm()
         {
-            return View();
+            if (sjekkAutentisering() == "user")
+            {
+                return View();
+            }
+
+            return View("Error");
         }
 
 
@@ -69,12 +82,19 @@ namespace BachelorMVC.Controllers
         }
 
         //ActionResult for UserList view'et
+        [Microsoft.AspNetCore.Authorization.Authorize]
         public ActionResult AdminUserListForm()
         {
-            JsonResult myobjs = getAuth0();
-            List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(myobjs.Value.ToString());
+            if (sjekkAutentisering() == "admin")
+            {
+                JsonResult myobjs = getAuth0();
+                List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(myobjs.Value.ToString());
 
-            return View("AdminUserListForm", myobj);
+                return View("AdminUserListForm", myobj);
+            }
+
+
+            return View("Error");
         }
 
         //Setter godkjent (Nickname = 1) på brukere
@@ -116,12 +136,34 @@ namespace BachelorMVC.Controllers
         }
 
 
-        //public void logOutAuth0()
-        //{
-        //    FeederatedAuthentication.SessionAuthenticationModule.SignOut();
-        //}
+        public String sjekkAutentisering()
+        {
+            foreach (Claim claim in User.Claims)
+            {
+                string rolle = User.Claims.FirstOrDefault(c => c.Type == "https://example.com/roles")?.Value;
 
- 
+                if (rolle == "admin")
+                {
+                    autString = "admin";
+                }
+                else if (rolle == "user")
+                {
+                    autString = "user";
+                }
+            }
+
+            return autString;
+        }
+
+        public void LogoutAuth0()
+        {
+            //Finnes sikkert noen bedre måte. Dette er bare en quick-fix som vi kan evt endre på senere
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+        }
+
     }
 
 
