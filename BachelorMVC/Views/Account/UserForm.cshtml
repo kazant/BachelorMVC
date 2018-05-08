@@ -6,9 +6,9 @@
 
 <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
 
-<form id="file-upload-form" action=@Url.Action("DokumentMottak", "Home") method="post">
+<form id="file-upload-form" enctype="multipart/form-data" method="post">
     <p>Velg fil for opplasting</p>
-    <input type="file" id="file-upload-input">
+    <input type="file" id="imageUploadForm">
     <button type="submit" id="file-upload-button" onclick="uploadDocument()">Last Opp</button>
 </form>
     
@@ -24,7 +24,6 @@
     <input type="button" onclick="removeLastInput()" value="Fjern medlem" />
     <div class="flex-container">
         <span id="EmailsForSigning"> </span>
-        
     </div>
 
     <input type="button" onclick="submitMembers()" value="Send" />
@@ -46,28 +45,48 @@
 </dl>*@
 <script>
 
+    $(document).ready(function () {
+        alert("ready");
+        $("#imageUploadForm").change(function () {
+            var formData = new FormData();
+            var totalFiles = document.getElementById("imageUploadForm").files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("imageUploadForm").files[i];
+                formData.append("imageUploadForm", file);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '/Home/Upload',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+            });
+        });
+    })
+
     function uploadDocument() {
-        let form = document.getElementById('file-upload-form');
         let fileSelect = document.getElementById('file-upload-input');
         let uploadButton = document.getElementById('file-upload-button');
 
 
         //Hent objekt som FileList
         //Løsning for enkel filopplasting
-        let file = fileSelect.files[0];
-        var formData = new FormData();
-        formData.append('document-to-sign', file, 'test.pdf');
+        var form = $('file-upload-form');
+        var formData = new FormData(form);
         alert(formData);
 
 
         //todo: løsning for flere filer
-        var url = '@Url.Action("DokumentMottak", "Home")';
         $.ajax({
             type: 'POST',
-            data: { doc: formData },
+            url: '@Url.Action("Upload", "Home")',
+            data: formData,
             dataType: 'json',
-            url: url,
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            contentType: 'false',
+            processData: 'false',
+            cache: 'false',
             success: function (data) {
                 alert("sendt");
             },
@@ -76,23 +95,7 @@
             }
 
         });
-        /*
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', url, true);
 
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                uploadButton.innerHTML = 'Lastet opp';
-            } else {
-                alert('Opplasting feilet');
-            }
-        }
-        xhr.send(formData);*/
-
-
-
-
-        
     }
 
     //Variabler for å holde informasjon antall bokser
@@ -151,6 +154,6 @@
 
         });
 
-        }
+    }
 
 </script>

@@ -14,6 +14,9 @@ using RestSharp.Deserializers;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Net.Mail;
+using System.IO;
+
 
 namespace BachelorMVC.Controllers
 {
@@ -152,14 +155,25 @@ namespace BachelorMVC.Controllers
 
             
         }
+
+
         [HttpPost]
-        public ActionResult DokumentMottak(FileUpload upload)
+       public void Upload()
         {
+            
+            for (int i = 0; i < Request.Form.Files.Count; i++)
+            {
 
-            var req = upload;
-            int test2 = 0;
+                var file = Request.Form.Files[i];
+                var fileName = "./Persistence/" + System.IO.Path.GetFileName(file.FileName);
 
-            return View();
+                using (var fileStream = new FileStream(fileName, FileMode.Create))
+                {
+                    Console.Write(file);
+                    file.CopyToAsync(fileStream);
+                }
+            }
+
         }
 
         public void LastNedSignertDokument()
