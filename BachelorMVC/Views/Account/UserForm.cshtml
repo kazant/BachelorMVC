@@ -38,12 +38,13 @@
     <div id="buttons-members">
         <input type="button" onclick="addInput()" value="Legg til medlemmer" />
         <input type="button" onclick="removeLastInput()" value="Fjern medlem" />
-    </div>
-    
-    
     <div class="flex-container">
         <span id="EmailsForSigning"> </span>
     </div>
+    </div>
+    
+    
+    
     <input type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send" />
 </form>
 
@@ -66,7 +67,7 @@
     todo: flytt til ekstern .js -->
 <script>
     $(document).ready(function () {
-        alert("ready");
+        alert("Dokument er klar, ingen feil");
         $("#input-upload").change(function () {
             var formData = new FormData();
             var totalFiles = document.getElementById("input-upload").files.length;
