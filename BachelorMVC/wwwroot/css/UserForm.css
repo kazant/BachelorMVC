@@ -1,3 +1,36 @@
-#imageUploadForm {
+
+
+/* temp CSS, bare for å få oversikt */
+#create-sign-request-form {
+    display: flex;
+    flex-direction: column;
+    margin: .5em 0 0 0;
+}
+
+#input-upload {
     display: none;
 }
+
+#navn-signeringsoppdrag, #buttons-members, #radio-buttons-signaturetypes {
+    border: 1px solid #003050;
+    padding: 1em;
+    margin: .5em;
+}
+
+#upload-description {
+    border: 1px solid #003050;
+    cursor: pointer;
+    padding: 1em;
+    border-radius: .4em;
+}
+
+#upload-description:hover {
+    background: #003050;
+    color: white;
+}
+
+#file-upload-form {
+    display: flex;
+}
+
+#

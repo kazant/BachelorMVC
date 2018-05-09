@@ -1,42 +1,48 @@
 ﻿<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
 <link rel="stylesheet" type="text/css" href="~/css/UserForm.css">
+<script src="~/js/userform.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="~/js/signeringseventer.js"></script>
-
-
-
-
+<section class="main-content">
 <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
 
 <form id="file-upload-form" enctype="multipart/form-data" method="post">
-    <p>Velg fil for opplasting</p>
-    <input type="file" id="imageUploadForm" value="Velg dokument for signering">
-    <label for="imageUploadForm" id="label-imageUploadForm">
+    <input type="file" id="input-upload" value="Velg dokument for signering">
+    <label for="input-upload" id="label-input-upload">
         <span id="upload-description">Velg dokument for signering</span>
     </label>
-    <div id="transit-status">Test</div>
+    <div id="transit-status">Resultat av sending</div>
 </form>
 
 
 
 <form id="create-sign-request-form">
-
-    <p>Gi signeringsoppdraget et navn</p>
-    <input type="text" id="case-navn" />
-    <input type="radio" name="sign-method-radio" value="esignatur" />
-    <input type="radio" name="sign-method-radio" value="touch" />
-    <input type="button" onclick="addInput()" value="Legg til medlemmer" />
-    <input type="button" onclick="removeLastInput()" value="Fjern medlem" />
+    
+    <div id="navn-signeringsoppdrag">
+        <p>Gi signeringsoppdraget et navn</p>
+        <input type="text" id="case-navn" />
+    </div>
+    
+    <div id="radio-buttons-signaturetypes">
+        <span>E-Signatur</span>
+        <input type="radio" name="sign-method-radio" value="esignatur" />
+        <span>Elektronisk penn</span>
+        <input type="radio" name="sign-method-radio" value="touch" />
+    </div>
+    
+    <div id="buttons-members">
+        <input type="button" onclick="addInput()" value="Legg til medlemmer" />
+        <input type="button" onclick="removeLastInput()" value="Fjern medlem" />
+    </div>
+    
+    
     <div class="flex-container">
         <span id="EmailsForSigning"> </span>
     </div>
-
     <input type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send" />
-
-
 </form>
 
- 
+ </section>
 
 
 @*<dl>
@@ -48,16 +54,20 @@
 
     <dd> @ViewBag.testtext</dd>
 </dl>*@
-<script>
 
+
+
+<!--##################################
+    todo: flytt til ekstern .js -->
+<script>
     $(document).ready(function () {
         alert("ready");
-        $("#imageUploadForm").change(function () {
+        $("#input-upload").change(function () {
             var formData = new FormData();
-            var totalFiles = document.getElementById("imageUploadForm").files.length;
+            var totalFiles = document.getElementById("input-upload").files.length;
             for (var i = 0; i < totalFiles; i++) {
-                var file = document.getElementById("imageUploadForm").files[i];
-                formData.append("imageUploadForm", file);
+                var file = document.getElementById("input-upload").files[i];
+                formData.append("input-upload", file);
             }
 
             $.ajax({
@@ -75,28 +85,5 @@
         });
     })
 
-    
-
-    //Variabler for å holde informasjon om antall bokser
-    var AntallMedlemmer = 1;
-    var boxName = 0;
-
-    //Funksjon for å slette sist lagt inn input felt
-    function removeLastInput() {
-        var test = document.getElementById('EmailsForSigning');
-        var childNode = test.lastChild;
-        test.removeChild(childNode);
-        AntallMedlemmer -= 1;
-    }
-
-     //Funksjon for å legge til ny input felt for emails
- function addInput() {
-    if (AntallMedlemmer == 0) {
-        AntallMedlemmer = 1;
-    }
-    var boxName = "Email " + AntallMedlemmer;
-    document.getElementById('EmailsForSigning').innerHTML += '<input class="inputFields" type="text" tag="epost" id="' + AntallMedlemmer + '"/>';
-    AntallMedlemmer += 1;
 }
-
 </script>
