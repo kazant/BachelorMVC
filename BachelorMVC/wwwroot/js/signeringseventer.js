@@ -17,9 +17,10 @@
     var dokumentNavn = $('input[type=file]').val().split('\\').pop()
 
     var signeringsmetode = getSignMethod();
-    
+
+    if(validated()) {
     //Send oppdrag til backend for videre behandling
-$.ajax({
+    $.ajax({
     type: 'POST',
     data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn, signeringsmetode: signeringsmetode},
     dataType: 'json',
@@ -33,6 +34,7 @@ $.ajax({
     }
 
     });
+}
 
 }
 
@@ -47,7 +49,6 @@ function uploadDocument() {
     var form = $('file-upload-form');
     var formData = new FormData(form);
     alert(formData);
-
 
     //todo: løsning for flere filer
     $.ajax({

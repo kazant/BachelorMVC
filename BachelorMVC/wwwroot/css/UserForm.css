@@ -35,3 +35,18 @@
 #file-upload-form {
     display: flex;
 }
+
+#delete-email-input {
+    display: block;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    background: #003050;
+}
+
+#container-email-input {
+   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

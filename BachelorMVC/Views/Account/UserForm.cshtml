@@ -34,7 +34,7 @@
 
     <div id="self-sign">
         <span>Signere selv?</span>
-        <input type="checkbox" id="signere-selv">
+        <input type="checkbox" id="checkbox-self-sign">
     </div>
     
     <div id="buttons-members">
@@ -47,7 +47,7 @@
     
     
     
-    <input type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send" />
+    <input type="button" id="button-create-signevent" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send" disabled/>
 </form>
 
  </section>
@@ -88,6 +88,7 @@
                 processData: false,
                 complete: function (data) {
                     $("#transit-status").html("Dokument ble sendt");
+                    document.getElementById("button-create-signevent").disabled = false;
 
                 }
             });
