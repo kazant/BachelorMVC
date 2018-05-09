@@ -155,13 +155,15 @@ namespace BachelorMVC.Controllers
             return autString;
         }
 
-        public void LogoutAuth0()
+        public IActionResult LogoutAuth0()
         {
             //Finnes sikkert noen bedre måte. Dette er bare en quick-fix som vi kan evt endre på senere
             foreach (var cookie in Request.Cookies.Keys)
             {
                 Response.Cookies.Delete(cookie);
             }
+
+            return RedirectToAction("Index", "Home");
         }
 
     }
