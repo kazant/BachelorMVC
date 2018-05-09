@@ -18,3 +18,4 @@
     var boxName = "Email " + AntallMedlemmer;
     document.getElementById('EmailsForSigning').innerHTML += '<input class="inputFields" type="text" tag="epost" id="' + AntallMedlemmer + '"/>';
     AntallMedlemmer += 1;
+}
