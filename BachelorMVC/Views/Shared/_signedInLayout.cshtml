@@ -34,7 +34,18 @@
             <div class="navbar-collapse collapse loggin">
 
                 <ul class="nav navbar-nav">
-                    <li class="navbar-link"><a class="btn btn-primary btn-lg" asp-area="" asp-controller="Account" asp-action="loginForm">Logg ut</a></li>
+                    @*<li class="navbar-link"><a class="btn btn-primary btn-lg" asp-area="" asp-controller="Account" asp-action="Logout">Logg ut</a></li>*@
+                    <li class="navbar-link">
+                        <a 
+                            class="btn btn-primary btn-lg" 
+                            
+                            asp-area=""
+                            asp-controller="Account"
+                            asp-action="LogoutAuth0"
+                        >
+                        Logg ut</a>
+                    </li>
+
                 </ul>
             </div>
         </div>

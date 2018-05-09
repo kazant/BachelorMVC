@@ -18,6 +18,8 @@ namespace BachelorMVC
 {
     public class Startup
     {
+
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -87,6 +89,7 @@ namespace BachelorMVC
                 
                 
         };
+
             options.RequireHttpsMetadata = false;
             
             
@@ -124,4 +127,5 @@ namespace BachelorMVC
             });
         }
     }
+
 }

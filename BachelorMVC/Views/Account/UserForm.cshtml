@@ -1,6 +1,9 @@
-﻿<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
+﻿﻿<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
 <link rel="stylesheet" type="text/css" href="~/css/UserForm.css">
 <script src="~/js/userform.js"></script>
+@{
+    Layout = "_signedInLayout";
+}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="~/js/signeringseventer.js"></script>
 <section class="main-content">
@@ -13,7 +16,6 @@
     </label>
     <div id="transit-status">Resultat av sending</div>
 </form>
-
 
 
 <form id="create-sign-request-form">
@@ -52,14 +54,15 @@
 
 
 @*<dl>
-    @foreach (var claim in User.Claims)
-    {
-        <dt>@claim.Type</dt>
-        <dd>@claim.Value</dd>
-    }
+        @foreach (var claim in User.Claims)
+        {
+            <dt>@claim.Type</dt>
+            <dd>@claim.Value</dd>
+        }
 
-    <dd> @ViewBag.testtext</dd>
-</dl>*@
+        <dd> @ViewBag.testtext</dd>
+    </dl>*@
+<script>
 
 
 
