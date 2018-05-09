@@ -84,7 +84,7 @@ namespace BachelorMVC.Controllers
         }
 
        
-        public void OpprettCaseOgSendEpost(string epost, string caseNavn, string dokumentNavn)
+        public void OpprettCaseOgSendEpost(string epost, string caseNavn, string dokumentNavn, string signeringsmetode)
         {
 
             //Hent info om bruker
@@ -121,8 +121,12 @@ namespace BachelorMVC.Controllers
             model.NameAlias = "TestAlias";
 
             //Kan gi valg mellom eID signatur eller signbyhand (på mobil). Påkrevd
-            model.AllowedSignatureTypes.Add(SignatureType.Touch);
-
+            if(signeringsmetode == "electronicid") {
+                model.AllowedSignatureTypes.Add(SignatureType.ElectronicId);
+            } else {
+                model.AllowedSignatureTypes.Add(SignatureType.Touch);
+            }
+            
 
             //PartyModel er en samling brukere. Påkrevd.
             //Skal flere brukere signere ett dokument, må denne kodebiten gjentas.

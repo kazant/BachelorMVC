@@ -19,3 +19,14 @@
     document.getElementById('EmailsForSigning').innerHTML += '<input class="inputFields" type="text" tag="epost" id="' + AntallMedlemmer + '"/>';
     AntallMedlemmer += 1;
 }
+
+function getSignMethod() {
+    var radios = document.getElementsByClassName("sign-method-radio");
+    alert(radios);
+    for (let radio of radios) {
+        if(radio.checked) {
+            alert(radio.value);
+            return radio.value;
+        }
+    }
+}

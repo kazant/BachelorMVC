@@ -16,11 +16,12 @@
     //Hent filnavn
     var dokumentNavn = $('input[type=file]').val().split('\\').pop()
 
-
+    var signeringsmetode = getSignMethod();
+    
     //Send oppdrag til backend for videre behandling
 $.ajax({
     type: 'POST',
-    data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn},
+    data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn, signeringsmetode: signeringsmetode},
     dataType: 'json',
     url: url,
     traditional: true,
