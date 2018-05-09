@@ -1,5 +1,7 @@
-﻿﻿<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
-<link rel="stylesheet" type="text/css" href="~/css/UserForm.css">
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+﻿<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
+<link rel="stylesheet" type="text/css" href="~/css/site.css">
 <script src="~/js/userform.js"></script>
 @{
     Layout = "_signedInLayout";
@@ -7,50 +9,66 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="~/js/signeringseventer.js"></script>
 <section class="main-content">
-<h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
-
-<form id="file-upload-form" enctype="multipart/form-data" method="post">
-    <input type="file" id="input-upload" value="Velg dokument for signering">
-    <label for="input-upload" id="label-input-upload">
-        <span id="upload-description">Velg dokument for signering</span>
-    </label>
-    <div id="transit-status">Resultat av sending</div>
-</form>
-
-
-<form id="create-sign-request-form">
-    
-    <div id="navn-signeringsoppdrag">
-        <p>Gi signeringsoppdraget et navn</p>
-        <input type="text" id="case-navn" />
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="jumbotron text-center">
+                <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
+            </div>
+        </div>
     </div>
-    
-    <div id="radio-buttons-signaturetypes" class="radio-buttons-signaturetypes">
-        <span>E-Signatur</span>
-        <input type="radio" class="sign-method-radio" value="electronicid" name="sign-method"/>
-        <span>Elektronisk penn</span>
-        <input type="radio" class="sign-method-radio" value="touch" name="sign-method"/>
-    </div>
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <form id="file-upload-form" enctype="multipart/form-data" method="post">
+                    <input type="file" id="input-upload" value="Velg dokument for signering">
+                    <label for="input-upload" id="label-input-upload">
+                        <span class="btn btn-primary btn-lg">Velg dokument for signering</span>
+                    </label>
+                    <div id="transit-status"><br />     Resultat av sending</div>
+                </form>
+            </div>
+        </div>
 
-    <div id="self-sign">
-        <span>Signere selv?</span>
-        <input type="checkbox" id="signere-selv">
-    </div>
-    
-    <div id="buttons-members">
-        <input type="button" onclick="addInput()" value="Legg til medlemmer" />
-        <input type="button" onclick="removeLastInput()" value="Fjern medlem" />
-    <div class="flex-container">
-        <span id="EmailsForSigning"> </span>
-    </div>
-    </div>
-    
-    
-    
-    <input type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send" />
-</form>
+        <form id="create-sign-request-form">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
 
- </section>
+
+
+                    <div id="navn-signeringsoppdrag">
+                        <p>Gi signeringsoppdraget et navn</p>
+                        <input placeholder="F.eks: Bolig kontrakt" class="textfield" type="text" id="case-navn" />
+                    </div>
+
+                    <div id="radio-buttons-signaturetypes" class="radio-buttons-signaturetypes">
+                        <span>E-Signatur</span>
+                        <input type="radio" class="sign-method-radio" value="electronicid" name="sign-method" />
+                        <span>Elektronisk penn</span>
+                        <input type="radio" class="sign-method-radio" value="touch" name="sign-method" />
+                    </div>
+
+
+                    <div id="self-sign" class="radio-buttons-signaturetypes">
+                        <span>Signere selv?</span>
+                        <input type="checkbox" id="signere-selv">
+                    </div>
+
+                    <div id="buttons-members">
+                        <input class="btn btn-primary btn-lg green" type="button" onclick="addInput()" value="Legg til medlemmer" />
+                        <input class="btn btn-primary btn-lg red" type="button" onclick="removeLastInput()" value="Fjern medlem" />
+                        <div class="flex-container">
+                            <span style="width:100%;" id="EmailsForSigning"> </span>
+                        </div>
+                    </div>
+
+
+
+                    <input class="submitButton" type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send" />
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
 
 
 @*<dl>
