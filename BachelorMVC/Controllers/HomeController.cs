@@ -148,6 +148,11 @@ namespace BachelorMVC.Controllers
             model.Documents.Add("./Persistence/Dokumenter/" + dokumentNavn);
             model.Metadata.Add("nøkkel","verdi");
 
+            using (var fileStream = new FileStream("./Persistence/guid.txt", FileMode.Create)) {
+                byte[] data = model.Id.ToByteArray();
+                fileStream.Write(data, 0, data.Length);
+            }
+
 
             //CreateCaseModel objektet sendes til Assently
             client.CreateCase(model);
