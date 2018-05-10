@@ -28,7 +28,7 @@ function addInput() {
     }
     let input = document.createElement("INPUT");
     input.setAttribute("type", "email");
-    input.setAttribute("class", "inputFields");
+    input.setAttribute("class", "textfield inputFields");
     
     let del = document.createElement("DIV");
     del.setAttribute("id", "delete-email-input");
