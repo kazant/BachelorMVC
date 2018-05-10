@@ -59,7 +59,6 @@ function getSignMethod() {
     alert(radios);
     for (let radio of radios) {
         if(radio.checked) {
-            alert(radio.value);
             return radio.value;
         }
     }

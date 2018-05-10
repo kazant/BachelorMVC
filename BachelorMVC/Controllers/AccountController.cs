@@ -65,6 +65,17 @@ namespace BachelorMVC.Controllers
             return View("Error");
         }
 
+        
+        public IActionResult DokumentOversikt()
+        {
+            if (sjekkAutentisering() == "user")
+            {
+                return View();
+            }
+
+            return View("Error");
+        }
+
 
         //Henter JSON Resultat utifra spørring (nickname = 0)
         public JsonResult getAuth0()

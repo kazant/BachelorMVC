@@ -66,18 +66,6 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-
-
-        public IActionResult LagDokumentGrid()
-        {
-
-
-
-            return View();
-        }
-
-       
-
         public IActionResult InspiserDokument() {
 
             return View();
@@ -136,8 +124,7 @@ namespace BachelorMVC.Controllers
                 model.Parties.Add(new PartyModel
                 {
                     //Her kan info hentes fra klassen Bruker
-                    EmailAddress = emails[i],
-                    Name = "Erlend Andreas Hall"
+                    EmailAddress = emails[i]
                 });
             }
             
