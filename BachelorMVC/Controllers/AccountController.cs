@@ -126,10 +126,17 @@ namespace BachelorMVC.Controllers
         //ActionResult for Alle Brukere view
         public ActionResult AdminAlleBrukere()
         {
-            JsonResult myobjs = getAuth02();
-            List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(myobjs.Value.ToString());
 
-            return View("AdminAlleBrukere", myobj);
+            if (sjekkAutentisering() == "admin")
+            {
+                JsonResult myobjs = getAuth02();
+                List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(myobjs.Value.ToString());
+                return View("AdminAlleBrukere", myobj);
+
+            }
+
+            return View("NotAuthorized");
+
         }
 
         //Setter godkjent (Nickname = 1) på brukere
@@ -173,6 +180,7 @@ namespace BachelorMVC.Controllers
 
         public String sjekkAutentisering()
         {
+
             foreach (Claim claim in User.Claims)
             {
                 string rolle = User.Claims.FirstOrDefault(c => c.Type == "https://example.com/roles")?.Value;
