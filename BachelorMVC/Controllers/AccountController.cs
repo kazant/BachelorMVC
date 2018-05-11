@@ -52,7 +52,7 @@ namespace BachelorMVC.Controllers
                 return View();
             }
 
-            return View("Error");
+            return View("NotAuthorized");
         }
         [Microsoft.AspNetCore.Authorization.Authorize]
         public IActionResult UserForm()
@@ -62,7 +62,7 @@ namespace BachelorMVC.Controllers
                 return View();
             }
 
-            return View("Error");
+            return View("NotAuthorized");
         }
 
         
@@ -73,7 +73,7 @@ namespace BachelorMVC.Controllers
                 return View();
             }
 
-            return View("Error");
+            return View("NotAuthorized");
         }
 
 
@@ -105,7 +105,7 @@ namespace BachelorMVC.Controllers
             }
 
 
-            return View("Error");
+            return View("NotAuthorized");
         }
 
         //Setter godkjent (Nickname = 1) på brukere
