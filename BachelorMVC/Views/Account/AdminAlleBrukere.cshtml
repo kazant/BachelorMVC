@@ -1,0 +1,59 @@
+﻿@model IEnumerable<BachelorMVC.Models.Testbruker>
+
+@{
+    Layout = "_signedInLayout";
+}
+
+@{
+    ViewData["Title"] = "Liste over brukere";
+}
+<h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
+
+
+<h2>@ViewData["Title"].</h2>
+<h3>@ViewData["Message"]</h3>
+
+<p>Use this area to provide additional information.</p>
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            BrukerID
+        </th>
+        <th>
+            E-mail
+        </th>
+        <th>
+            Firma
+        </th>
+        <th>
+            Godkjent
+        </th>
+        <th>
+            Slett
+        </th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.user_id
+            </td>
+            <td>
+                @item.email
+            </td>
+            <td>
+                Her skal det stå firma
+            </td>
+            <td>
+                @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.user_id }, null)
+            </td>
+            <td>
+                <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.user_id }, null)</button>
+            </td>
+        </tr>
+    }
+
+</table>
