@@ -7,27 +7,7 @@
 @{
     ViewData["Title"] = "Liste over brukere";
 }
-
-@if (User.Claims.Count() == 0)
-{
-    <h2>Error</h2>
-
-}
-else
-{
-    <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
-
-}
-
-<dl>
-    @foreach (var claim in User.Claims)
-    {
-        <dt>@claim.Type</dt>
-        <dd>@claim.Value</dd>
-    }
-
-    <dd> @ViewBag.testtext</dd>
-</dl>
+<h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
 
 
 <h2>@ViewData["Title"].</h2>
@@ -52,6 +32,9 @@ else
         <th>
             Slett
         </th>
+        <th>
+            Sendte Signeringer
+        </th>
     </tr>
 
 
@@ -67,11 +50,21 @@ else
             <td>
                 @item.user_metadata.firma
             </td>
-            <td>
-                @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.user_id }, null)
-            </td>
+            
+                @if(@item.user_metadata.nickname == "0") {
+                    <td>
+                        @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.user_id }, null) 
+                    </td>
+                } else {
+                    <td>
+                        Godkjent
+                    </td>
+                }
             <td>
                 <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.user_id }, null)</button>
+            </td>
+            <td>
+                @item.user_metadata.antallSigneringer
             </td>
         </tr>
     }
