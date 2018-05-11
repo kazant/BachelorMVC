@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http.Authentication;
 using System.Net;
 using System;
 using System.Linq;
+using MySql.Data.MySqlClient;
 
 namespace BachelorMVC.Controllers
 {
