@@ -14,6 +14,9 @@ using RestSharp.Deserializers;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Net.Mail;
+using System.IO;
+
 
 namespace BachelorMVC.Controllers
 {
@@ -63,25 +66,13 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-
-
-        public IActionResult LagDokumentGrid()
-        {
-
-
-
-            return View();
-        }
-
-       
-
         public IActionResult InspiserDokument() {
 
             return View();
         }
 
        
-        public void OpprettCaseOgSendEpost(string epost, string navn)
+        public void OpprettCaseOgSendEpost(string epost, string caseNavn, string dokumentNavn, string signeringsmetode)
         {
 
             //Hent info om bruker
@@ -114,12 +105,16 @@ namespace BachelorMVC.Controllers
             model.SendSignRequestEmailToParties = true;
             model.SendFinishEmailToParties = true;
             model.SendFinishEmailToCreator = true;
-            model.Name = navn;
+            model.Name = caseNavn;
             model.NameAlias = "TestAlias";
 
             //Kan gi valg mellom eID signatur eller signbyhand (på mobil). Påkrevd
-            model.AllowedSignatureTypes.Add(SignatureType.Touch);
-
+            if(signeringsmetode == "electronicid") {
+                model.AllowedSignatureTypes.Add(SignatureType.ElectronicId);
+            } else {
+                model.AllowedSignatureTypes.Add(SignatureType.Touch);
+            }
+            
 
             //PartyModel er en samling brukere. Påkrevd.
             //Skal flere brukere signere ett dokument, må denne kodebiten gjentas.
@@ -129,8 +124,7 @@ namespace BachelorMVC.Controllers
                 model.Parties.Add(new PartyModel
                 {
                     //Her kan info hentes fra klassen Bruker
-                    EmailAddress = emails[i],
-                    Name = "Erlend Andreas Hall"
+                    EmailAddress = emails[i]
                 });
             }
             
@@ -138,9 +132,13 @@ namespace BachelorMVC.Controllers
 
             //En eller flere dokumenter angis til en Liste med dokumenter
             //I prinsippet er det nok med en filsti til dokumentet. Påkrevd
-            string statiskFilsti = "Controllers\\EnTomPDF.pdf";
-            model.Documents.Add(statiskFilsti);
+            model.Documents.Add("./Persistence/Dokumenter/" + dokumentNavn);
             model.Metadata.Add("nøkkel","verdi");
+
+            using (var fileStream = new FileStream("./Persistence/guid.txt", FileMode.Create)) {
+                byte[] data = model.Id.ToByteArray();
+                fileStream.Write(data, 0, data.Length);
+            }
 
 
             //CreateCaseModel objektet sendes til Assently
@@ -152,13 +150,25 @@ namespace BachelorMVC.Controllers
 
             
         }
+
+
         [HttpPost]
-        public void DokumentMottak()
+       public void Upload()
         {
             
-            var test = Request.Form;
-            int test2 = test.Count;
-            int tes = 0;
+            for (int i = 0; i < Request.Form.Files.Count; i++)
+            {
+
+                var file = Request.Form.Files[i];
+                var fileName = "./Persistence/Dokumenter/" + System.IO.Path.GetFileName(file.FileName);
+
+                using (var fileStream = new FileStream(fileName, FileMode.Create))
+                {
+                    Console.Write(file);
+                    file.CopyTo(fileStream);
+                }
+            }
+
         }
 
         public void LastNedSignertDokument()

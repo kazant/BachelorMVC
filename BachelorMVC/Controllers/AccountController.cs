@@ -1,23 +1,24 @@
-﻿using BachelorMVC.Persistence;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Claims;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using BachelorMVC.Models;
-using BachelorMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
 using Claim = System.Security.Claims.Claim;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Authentication;
+using System.Net;
+using System;
+using System.Linq;
 
 namespace BachelorMVC.Controllers
 {
     public class AccountController : Controller
     {
-
+        private String autString = "";
 
 
         // The Authorize attribute requires the user to be authenticated and will
@@ -42,15 +43,37 @@ namespace BachelorMVC.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
+        [Microsoft.AspNetCore.Authorization.Authorize]
         public IActionResult AdminFormPage()
         {
-            return View();
-        }
+           
+            if (sjekkAutentisering() == "admin")
+            {
+                return View();
+            }
 
+            return View("Error");
+        }
+        [Microsoft.AspNetCore.Authorization.Authorize]
         public IActionResult UserForm()
         {
-            return View();
+            if (sjekkAutentisering() == "user")
+            {
+                return View();
+            }
+
+            return View("Error");
+        }
+
+        
+        public IActionResult DokumentOversikt()
+        {
+            if (sjekkAutentisering() == "user")
+            {
+                return View();
+            }
+
+            return View("Error");
         }
 
         //Henter JSON Resultat utifra spørring (nickname = 0)
@@ -85,12 +108,19 @@ namespace BachelorMVC.Controllers
         }
 
         //ActionResult for UserList view'et
+        [Microsoft.AspNetCore.Authorization.Authorize]
         public ActionResult AdminUserListForm()
         {
-            JsonResult myobjs = getAuth0();
-            List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(myobjs.Value.ToString());
+            if (sjekkAutentisering() == "admin")
+            {
+                JsonResult myobjs = getAuth0();
+                List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(myobjs.Value.ToString());
 
-            return View("AdminUserListForm", myobj);
+                return View("AdminUserListForm", myobj);
+            }
+
+
+            return View("Error");
         }
 
         //ActionResult for Alle Brukere view
@@ -139,6 +169,38 @@ namespace BachelorMVC.Controllers
         {
             Thread.Sleep(2000);
         }
+
+
+        public String sjekkAutentisering()
+        {
+            foreach (Claim claim in User.Claims)
+            {
+                string rolle = User.Claims.FirstOrDefault(c => c.Type == "https://example.com/roles")?.Value;
+
+                if (rolle == "admin")
+                {
+                    autString = "admin";
+                }
+                else if (rolle == "user")
+                {
+                    autString = "user";
+                }
+            }
+
+            return autString;
+        }
+
+        public IActionResult LogoutAuth0()
+        {
+            //Finnes sikkert noen bedre måte. Dette er bare en quick-fix som vi kan evt endre på senere
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 
 

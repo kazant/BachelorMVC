@@ -1,13 +1,33 @@
 ﻿@model IEnumerable<BachelorMVC.Models.Testbruker>
 
 @{
-    Layout = "_AdminLayout";
+    Layout = "_signedInLayout";
 }
 
 @{
     ViewData["Title"] = "Liste over brukere";
 }
-<h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
+
+@if (User.Claims.Count() == 0)
+{
+    <h2>Error</h2>
+
+}
+else
+{
+    <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
+
+}
+
+<dl>
+    @foreach (var claim in User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+
+    <dd> @ViewBag.testtext</dd>
+</dl>
 
 
 <h2>@ViewData["Title"].</h2>

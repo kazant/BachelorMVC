@@ -1,149 +1,116 @@
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 ﻿<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
+<link rel="stylesheet" type="text/css" href="~/css/site.css">
+<script src="~/js/userform.js"></script>
+@{
+    Layout = "_signedInLayout";
+}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
-
-
-
-<h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
-
-<form id="file-upload-form" action=@Url.Action("DokumentMottak", "Home") method="post">
-    <p>Velg fil for opplasting</p>
-    <input type="file" id="file-upload-input">
-    <button type="submit" id="file-upload-button">Last Opp</button>
-</form>
-    
-
-<form>
-
-    
-    
-    <p>Gi signeringsoppdraget et navn</p>
-    <input type="text" id="case-navn" />
-
-    <input type="button" onclick="addInput()" value="Legg til medlemmer" />
-    <input type="button" onclick="removeLastInput()" value="Fjern medlem" />
-    <div class="flex-container">
-        <span id="EmailsForSigning"> </span>
-        
+<script src="~/js/signeringseventer.js"></script>
+<section class="main-content">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="jumbotron text-center">
+                <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
+            </div>
+        </div>
     </div>
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <form id="file-upload-form" enctype="multipart/form-data" method="post">
+                    <input type="file" id="input-upload" value="Velg dokument for signering">
+                    <label for="input-upload" id="label-input-upload">
+                        <span class="btn btn-primary btn-lg">Velg dokument for signering</span>
+                    </label>
+                    <div id="transit-status"><br />     </div>
+                </form>
+            </div>
+        </div>
 
-    <input type="button" onclick="submitMembers()" value="Send" />
+
+        <form id="create-sign-request-form">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
 
 
-</form>
 
- 
+                    <div id="navn-signeringsoppdrag">
+                        <input placeholder="Navn: f.eks: Boligkontrakt (Valgfri)" class="textfield" type="text" id="case-navn" />
+                    </div>
+
+                    <div id="radio-buttons-signaturetypes" class="radio-buttons-signaturetypes">
+                        <span>E-Signatur</span>
+                        <input type="radio" class="sign-method-radio" value="electronicid" name="sign-method" />
+                        <span>Elektronisk penn</span>
+                        <input type="radio" class="sign-method-radio" value="touch" name="sign-method" />
+                    </div>
+
+
+                    <div id="self-sign" class="radio-buttons-signaturetypes">
+                        <span>Signere selv?</span>
+                        <input type="checkbox" id="signere-selv">
+                    </div>
+
+                    <div id="buttons-members">
+                        <input class="btn btn-primary btn-lg green" type="button" onclick="addInput()" value="Legg til medlemmer" />
+                        <input class="btn btn-primary btn-lg red" type="button" onclick="removeLastInput()" value="Fjern medlem" />
+                        <div class="flex-container">
+                            <span style="width:100%;" id="EmailsForSigning"> </span>
+                        </div>
+                    </div>
+
+
+
+                    <input class="submitButton" type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send" />
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
 
 
 @*<dl>
-    @foreach (var claim in User.Claims)
-    {
-        <dt>@claim.Type</dt>
-        <dd>@claim.Value</dd>
-    }
+        @foreach (var claim in User.Claims)
+        {
+            <dt>@claim.Type</dt>
+            <dd>@claim.Value</dd>
+        }
 
-    <dd> @ViewBag.testtext</dd>
-</dl>*@
+        <dd> @ViewBag.testtext</dd>
+    </dl>*@
+
+
+
+
+<!--##################################
+    todo: flytt til ekstern .js -->
 <script>
-
-    function uploadDocument() {
-        let form = document.getElementById('file-upload-form');
-        let fileSelect = document.getElementById('file-upload-input');
-        let uploadButton = document.getElementById('file-upload-button');
-
-        form.onsubmit = function(e) {
-
-            //Hindre nettleser fra å poste formen
-            e.preventDefault();
-
-            uploadButton.innerHTML = 'Laster opp..';
-
-
-            //Hent objekt som FileList
-            //Løsning for enkel filopplasting
-            let file = fileSelect.files[0];
+    $(document).ready(function () {
+        alert("Dokument er klar, ingen feil");
+        $("#input-upload").change(function () {
             var formData = new FormData();
-            formData.append('document-to-sign', file, 'test.pdf');
-
-
-
-            //todo: løsning for flere filer
-            var url = '@Url.Action("DokumentMottak", "Home")';
-            alert(url);
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', url, true);
-
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    uploadButton.innerHTML = 'Lastet opp';
-                } else {
-                    alert('Opplasting feilet');
-                }
+            var totalFiles = document.getElementById("input-upload").files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("input-upload").files[i];
+                formData.append("input-upload", file);
             }
-            xhr.send(formData);
 
+            $.ajax({
+                type: "POST",
+                url: '/Home/Upload',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                complete: function (data) {
+                    $("#transit-status").html("Dokument ble sendt");
+                    document.getElementById("button-create-signevent").disabled = false;
 
-
-
-        }
-    }
-
-    //Variabler for å holde informasjon antall bokser
-    var AntallMedlemmer = 1;
-    var boxName = 0;
-
-    //Funksjon for å legge til ny input felt for emails
-    function addInput() {
-        if (AntallMedlemmer == 0) {
-            AntallMedlemmer = 1;
-        }
-        var boxName = "Email " + AntallMedlemmer;
-        document.getElementById('EmailsForSigning').innerHTML += '<input class="inputFields" type="text" tag="epost" id="' + AntallMedlemmer + '"/>';
-        AntallMedlemmer += 1;
-    }
-
-    //Funksjon for å slette sist lagt inn input felt
-    function removeLastInput() {
-        var test = document.getElementById('EmailsForSigning');
-        var childNode = test.lastChild;
-        test.removeChild(childNode);
-        AntallMedlemmer -= 1;
-    }
-
-
-    //Funksjon for å legge til medlemmer
-    function submitMembers() {
-        var fields = document.getElementById('EmailsForSigning').childNodes;
-        var url = '@Url.Action("OpprettCaseOgSendEpost", "Home")';
-        
-        //Ta imot navn på signeringsoppdrag
-        let navn = document.getElementById('case-navn').value;
-
-        //Ta imot eposter
-        var emails = "";
-        for (var i = 1, len = fields.length; i < len; i++) {
-                emails += fields[i].value + ",";
-        }
-
-        alert(emails);
-
-
-        //Send oppdrag til backend
-    $.ajax({
-        type: 'POST',
-        data: { epost: emails, navn: navn },
-        dataType: 'json',
-        url: url,
-        traditional: true,
-        success: function (data) {
-            alert("sendt");
-         },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
-
+                }
+            });
         });
-
-        }
+    })
 
 </script>

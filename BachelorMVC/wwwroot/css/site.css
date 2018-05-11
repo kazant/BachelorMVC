@@ -1,26 +1,25 @@
-﻿.header {
+﻿body {
+    background-color: #eee;
+}
+
+.header {
     background-color: #FFFFFF !important;
     padding: 30px 0px 30px 0px;
-    //box-shadow: 1px 3px 6px rgba(0, 0, 0, .3);
+    /*box-shadow: 1px 3px 6px rgba(0, 0, 0, .3);*/
 }
 
 .topspace {
-    margin-top: 80px;
+    margin-top: 100px;
 }
 .header-image{
     width:100%;
     background-image:url(../images/development.jpg);
 }
-.btn-lg {
-    
-}
 .container > .navbar-header, .container-fluid > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-collapse {
     margin-right: 15px;
     margin-left: 0;
 }
-.jumbotron {
-    background-color:#fff;
-}
+
 .navbar-link {
     color: #012f53;
 }
@@ -37,11 +36,7 @@
 .jumbotron h1, .jumbotron .h1 {
     font-size: 36px;
 }
-.container {
-    padding-left: 0px;
-    padding-right: 0px;
 
-}
 img {
     margin-top:20px;
 }
@@ -179,11 +174,11 @@ a img {
     color: #012f53;
 }
 
-*/
+
 .mainmenu:last-child {
     color: #012f53;
 }
-*/
+
 .mainmenu.active a i:last-child, .active:hover a i:last-child {
     color: #003056;
 }
@@ -224,5 +219,103 @@ a img {
 
 .tekst{
     padding:15px;
+}
+
+/* User Form*/
+
+/* temp CSS, bare for å få oversikt */
+#create-sign-request-form {
+    display: flex;
+    flex-direction: column;
+    margin: .5em 0 0 0;
+}
+
+#input-upload {
+    display: none;
+}
+
+#navn-signeringsoppdrag,
+#buttons-members{
+    border: 0px solid #003050;
+    padding: 1.5em 0em;
+}
+.radio-buttons-signaturetypes {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #e2e2e2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+#upload-description {
+    border: 1px solid #003050;
+    cursor: pointer;
+    padding: 1em;
+    border-radius: .4em;
+}
+
+    #upload-description:hover {
+        background: #003050;
+        color: white;
+    }
+
+#file-upload-form {
+    display: flex;
+}
+#transit-status{
+    padding-left: 10px;
+    position:relative;
+    display:block;
+}
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    width: 100%;
+    margin: 0 auto 50px;
+    padding: 10% 20%;
+    display: inline-block;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+    .form input.textfield {
+        font-family: "Roboto", sans-serif;
+        outline: 0;
+        background: #e2e2e2;
+        width: 100%;
+        border: 0;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+    .form input.submitButton {
+        font-family: "Roboto", sans-serif;
+        text-transform: uppercase;
+        outline: 0;
+        background: #012f53;
+        width: 100%;
+        border: 0;
+        padding: 15px;
+        color: #FFFFFF;
+        font-size: 14px;
+        -webkit-transition: all 0.3 ease;
+        transition: all 0.3 ease;
+        cursor: pointer;
+    }
+    .form input.submitButton:hover{
+        background: #4fb221;
+    }
+.inputFields {
+    margin-top: 7px !important;
+}
+.green:hover {
+    background: #4fb221 !important;
+}
+.red:hover {
+    background: #d12222 !important;
 }
 
