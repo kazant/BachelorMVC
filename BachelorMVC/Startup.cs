@@ -79,8 +79,6 @@ namespace BachelorMVC
 
             var options = new OpenIdConnectOptions()
             {
-
-                
                 
                 AuthenticationScheme = "Oidc", // callback will be on /signin-oidc
                 SignInScheme = "Cookies",
@@ -91,7 +89,6 @@ namespace BachelorMVC
                 
                 
         };
-            
 
             options.RequireHttpsMetadata = false;
             
@@ -106,18 +103,7 @@ namespace BachelorMVC
                     
                     context.ProtocolMessage.AcrValues = "tenant:default";
                     return Task.FromResult(0);
-                },
-
-                 OnMessageReceived = context =>
-                 {
-                     if (context.ProtocolMessage.Error == "unauthorized")
-                     {
-                         context.HandleResponse();
-                         context.Response.Redirect("/?unauth=1");
-                     }
-
-                     return Task.FromResult(0);
-                 },
+                }
             };
 
             // Wire in OIDC middelware
