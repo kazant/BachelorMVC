@@ -10,6 +10,7 @@ namespace BachelorMVC.Models
 
         public string nickname { get; set; }
         public string firma { get; set; }
+        public string antallSigneringer { get; set; }
 
     }
 }

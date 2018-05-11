@@ -32,6 +32,9 @@
         <th>
             Slett
         </th>
+        <th>
+            Sendte Signeringer
+        </th>
     </tr>
 
 
@@ -59,6 +62,9 @@
                 }
             <td>
                 <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.user_id }, null)</button>
+            </td>
+            <td>
+                @item.user_metadata.antallSigneringer
             </td>
         </tr>
     }
