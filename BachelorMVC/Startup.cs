@@ -103,7 +103,14 @@ namespace BachelorMVC
                     
                     context.ProtocolMessage.AcrValues = "tenant:default";
                     return Task.FromResult(0);
-                }
+                },
+                OnMessageReceived = context =>{
+                   if (context.ProtocolMessage.Error == "unauthorized"){
+                       context.HandleResponse();
+                       context.Response.Redirect("/?unauth=1");
+                    }
+                    return Task.FromResult(0);
+                },
             };
 
             // Wire in OIDC middelware
