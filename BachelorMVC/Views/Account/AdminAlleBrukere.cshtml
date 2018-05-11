@@ -45,11 +45,18 @@
                 @item.email
             </td>
             <td>
-                Her skal det stå firma
+                @item.user_metadata.firma
             </td>
-            <td>
-                @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.user_id }, null)
-            </td>
+            
+                @if(@item.user_metadata.nickname == "0") {
+                    <td>
+                        @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.user_id }, null) 
+                    </td>
+                } else {
+                    <td>
+                        Godkjent
+                    </td>
+                }
             <td>
                 <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.user_id }, null)</button>
             </td>

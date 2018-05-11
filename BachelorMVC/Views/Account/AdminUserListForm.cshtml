@@ -65,7 +65,7 @@ else
                 @item.email
             </td>
             <td>
-                Her skal det stå firma
+                @item.user_metadata.firma
             </td>
             <td>
                 @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.user_id }, null)
