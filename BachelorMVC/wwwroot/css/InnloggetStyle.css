@@ -21,4 +21,11 @@
 
 #dokumentoversikt {
     display: flex;
+    justify-content: space-between;
+}
+
+.document-container {
+    margin-top: 10px;
+    border: 1px solid black;
+    padding: 15px;
 }
