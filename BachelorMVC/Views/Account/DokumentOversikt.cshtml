@@ -1,21 +1,25 @@
-@model IEnumerable<BachelorMVC.Models.Dokumenter>
+@model IEnumerable<BachelorMVC.Models.Signeringsoppdrag>
+
+@{
+    Layout = "_signedInLayout";
+}
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
 <link rel="stylesheet" type="text/css" href="~/css/site.css">
 <script src="~/js/userform.js"></script>
-@{
-    Layout = "_signedInLayout";
-}
 
 <!-- for each dokument 
 lag dokumentboks-->
 
+@foreach (var oppdrag in Model)
+{
 <!-- sample dokumentboks -->
 <section class="document-container">
     <img src="" />
     <span>Last ned</span>
+    <div>@oppdrag.oppretter.epost</div>
     <select>
         <option value="to-signing">Til signering</option>
         <option value="change-signing">Endre</option>
@@ -23,3 +27,8 @@ lag dokumentboks-->
         <option value="download">Last ned</option>
     </select>
 </section>
+}
+
+
+
+

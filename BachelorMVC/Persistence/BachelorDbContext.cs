@@ -15,7 +15,7 @@ namespace BachelorMVC.Persistence
         {   
         }
 
-        public DbSet<Dokumenter> Dokumenter { get; set; }
+        public DbSet<Dokument> Dokumenter { get; set; }
         public DbSet<Bruker> Bruker { get; set; }
 
     }

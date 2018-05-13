@@ -51,17 +51,16 @@ namespace BachelorMVC.Controllers
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
         public IActionResult Error()
         {
 
-            _context.Dokumenter.Add(new Dokumenter {Name ="testdokument"}); //lag dokument
-            _context.SaveChangesAsync();// lagre dokument
-            Dokumenter dokument = _context.Dokumenter.FirstOrDefault(x => x.Name == "dwa" || x.DokumentID == 2); // henter første dokument.
-            IEnumerable<Dokumenter> doc = _context.Dokumenter.Where(x => x.Name == "dwa" || x.DokumentID == 2); // henter alle dokumenter som er godtatt i spørringen.
+            //_context.Dokumenter.Add(new Dokument {Navn ="testdokument"}); //lag dokument
+            //_context.SaveChangesAsync();// lagre dokument
+            //Dokument dokument = _context.Dokumenter.FirstOrDefault(x => x.Navn == "dwa" || x.Id == 2); // henter første dokument.
+            //IEnumerable<Dokument> doc = _context.Dokumenter.Where(x => x.Navn == "dwa" || x.Id == 2); // henter alle dokumenter som er godtatt i spørringen.
             
             return View();
         }

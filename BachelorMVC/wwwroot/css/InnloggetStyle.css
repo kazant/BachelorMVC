@@ -19,4 +19,6 @@
     font-size: 30px;
 }
 
-
+#dokumentoversikt {
+    display: flex;
+}

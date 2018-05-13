@@ -39,6 +39,7 @@ namespace BachelorMVC
 
             services.AddTransient<IbrukerService, BrukerService>();
 
+            
 
 
             //services.AddDbContext<BachelorDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"))); //passord:"Dokumentpartner01!"
@@ -125,12 +126,7 @@ namespace BachelorMVC
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                
-                /*routes.MapRoute(
-                    name: "OpprettCaseOgSendEpost",
-                    template: "{controller=HomeController}/{action=OpprettCaseOgSendEpost}",
-                    defaults: new { controller = "HomeController", action = "OpprettCaseOgSendEpost" }
-                    );*/
+
             });
         }
     }

@@ -1,32 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
+using System.Net;
+using System.Linq;
 using System.Threading.Tasks;
 using BachelorMVC.Models;
+using BachelorMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
 using Claim = System.Security.Claims.Claim;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Authentication;
-using System.Net;
-using System;
-using System.Linq;
-using MySql.Data.MySqlClient;
+
 
 namespace BachelorMVC.Controllers
 {
+   
     public class AccountController : Controller
     {
         private String autString = "";
-
+        private DBController DBController = new DBController();
 
         // The Authorize attribute requires the user to be authenticated and will
         // kick off the OIDC authentication flow 
         [Microsoft.AspNetCore.Authorization.Authorize]
         public IActionResult loginForm()
         {
+            
 
             /* Når bruker logger inn sjekker vi 'Roles', og dirigerer deretter */
             foreach (Claim claim in User.Claims)
@@ -63,20 +65,24 @@ namespace BachelorMVC.Controllers
                 return View();
             }
 
-            return View("NotAuthorized");
+           return View("NotAuthorized");
         }
 
         
         public IActionResult DokumentOversikt()
         {
+            
+            string epost = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
+            List<Signeringsoppdrag> oppdrag = DBController.OppdragModellerer(epost);
+                
             if (sjekkAutentisering() == "user")
             {
-                return View();
+                return View("DokumentOversikt", oppdrag);
             }
 
             return View("NotAuthorized");
         }
-
+ 
         //Henter JSON Resultat utifra spørring (nickname = 0)
         public JsonResult getAuth02()
         {
@@ -90,7 +96,7 @@ namespace BachelorMVC.Controllers
 
             return Json(response.Content);
 
-        }
+        } 
 
 
         //Henter JSON Resultat utifra spørring (nickname = 0)
