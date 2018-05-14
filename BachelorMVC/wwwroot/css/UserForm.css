@@ -11,8 +11,9 @@
     display: none;
 }
 
-#navn-signeringsoppdrag, 
-#buttons-members, 
+
+#navn-signeringsoppdrag,
+#buttons-members,
 #radio-buttons-signaturetypes,
 #self-sign {
     border: 1px solid #003050;
@@ -44,8 +45,8 @@
     background: #003050;
 }
 
-#container-email-input {
-   
+#container-emai l-input {
+    
     display: flex;
     flex-direction: column;
     justify-content: center;

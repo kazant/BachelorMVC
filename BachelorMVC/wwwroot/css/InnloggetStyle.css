@@ -4,7 +4,7 @@
 
 .flex-container {
     height: auto;
-    width: 100px;
+    /*width: 100px;  */ 
     display: flex;
     flex-direction: column;
     align-content: space-around;

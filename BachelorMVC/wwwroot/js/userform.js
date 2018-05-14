@@ -27,8 +27,10 @@ function addInput() {
         AntallMedlemmer = 1;
     }
     let input = document.createElement("INPUT");
+    input.setAttribute("placeholder", "Epost");
     input.setAttribute("type", "email");
     input.setAttribute("class", "textfield inputFields");
+    
     
     let del = document.createElement("DIV");
     del.setAttribute("id", "delete-email-input");
