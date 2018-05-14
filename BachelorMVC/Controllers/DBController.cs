@@ -16,9 +16,9 @@ namespace BachelorMVC.Controllers {
 
         public DBController () {
             MySqlConnectionStringBuilder connStr = new MySqlConnectionStringBuilder {
-                Server = "localhost",
-                UserID = "root",
-                Password = "1tdwsaotsoraD",
+                Server = "158.36.13.131",
+                UserID = "dokumentpartner",
+                Password = "123abc",
                 Database = "bachelor",
                 SslMode = MySqlSslMode.None
 
@@ -116,6 +116,7 @@ namespace BachelorMVC.Controllers {
                     "o.email," +
                     "d.DokumentID," +
                     "k.email," +
+                    "k.firma, " +
                     "k.AntallSigneringer " +
                     "from oppretter o left join " +
                     "(dokument d inner join " +
