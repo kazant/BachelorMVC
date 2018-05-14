@@ -45,9 +45,10 @@
     background: #003050;
 }
 
-#container-emai l-input {
+#container-email-input {
     
     display: flex;
     flex-direction: column;
     justify-content: center;
+
 }
