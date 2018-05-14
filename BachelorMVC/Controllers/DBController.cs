@@ -144,5 +144,21 @@ namespace BachelorMVC.Controllers {
             }
         }
 
+        public void WriteDocument(Guid dokumentId, string filnavn, int antallSignaturer, string navn, string email)
+        {
+            using(MySqlCommand cmd = new MySqlCommand())
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "insert into dokument(DokumentID,filnavn,AntallSignaturer,Navn,email) " +
+                "values(@DokumentID, @filnavn, @AntallSignaturer, @Navn, @email)";
+                cmd.Parameters.AddWithValue("@DokumentID", dokumentId.ToString("B"));
+                cmd.Parameters.AddWithValue("@filnavn", filnavn);
+                cmd.Parameters.AddWithValue("@AntallSignaturer", antallSignaturer);
+                cmd.Parameters.AddWithValue("@Navn", navn);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }
+ 

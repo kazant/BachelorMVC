@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Net.Mail;
 using System.IO;
+using MySql.Data.MySqlClient;
 
 
 namespace BachelorMVC.Controllers
@@ -25,6 +26,7 @@ namespace BachelorMVC.Controllers
 
         string id;
         string navn;
+        private DBController DBController = new DBController ();
 
         private readonly BachelorDbContext _context;
         private readonly IbrukerService _brukerService;
@@ -74,12 +76,6 @@ namespace BachelorMVC.Controllers
         public void OpprettCaseOgSendEpost(string epost, string caseNavn, string dokumentNavn, string signeringsmetode)
         {
 
-            //Hent info om bruker
-            //Bruker bruker = _brukerService.findbruker(id, navn);
-
-            //Hent info om brukerens dokument
-            // Trenger en kobling mellom klassen Bruker og klassen Dokument
-
             string[] emails;
 
             if(!(epost == null))
@@ -90,11 +86,9 @@ namespace BachelorMVC.Controllers
                 return; 
             }
             
-
-
             var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "OMw4uXqu1QgCX_ESA8XpI00Z7EKyIlypwgrlv-qu");
 
-            //En CreateCaseModel skal bestå av et dokument, en eller flere brukere og annen info (se UML)
+            //En CreateCaseModel skal bestå av et dokument, en eller flere brukere og annen info
             CreateCaseModel model = new CreateCaseModel();
             
             //Påkrevd
@@ -122,7 +116,7 @@ namespace BachelorMVC.Controllers
 
                 model.Parties.Add(new PartyModel
                 {
-                    //Her kan info hentes fra klassen Bruker
+                    
                     EmailAddress = emails[i]
                 });
             }
@@ -130,7 +124,6 @@ namespace BachelorMVC.Controllers
             
 
             //En eller flere dokumenter angis til en Liste med dokumenter
-            //I prinsippet er det nok med en filsti til dokumentet. Påkrevd
             model.Documents.Add("./Persistence/Dokumenter/" + dokumentNavn);
             model.Metadata.Add("nøkkel","verdi");
 
@@ -138,6 +131,10 @@ namespace BachelorMVC.Controllers
                 byte[] data = model.Id.ToByteArray();
                 fileStream.Write(data, 0, data.Length);
             }
+
+            string email = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
+            DBController.WriteDocument(model.Id, dokumentNavn, emails.Length, caseNavn, epost);
+
 
 
             //CreateCaseModel objektet sendes til Assently
@@ -147,6 +144,8 @@ namespace BachelorMVC.Controllers
             //Evt kan også SMS benyttes
             client.SendCase(model.Id);
 
+            
+            
             
         }
 
