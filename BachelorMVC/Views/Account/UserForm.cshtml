@@ -1,7 +1,10 @@
-﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+﻿@model IEnumerable<BachelorMVC.Models.Testbruker>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 ﻿<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
 <link rel="stylesheet" type="text/css" href="~/css/site.css">
+
 <script src="~/js/userform.js"></script>
 @{
     Layout = "_signedInLayout";
@@ -62,7 +65,6 @@
                     </div>
 
 
-
                     <input class="submitButton" type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send" />
                 </div>
             </div>
@@ -71,7 +73,7 @@
 </section>
 
 
-@*<dl>
+<dl>
         @foreach (var claim in User.Claims)
         {
             <dt>@claim.Type</dt>
@@ -79,7 +81,7 @@
         }
 
         <dd> @ViewBag.testtext</dd>
-    </dl>*@
+    </dl>
 
 
 

@@ -29,7 +29,7 @@ namespace BachelorMVC.Controllers
 
             };
             conn = new MySqlConnection(connStr.GetConnectionString(true));
-            conn.Open();
+            //conn.Open();
         }
 
         //Lager instanser av Signeringsoppdrag som synliggjøres i frontend
