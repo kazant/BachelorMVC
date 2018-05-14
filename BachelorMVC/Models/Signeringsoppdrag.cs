@@ -1,13 +1,11 @@
-using BachelorMVC.Models;
 using System.Collections.Generic;
+using BachelorMVC.Models;
 
-namespace BachelorMVC.Models
-{
-    public class Signeringsoppdrag
-    {
+namespace BachelorMVC.Models {
+    public class Signeringsoppdrag {
         public Bruker oppretter { get; set; }
-        public Testbruker[] signatører { get; set;}
-        public Dokument dokument { get; set;}
-        public string test {get; set;}
+        public Testbruker[] signatører { get; set; }
+        public Dokument dokument { get; set; }
+
     }
 }

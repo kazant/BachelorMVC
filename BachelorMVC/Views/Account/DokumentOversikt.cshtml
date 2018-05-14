@@ -4,6 +4,17 @@
     Layout = "_signedInLayout";
 }
 
+@if (User.Claims.Count() == 0)
+{
+    <h2>Error</h2>
+
+}
+else
+{
+    <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
+
+}
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
@@ -12,6 +23,7 @@
 
 <!-- for each dokument 
 lag dokumentboks-->
+<section id="dokumentoversikt">
 
 @foreach (var oppdrag in Model)
 {
@@ -19,7 +31,7 @@ lag dokumentboks-->
 <section class="document-container">
     <img src="" />
     <span>Last ned</span>
-    <div>@oppdrag.oppretter.epost</div>
+    <div>@oppdrag.dokument.filnavn</div>
     <select>
         <option value="to-signing">Til signering</option>
         <option value="change-signing">Endre</option>
@@ -28,6 +40,8 @@ lag dokumentboks-->
     </select>
 </section>
 }
+
+</section>
 
 
 
