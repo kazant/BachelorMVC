@@ -195,6 +195,7 @@ namespace BachelorMVC.Controllers
         }
         public void OppdaterAntallOppdragTeller()
         {
+
             string epost = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
             var client = new RestClient("https://document.eu.auth0.com/api/v2/users-by-email?email=" + epost);
             var requestGet = new RestRequest(Method.GET);
