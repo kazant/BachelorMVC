@@ -23,6 +23,7 @@ namespace BachelorMVC.Controllers {
                 SslMode = MySqlSslMode.None
 
             };
+
             conn = new MySqlConnection (connStr.GetConnectionString (true));
             conn.Open ();
         }
