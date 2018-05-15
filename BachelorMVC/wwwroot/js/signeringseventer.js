@@ -1,40 +1,41 @@
 
 
    //Etter dokumentopplasting kan klient kjøre denne funksjonen for å opprette signeringsoppdrag hos Assently
-   function OpprettSigneringsOppdrag(url) {
-    var fields = document.getElementById('EmailsForSigning').childNodes;
+function OpprettSigneringsOppdrag(url) {
+    //var fields = document.getElementsByClassName('textfield inputFields');
+    //var fields = document.getElementById('container-email-input').childNodes;
     
-    //Ta imot navn på signeringsoppdrag
-    let navn = document.getElementById('case-navn').value;
+        //Ta imot navn på signeringsoppdrag
+        let navn = document.getElementById('case-navn').value;
 
-    //Ta imot eposter
-    var emails = "";
-    for (var i = 1, len = fields.length; i < len; i++) {
-            emails += fields[i].value + ",";
+        //Ta imot eposter
+        var emails = "";
+        for (var i = 0, len = emailInputs.length; i < len; i++) {
+                emails += emailInputs[i].value + ",";
+        }
+
+        //Hent filnavn
+        var dokumentNavn = $('input[type=file]').val().split('\\').pop();
+
+        var signeringsmetode = getSignMethod();
+
+        if(validated()) {
+        //Send oppdrag til backend for videre behandling
+        $.ajax({
+        type: 'POST',
+        data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn, signeringsmetode: signeringsmetode},
+        dataType: 'json',
+        url: url,
+        traditional: true,
+        success: function (data) {
+            alert("sendt");
+         },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+
+        });
     }
-
-    //Hent filnavn
-    var dokumentNavn = $('input[type=file]').val().split('\\').pop()
-
-    var signeringsmetode = getSignMethod();
-
-    if(validated()) {
-    //Send oppdrag til backend for videre behandling
-    $.ajax({
-    type: 'POST',
-    data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn, signeringsmetode: signeringsmetode},
-    dataType: 'json',
-    url: url,
-    traditional: true,
-    success: function (data) {
-        alert("sendt");
-     },
-    error: function (XMLHttpRequest, textStatus, errorThrown) {
-        alert(errorThrown);
-    }
-
-    });
-}
 
 }
 
