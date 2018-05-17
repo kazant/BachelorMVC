@@ -19,7 +19,7 @@ namespace BachelorMVC.Controllers {
     public class AccountController : Controller {
         private String autString = "";
         private DBController DBController = new DBController ();
-        public string headerValue = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik9UUTJOelJDT1VRNVF6Y3pRakk1TnpReFFUTkZOMEkwTmt" +
+        public string HttpHeaderValue = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik9UUTJOelJDT1VRNVF6Y3pRakk1TnpReFFUTkZOMEkwTmt" +
                 "ZMU56YzBOa1V3TVVFMlJVUXlSQSJ9.eyJpc3MiOiJodHRwczovL2RvY3VtZW50LmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJKbGk5SU0wQXF1QTdYZWlDcW5pcmhPd0FYRmcxSDY" +
                 "4UUBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9kb2N1bWVudC5ldS5hdXRoMC5jb20vYXBpL3YyLyIsImlhdCI6MTUyMzYxMjg1MiwiZXhwIjoxMDUyMzYxMjg1MiwiYXpwIjoiSmx" +
                 "pOUlNMEFxdUE3WGVpQ3FuaXJoT3dBWEZnMUg2OFEiLCJzY29wZSI6InJlYWQ6Y2xpZW50X2dyYW50cyBjcmVhdGU6Y2xpZW50X2dyYW50cyBkZWxldGU6Y2xpZW50X2dyYW50cyB1cG" +
@@ -50,7 +50,7 @@ namespace BachelorMVC.Controllers {
                 }
 
             }
-
+            
             return RedirectToAction ("Index", "Home");
         }
 
@@ -91,7 +91,8 @@ namespace BachelorMVC.Controllers {
             //var client = new RestClient("https://document.eu.auth0.com/api/v2/users?q=godkjent%3A%221%22&search_engine=v2");
             var client = new RestClient (" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%221%22&search_engine=v2");
             var request = new RestRequest (Method.GET);
-            request.AddHeader ("authorization", headerValue);
+            request.AddHeader ("authorization", HttpHeaderValue
+);
             IRestResponse response = client.Execute (request);
 
             List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (response.Content);
@@ -105,7 +106,8 @@ namespace BachelorMVC.Controllers {
             //var client = new RestClient("https://document.eu.auth0.com/api/v2/users?q=godkjent%3A%220%22&search_engine=v2");
             var client = new RestClient (" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%220%22&search_engine=v2");
             var request = new RestRequest (Method.GET);
-            request.AddHeader("authorization", headerValue);
+            request.AddHeader("authorization", HttpHeaderValue
+);
             IRestResponse response = client.Execute (request);
 
             List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (response.Content);
@@ -147,9 +149,11 @@ namespace BachelorMVC.Controllers {
             var client = new RestClient ("https://document.eu.auth0.com/api/v2/users/" + id);
             var request = new RestRequest (Method.PATCH);
             request.AddHeader ("content-type", "application/json");
-            request.AddHeader("authorization", headerValue);
+            request.AddHeader("authorization", HttpHeaderValue
+);
             request.AddParameter ("application/json", "{\"user_metadata\": {\"nickname\": \"1\"}}", ParameterType.RequestBody);
             IRestResponse response = client.Execute (request);
+            DBController.SetGodkjent(id);
 
             await Task.Run (() => waitTimer ());
             return RedirectToAction ("AdminUserListForm");
@@ -161,9 +165,10 @@ namespace BachelorMVC.Controllers {
             var client = new RestClient ("https://document.eu.auth0.com/api/v2/users/" + id);
             var request = new RestRequest (Method.DELETE);
             request.AddHeader ("content-type", "application/json");
-            request.AddHeader("authorization", headerValue);
+            request.AddHeader("authorization", HttpHeaderValue);
             //request.AddParameter("application/json", "{\"user_metadata\": {\"nickname\": \"1\"}}", ParameterType.RequestBody);
             IRestResponse response = client.Execute (request);
+            DBController.DeleteOppretter(id);
 
             await Task.Run (() => waitTimer ());
             return RedirectToAction ("AdminUserListForm");

@@ -167,13 +167,102 @@ namespace BachelorMVC.Controllers {
                 cmd.Connection = conn;
                 cmd.CommandText = "insert into dokument(DokumentID,filnavn,AntallSignaturer,Navn,email) " +
                 "values(@DokumentID, @filnavn, @AntallSignaturer, @Navn, @email)";
-                cmd.Parameters.AddWithValue("@DokumentID", dokumentId.ToString("B"));
+                cmd.Parameters.AddWithValue("@DokumentID", dokumentId.ToString("D"));
                 cmd.Parameters.AddWithValue("@filnavn", filnavn);
                 cmd.Parameters.AddWithValue("@AntallSignaturer", antallSignaturer);
                 cmd.Parameters.AddWithValue("@Navn", navn);
                 cmd.Parameters.AddWithValue("@email", email);
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        public void WriteOppretter(string email, string fornavn, string etternavn, string firma, string auth0Id)
+        {
+            using(MySqlCommand cmd = new MySqlCommand())
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "insert into oppretter(email,fornavn,etternavn,firma,auth0Id,godkjent" +
+                "values(@email, @fornavn, @etternavn, @firma, @auth0Id, @godkjent";
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@fornavn", "");
+                cmd.Parameters.AddWithValue("@etternavn", "");
+                cmd.Parameters.AddWithValue("@firma", "");
+                cmd.Parameters.AddWithValue("@auth0Id", auth0Id);
+                cmd.Parameters.AddWithValue("@godkjent", "0");
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteOppretter(string auth0Id)
+        {
+            using(MySqlCommand cmd = new MySqlCommand())
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "delete from oppretter where auth0Id = '" + auth0Id + "'";
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void SetGodkjent(string auth0Id)
+        {
+            using(MySqlCommand cmd = new MySqlCommand())
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "update oppretter set godkjent = '1' where auth0Id =  '" + auth0Id + "'";
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void WriteKunde(string[] emails) 
+        {
+            List<string> nyeKunder = new List<string>(emails);
+            Console.WriteLine(nyeKunder);
+            Console.ReadLine();
+        //spør etter eposter i databasen, hvis den ikke finnes, legg i "todolisten"
+        using(MySqlCommand cmd = new MySqlCommand())
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "select * from kunde";
+                reader = cmd.ExecuteReader();
+
+                //Finn eposter som allerede finnes i tabell kunde og fjern dem fra nyeKunder
+                while(reader.Read())
+                {
+                    string kunde = reader.GetString("email");
+                    for(int i = 0; i < nyeKunder.Count; i++)
+                    {
+
+                        if(kunde == nyeKunder[i])
+                        {
+                            nyeKunder.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
+            }
+
+                using(MySqlCommand cmd = new MySqlCommand()) {
+                //Skriv de resterende kundene som ikke finnes i kunde-tabellen
+                if(nyeKunder.Count != 0)
+                {
+                    cmd.Connection = conn;
+                    foreach(string kunde in nyeKunder)
+                    {
+                        cmd.CommandText = "insert into kunde(email) values(@email2)";
+                        cmd.Parameters.AddWithValue("@email2", kunde);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                }
+
+
+            
+        }
+
+        public void WriteNewSignature()
+        {
+            Console.WriteLine("svar fra assently");
+            Console.ReadLine();
         }
     }
 }

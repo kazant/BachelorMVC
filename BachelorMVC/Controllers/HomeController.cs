@@ -23,7 +23,7 @@ namespace BachelorMVC.Controllers
         string navn;
         int antallSign;
         private DBController DBController = new DBController ();
-        public string headerValue = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik9UUTJOelJDT1VRNVF6Y3pRakk1TnpReFFUTkZOMEkwTmt" +
+        public string HttpHeaderValue = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik9UUTJOelJDT1VRNVF6Y3pRakk1TnpReFFUTkZOMEkwTmt" +
                 "ZMU56YzBOa1V3TVVFMlJVUXlSQSJ9.eyJpc3MiOiJodHRwczovL2RvY3VtZW50LmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJKbGk5SU0wQXF1QTdYZWlDcW5pcmhPd0FYRmcxSDY" +
                 "4UUBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9kb2N1bWVudC5ldS5hdXRoMC5jb20vYXBpL3YyLyIsImlhdCI6MTUyMzYxMjg1MiwiZXhwIjoxMDUyMzYxMjg1MiwiYXpwIjoiSmx" +
                 "pOUlNMEFxdUE3WGVpQ3FuaXJoT3dBWEZnMUg2OFEiLCJzY29wZSI6InJlYWQ6Y2xpZW50X2dyYW50cyBjcmVhdGU6Y2xpZW50X2dyYW50cyBkZWxldGU6Y2xpZW50X2dyYW50cyB1cG" +
@@ -66,12 +66,6 @@ namespace BachelorMVC.Controllers
 
         public IActionResult Error()
         {
-
-            //_context.Dokumenter.Add(new Dokument {Navn ="testdokument"}); //lag dokument
-            //_context.SaveChangesAsync();// lagre dokument
-            //Dokument dokument = _context.Dokumenter.FirstOrDefault(x => x.Navn == "dwa" || x.Id == 2); // henter første dokument.
-            //IEnumerable<Dokument> doc = _context.Dokumenter.Where(x => x.Navn == "dwa" || x.Id == 2); // henter alle dokumenter som er godtatt i spørringen.
-            
             return View();
         }
 
@@ -84,11 +78,11 @@ namespace BachelorMVC.Controllers
         public void OpprettCaseOgSendEpost(string epost, string caseNavn, string dokumentNavn, string signeringsmetode)
         {
 
-            string[] emails;
+            string[] Invitasjonsemails;
 
             if(!(epost == null))
             {
-                emails = epost.Split(',');
+                Invitasjonsemails = epost.Split(',');
             } else
             {
                 return; 
@@ -98,7 +92,8 @@ namespace BachelorMVC.Controllers
 
             //En CreateCaseModel skal bestå av et dokument, en eller flere brukere og annen info
             CreateCaseModel model = new CreateCaseModel();
-            
+            List<CaseEvent> events = new List<CaseEvent>();
+            events.Add(CaseEvent.SignatureAdded);
             //Påkrevd
             model.Id = Guid.NewGuid();
             model.SendSignRequestEmailToParties = true;
@@ -106,6 +101,10 @@ namespace BachelorMVC.Controllers
             model.SendFinishEmailToCreator = true;
             model.Name = caseNavn;
             model.NameAlias = "TestAlias";
+            model.EventCallback = new CaseEventSubscription {
+                Events = events,
+                Url = "http://158.36.13.131:52817/DBController/WriteNewSignature"
+            };
 
             //Kan gi valg mellom eID signatur eller signbyhand (på mobil). Påkrevd
             if(signeringsmetode == "electronicid") {
@@ -116,13 +115,13 @@ namespace BachelorMVC.Controllers
 
             //PartyModel er en samling brukere. Påkrevd.
             //Skal flere brukere signere ett dokument, må denne kodebiten gjentas.
-            for (var i = 0; i < emails.Length - 1; i++)
+            for (var i = 0; i < Invitasjonsemails.Length - 1; i++)
             {
 
                 model.Parties.Add(new PartyModel
                 {
-                    
-                    EmailAddress = emails[i]
+                    Name = "Erlend",
+                    EmailAddress = Invitasjonsemails[i]
                 });
             }
             
@@ -135,9 +134,10 @@ namespace BachelorMVC.Controllers
                 fileStream.Write(data, 0, data.Length);
             }
 
-            string email = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
-            DBController.WriteDocument(model.Id, dokumentNavn, emails.Length, caseNavn, epost);
-
+            string oppretterEmail = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
+            DBController.WriteDocument(model.Id, dokumentNavn, Invitasjonsemails.Length, caseNavn, oppretterEmail);
+            DBController.WriteKunde(Invitasjonsemails);
+            
             //CreateCaseModel objektet sendes til Assently
             client.CreateCase(model);
 
@@ -193,7 +193,7 @@ namespace BachelorMVC.Controllers
             string epost = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
             var client = new RestClient("https://document.eu.auth0.com/api/v2/users-by-email?email=" + epost);
             var requestGet = new RestRequest(Method.GET);
-            requestGet.AddHeader("authorization",  headerValue);
+            requestGet.AddHeader("authorization",  HttpHeaderValue);
             IRestResponse response = client.Execute(requestGet);
             List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(response.Content);
 
@@ -208,11 +208,13 @@ namespace BachelorMVC.Controllers
 
             var requestPatch = new RestRequest(Method.PATCH);
             requestPatch.AddHeader("content-type", "application/json");
-            requestPatch.AddHeader("authorization", headerValue);
+            requestPatch.AddHeader("authorization", HttpHeaderValue);
             requestPatch.AddParameter("application/json", "{\"user_metadata\": {\"antallSigneringer\": \""+antallSign+"\"}}", ParameterType.RequestBody);
 
             IRestResponse respons = clientPatch.Execute(requestPatch);
         }
+
+        
 
     }
 
