@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BachelorMVC.Models;
 using BachelorMVC.Persistence;
 using BachelorMVC.Services;
@@ -10,13 +9,9 @@ using Assently.Client;
 using Assently.ServiceModel;
 using Assently.ServiceModel.Messages;
 using RestSharp;
-using RestSharp.Deserializers;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Net.Mail;
 using System.IO;
-using MySql.Data.MySqlClient;
+
 
 
 namespace BachelorMVC.Controllers
@@ -29,14 +24,8 @@ namespace BachelorMVC.Controllers
         int antallSign;
         private DBController DBController = new DBController ();
 
-
-        private readonly BachelorDbContext _context;
-        private readonly IbrukerService _brukerService;
-
-        public HomeController(BachelorDbContext contex, IbrukerService brukerService)
+        public HomeController()
         {
-            _brukerService = brukerService; 
-            _context = contex;
         }
         public IActionResult Index()
         {
@@ -95,8 +84,6 @@ namespace BachelorMVC.Controllers
             
             //Påkrevd
             model.Id = Guid.NewGuid();
- 
-            //Påkrevd
             model.SendSignRequestEmailToParties = true;
             model.SendFinishEmailToParties = true;
             model.SendFinishEmailToCreator = true;
@@ -109,7 +96,6 @@ namespace BachelorMVC.Controllers
             } else {
                 model.AllowedSignatureTypes.Add(SignatureType.Touch);
             }
-            
 
             //PartyModel er en samling brukere. Påkrevd.
             //Skal flere brukere signere ett dokument, må denne kodebiten gjentas.
@@ -123,8 +109,6 @@ namespace BachelorMVC.Controllers
                 });
             }
             
-            
-
             //En eller flere dokumenter angis til en Liste med dokumenter
             model.Documents.Add("./Persistence/Dokumenter/" + dokumentNavn);
             model.Metadata.Add("nøkkel","verdi");
@@ -137,8 +121,6 @@ namespace BachelorMVC.Controllers
             string email = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
             DBController.WriteDocument(model.Id, dokumentNavn, emails.Length, caseNavn, epost);
 
-
-
             //CreateCaseModel objektet sendes til Assently
             client.CreateCase(model);
 
@@ -149,11 +131,6 @@ namespace BachelorMVC.Controllers
             //Oppdater antallsignatur teller Auth0
             OppdaterAntallOppdragTeller();
 
-
-
-            
-            
-            
         }
 
 

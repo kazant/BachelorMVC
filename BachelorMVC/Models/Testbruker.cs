@@ -9,9 +9,8 @@ namespace BachelorMVC.Models
     {
 
         public string email { get; set; }
-        public string user_id { get; set; }
+        public string user_id { get; set; } //fase ut?
         public Usermetadata user_metadata { get; set; }
-        //public string user_id { get; set; }
 
 
 

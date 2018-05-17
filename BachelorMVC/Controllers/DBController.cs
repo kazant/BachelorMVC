@@ -15,7 +15,8 @@ namespace BachelorMVC.Controllers {
         MySqlDataReader reader;
 
         public DBController () {
-            MySqlConnectionStringBuilder connStr = new MySqlConnectionStringBuilder {
+            MySqlConnectionStringBuilder connStr = new MySqlConnectionStringBuilder
+            {
                 Server = "158.36.13.131",
                 UserID = "dokumentpartner",
                 Password = "123abc",
@@ -39,9 +40,9 @@ namespace BachelorMVC.Controllers {
             foreach (string dokument in dokumenter) {
                 oppdrag.Add (
                     new Signeringsoppdrag {
-                        oppretter = GetBruker (email),
-                            signatører = GetCustomers (email, dokument),
-                            dokument = GetDokument (dokument)
+                        oppretter = GetOppretter (email),
+                        signatører = GetCustomers (email, dokument),
+                        dokument = GetDokument (dokument)
                     }
                 );
             }
@@ -65,25 +66,39 @@ namespace BachelorMVC.Controllers {
             }
         }
 
-        //Returnerer et brukerobjekt. Objektdata hentes fra databasen
-        public Bruker GetBruker (String email) {
-            using (MySqlCommand cmd = new MySqlCommand ()) {
+
+        public Testbruker GetOppretter (String email)
+        {
+            using (MySqlCommand cmd = new MySqlCommand())
+            {
                 cmd.Connection = conn;
                 cmd.CommandText =
-                    "select * from oppretter where email = '" + email + "'";
-                reader = cmd.ExecuteReader ();
+                    "select * from oppretter " +
+                    "left join kunde using(email) where oppretter.email = '" + email + "'";
+                reader = cmd.ExecuteReader();
+                Testbruker oppretter = new Testbruker();
 
-                while (reader.Read ()) {
-                    return new Bruker {
-                        epost = email,
-                            Fornavn = reader.GetString ("Fornavn"),
-                            Etternavn = reader.GetString ("Etternavn"),
-                            unikID = "defineres av epost"
-                    };
+                while (reader.Read())
+                {
+                    oppretter.user_metadata = new Usermetadata();
+                    oppretter.user_metadata.firma = reader.GetString("firma");
+                    oppretter.email = reader.GetString("email");
+                    
+
+                    while (reader.Read())
+                    {
+                        if (reader.GetString("firma") != null)
+                        {
+                            oppretter.user_metadata.antallSigneringer = reader.GetInt32("AntallSigneringer");
+                            oppretter.user_metadata.nickname = reader.GetString("nickname");
+                        }
+                        
+                    }
+                    
+                    
                 }
+                return oppretter;
             }
-
-            return null;
         }
 
         //Returnerer et dokumentobjekt. Dokumentdata hentes fra databasen
