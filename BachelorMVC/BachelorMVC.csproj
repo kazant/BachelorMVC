@@ -33,7 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="Persistence\Dokumenter\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

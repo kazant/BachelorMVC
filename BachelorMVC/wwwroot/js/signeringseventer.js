@@ -2,8 +2,7 @@
 
    //Etter dokumentopplasting kan klient kjøre denne funksjonen for å opprette signeringsoppdrag hos Assently
 function OpprettSigneringsOppdrag(url) {
-    //var fields = document.getElementsByClassName('textfield inputFields');
-    //var fields = document.getElementById('container-email-input').childNodes;
+
     
         //Ta imot navn på signeringsoppdrag
         let navn = document.getElementById('case-navn').value;
