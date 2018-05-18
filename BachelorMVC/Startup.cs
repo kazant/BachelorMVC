@@ -36,16 +36,6 @@ namespace BachelorMVC
         public void ConfigureServices(IServiceCollection services)
         {
 
-
-            services.AddTransient<IbrukerService, BrukerService>();
-
-            
-
-
-            //services.AddDbContext<BachelorDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"))); //passord:"Dokumentpartner01!"
-            services.AddDbContext<BachelorDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
-            // Add framework services.
-
             services.AddMvc();
         }
 

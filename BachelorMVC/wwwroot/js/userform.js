@@ -30,8 +30,8 @@ function addInput() {
     input.setAttribute("placeholder", "Epost");
     input.setAttribute("type", "email");
     input.setAttribute("class", "textfield inputFields");
-    
-    
+
+    /* knapper for å slette spesifikke inputbokser, planlagt feature
     let del = document.createElement("DIV");
     del.setAttribute("id", "delete-email-input");
     del.setAttribute("name", emailInputs.length);
@@ -41,7 +41,7 @@ function addInput() {
     container.setAttribute("id", "container-email-input");
     container.appendChild(input);
     container.appendChild(del);
-    emailInputs.push(container);
+    */emailInputs.push(input);
 
     console.log(emailInputs);
     populateEmails();
