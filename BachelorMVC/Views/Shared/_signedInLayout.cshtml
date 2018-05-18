@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
+        <script src="~/js/userform.js"></script>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -36,16 +38,15 @@
                 <ul class="nav navbar-nav">
                     @*<li class="navbar-link"><a class="btn btn-primary btn-lg" asp-area="" asp-controller="Account" asp-action="Logout">Logg ut</a></li>*@
                     <li class="navbar-link">
-                        <a 
-                            class="btn btn-primary btn-lg" 
-                            
-                            asp-area=""
-                            asp-controller="Account"
-                            asp-action="LogoutAuth0"
-                        >
-                        Logg ut</a>
+                        <a class="btn btn-primary btn-lg"
+                           asp-area=""
+                           asp-controller="Account"
+                           asp-action="LogoutAuth0">
+                            Logg ut
+                        </a>
                     </li>
-                    <li class="navbar-link"><a class="btn btn-primary btn-lg" asp-area="" asp-controller="Account" asp-action="DokumentOversikt">Dokumentoversikt</a></li>
+                    <li class="mainmenu"><a asp-area="" asp-controller="Account" asp-action="UserForm">Signer dokument</a></li>
+                    <li class="mainmenu"><a asp-area="" asp-controller="Account" asp-action="DokumentOversikt">Dokumentoversikt</a></li>
 
                 </ul>
             </div>

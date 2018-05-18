@@ -1,5 +1,6 @@
 @model IEnumerable<BachelorMVC.Models.Signeringsoppdrag>
 
+
 @{
     Layout = "_signedInLayout";
 }
@@ -11,37 +12,52 @@
 }
 else
 {
-    <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="jumbotron text-center">
+                <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
+            </div>
+        </div>
+    </div>
 
 }
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
-<link rel="stylesheet" type="text/css" href="~/css/site.css">
-<script src="~/js/userform.js"></script>
-
-<!-- for each dokument 
+<!-- for each dokument
 lag dokumentboks-->
-<section id="dokumentoversikt">
 
-@foreach (var oppdrag in Model)
-{
-<!-- sample dokumentboks -->
-<section class="document-container">
-    <img src="" />
-    <span>Last ned</span>
-    <div>@oppdrag.dokument.filnavn</div>
-    <select>
-        <option value="to-signing">Til signering</option>
-        <option value="change-signing">Endre</option>
-        <option value="delete-signing">Slett</option>
-        <option value="download">Last ned</option>
-    </select>
-</section>
-}
+    @foreach (var oppdrag in Model)
+    {
+        <!-- sample dokumentboks -->
+        <section class="document-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4">bilde*<img src="" /></div>
+                    <div class="col-xs-8">
+                        <div class="row">
+                            <div class="col-md-4 col-md-push-8">
+                                <div class="styled-select blue">
 
-</section>
+                                    <select>
+                                        <option value="to-signing">Til signering</option>
+                                        <option value="change-signing">Endre</option>
+                                        <option value="delete-signing">Slett</option>
+                                        <option value="download">Last ned</option>
+                                    </select>
+                                </div>
+                                </div>
+
+                                <div class="col-md-8 col-md-pull-4">
+                                    <div>@oppdrag.dokument.filnavn</div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+
 
 
 
