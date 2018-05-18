@@ -25,9 +25,9 @@
                 <form id="file-upload-form" enctype="multipart/form-data" method="post">
                     <input type="file" id="input-upload" value="Velg dokument for signering">
                     <label for="input-upload" id="label-input-upload">
-                        <span class="btn btn-primary btn-lg">Velg dokument for signering</span>
+                        <span class="btn btn-primary btn-lg" id="transit-status">Velg dokument for signering</span>
                     </label>
-                    <div id="transit-status"><br />     </div>
+                    <img hidden id="transit-status-icon" src="~/images/green_tick.png" />
                 </form>
             </div>
         </div>
@@ -48,6 +48,12 @@
                         <input type="radio" class="sign-method-radio" value="electronicid" name="sign-method" />
                         <span>Elektronisk penn</span>
                         <input type="radio" class="sign-method-radio" value="touch" name="sign-method" />
+                        <span id="link-learn-more" onclick="ShowModalLearnMore()"><a href="#">Lær mer</a></span>
+                    </div>
+
+                    <div id="learn-more" hidden>
+                        <p>Info om e-signatur</p>
+                        <p>Info om elektronisk penn</p>
                     </div>
 
 
@@ -64,15 +70,14 @@
                         </div>
                     </div>
 
-
-                    <input class="submitButton" type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send" />
+                    <span id="button-create-signevent-container"><input class="submitButton" id="button-create-signevent" type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send"/></span>
                 </div>
             </div>
         </form>
     </div>
 </section>
 
-
+<!--
 <dl>
         @foreach (var claim in User.Claims)
         {
@@ -82,7 +87,7 @@
 
         <dd> @ViewBag.testtext</dd>
     </dl>
-
+-->
 
 
 
@@ -90,6 +95,7 @@
     todo: flytt til ekstern .js -->
 <script>
     $(document).ready(function () {
+
         
         $("#input-upload").change(function () {
             var formData = new FormData();
@@ -103,11 +109,22 @@
                 type: "POST",
                 url: '/Home/Upload',
                 data: formData,
-                dataType: 'json',
                 contentType: false,
                 processData: false,
                 complete: function (data) {
-                    $("#transit-status").html("Dokument ble sendt");
+                    $("#transit-status").html("Dokument er klar");
+                    $('#transit-status-icon').show();
+                    $('#transit-status').hover(
+                        function() {
+                            let $this = $(this);
+                            $this.data('Dokument er klar', $this.text());
+                            $this.text("Velg dokument for signering");
+                        },
+                        function() {
+                            let $this = $(this);
+                            $this.text($this.data('Dokument er klar'));
+                        },
+                    );
                     document.getElementById("button-create-signevent").disabled = false;
 
                 }
@@ -115,4 +132,8 @@
         });
     })
 
+/*
+$("#button-create-signevent-container").click(function() {
+    alert( "Handler for .click() called." );
+  });*/
 </script>

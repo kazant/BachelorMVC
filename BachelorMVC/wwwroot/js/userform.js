@@ -7,7 +7,6 @@ var emailInputs = [];
 function removeLastInput() {
     emailInputs.pop();
     populateEmails();
-    console.log(emailInputs);
 }
 
 //Fjern spesifikk epost-input
@@ -17,7 +16,6 @@ function removeInputAt(index) {
     } else  {
         emailInputs.splice(index, 1);
     }
-    console.log(emailInputs);
     populateEmails();
 }
 
@@ -43,7 +41,6 @@ function addInput() {
     container.appendChild(del);
     */emailInputs.push(input);
 
-    console.log(emailInputs);
     populateEmails();
 }
 
@@ -58,7 +55,6 @@ function populateEmails() {
 
 function getSignMethod() {
     var radios = document.getElementsByClassName("sign-method-radio");
-    alert(radios);
     for (let radio of radios) {
         if(radio.checked) {
             return radio.value;
@@ -72,6 +68,13 @@ function validated() {
     let userFile = document.getElementById("input-upload");
     let selfsignChk = document.getElementById("checkbox-self-sign");
     let emails = document.getElementsByClassName("inputFields");
+
+    //sjekk om fil er lastet opp
+    if(userFile.files.length === 0) {
+        alert("Du må laste opp en fil");
+        return false;
+    }
+
     //sjekk MIME type
     if(!(userFile.files[0].type === "application/pdf")) {
         alert("feil filtype");
@@ -91,7 +94,10 @@ function validated() {
         return false;
     }
 
-    //sjekk epost gyldighet, kan muligens bruke input type email
-    
     return true;
 }
+
+function ShowModalLearnMore() {
+    document.getElementById("learn-more").hidden = false;
+}
+

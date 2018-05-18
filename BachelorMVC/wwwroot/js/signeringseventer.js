@@ -23,7 +23,6 @@ function OpprettSigneringsOppdrag(url) {
         $.ajax({
         type: 'POST',
         data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn, signeringsmetode: signeringsmetode},
-        dataType: 'json',
         url: url,
         traditional: true,
         success: function (data) {

@@ -40,6 +40,11 @@
 img {
     margin-top:20px;
 }
+
+#transit-status-icon {
+    margin: 0 0 0 1em;
+}
+
 .btn-primary {
     border-radius: 10px;
     display: inline-block;

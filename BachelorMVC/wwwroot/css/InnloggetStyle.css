@@ -1,6 +1,4 @@
-﻿body {
-
-}
+﻿
 
 .flex-container {
     height: auto;
@@ -28,4 +26,23 @@
     margin-top: 10px;
     border: 1px solid black;
     padding: 15px;
+}
+
+
+#transit-status {
+    margin-top: 8px;
+}
+
+
+#button-create-signevent-container {
+    padding: 15px;
+}
+
+#learn-more {
+    text-decoration: underline;
+    font-weight: bold;
+    margin: 0 0 0 1em;
+    color: #012f53;
+    background: #eeeeee;
+    border-radius: 2em;
 }
