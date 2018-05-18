@@ -216,8 +216,7 @@ namespace BachelorMVC.Controllers {
         public void WriteKunde(string[] emails) 
         {
             List<string> nyeKunder = new List<string>(emails);
-            Console.WriteLine(nyeKunder);
-            Console.ReadLine();
+
         //spør etter eposter i databasen, hvis den ikke finnes, legg i "todolisten"
         using(MySqlCommand cmd = new MySqlCommand())
             {

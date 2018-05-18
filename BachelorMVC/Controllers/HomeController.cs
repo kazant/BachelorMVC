@@ -163,7 +163,6 @@ namespace BachelorMVC.Controllers
 
                 using (var fileStream = new FileStream(fileName, FileMode.Create))
                 {
-                    Console.Write(file);
                     file.CopyTo(fileStream);
                 }
             }
