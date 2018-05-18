@@ -86,9 +86,8 @@ namespace BachelorMVC.Controllers {
             return View ("NotAuthorized");
         }
 
-        //Henter JSON Resultat utifra spørring (nickname = 0)
-        public JsonResult getAuth02 () {
-            //var client = new RestClient("https://document.eu.auth0.com/api/v2/users?q=godkjent%3A%221%22&search_engine=v2");
+        //Henter alle brukere
+        public JsonResult getAlleBrukere () {
             var client = new RestClient (" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%221%22&search_engine=v2");
             var request = new RestRequest (Method.GET);
             request.AddHeader ("authorization", HttpHeaderValue
@@ -102,7 +101,7 @@ namespace BachelorMVC.Controllers {
         }
 
         //Henter JSON Resultat utifra spørring (nickname = 0)
-        public JsonResult getAuth0 () {
+        public JsonResult getIkkeGodkjenteKunder () {
             //var client = new RestClient("https://document.eu.auth0.com/api/v2/users?q=godkjent%3A%220%22&search_engine=v2");
             var client = new RestClient (" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%220%22&search_engine=v2");
             var request = new RestRequest (Method.GET);
@@ -120,7 +119,7 @@ namespace BachelorMVC.Controllers {
         [Microsoft.AspNetCore.Authorization.Authorize]
         public ActionResult AdminUserListForm () {
             if (sjekkAutentisering () == "admin") {
-                JsonResult myobjs = getAuth0 ();
+                JsonResult myobjs = getIkkeGodkjenteKunder();
                 List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (myobjs.Value.ToString ());
 
                 return View ("AdminUserListForm", myobj);
@@ -133,7 +132,7 @@ namespace BachelorMVC.Controllers {
         public ActionResult AdminAlleBrukere () {
 
             if (sjekkAutentisering () == "admin") {
-                JsonResult myobjs = getAuth02 ();
+                JsonResult myobjs = getAlleBrukere();
                 List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (myobjs.Value.ToString ());
                 return View ("AdminAlleBrukere", myobj);
 
