@@ -323,4 +323,59 @@ a img {
 .red:hover {
     background: #d12222 !important;
 }
+/*dokumentOversikt */
 
+
+/* -------------------- Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
+/* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
+.styled-select {
+    border-radius: 10px;
+    display: inline-block;
+    padding: 14px 28px 13px 28px;
+    line-height: 1;
+    border: 2px solid #012f53;
+    font-family: "Raleway", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.select-selected {
+    color: #ffffff;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    cursor: pointer;
+    user-select: none;
+}
+.select option {
+    position: absolute;
+    background-color: DodgerBlue;
+    top: 100%;
+    height: 34px;
+    width: 240px;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+.styled-select select {
+    background: transparent;
+    border: none;
+    /* If you add too much padding here, the options won't show in IE */
+}
+
+    .styled-select.slate {
+        height: 34px;
+        width: 240px;
+    }
+
+        .styled-select.slate select {
+            border: 1px solid #ccc;
+            font-size: 16px;
+            height: 304px;
+            width: 268px;
+        }
+
+
+
+/* slutt dokumentOversikt*/
