@@ -3,14 +3,13 @@
 @{
     ViewData["Title"] = "KontaktOss";
 }
-
 @if (User.Claims.Count() == 0)
 {
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 else
 {
-    Layout = "~/Views/Shared/_signedInAbout.cshtml";
+    Layout = "~/Views/Shared/_userSignedIn.cshtml";
 
 
 }
