@@ -58,7 +58,7 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult KontaktOss()
         {
             ViewData["Message"] = "Your contact page.";
             return View();

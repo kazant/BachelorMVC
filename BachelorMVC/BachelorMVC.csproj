@@ -6,6 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <Compile Remove="Services\**" />
+    <Content Remove="Migrations\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Migrations\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Assently.Client" Version="4.3.0" />
     <PackageReference Include="Auth0-ASPNET" Version="2.1.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -33,9 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="Persistence\Dokumenter\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
