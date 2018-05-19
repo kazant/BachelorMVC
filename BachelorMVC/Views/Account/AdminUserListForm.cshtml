@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<BachelorMVC.Models.Testbruker>
 
 @{
-    Layout = "_signedInLayout";
+    Layout = "_adminSignedIn";
 }
 
 @{
-    ViewData["Title"] = "Liste over brukere";
+    ViewData["Title"] = "Brukere";
 }
 
 @if (User.Claims.Count() == 0)
@@ -19,21 +19,11 @@ else
 
 }
 
-<dl>
-    @foreach (var claim in User.Claims)
-    {
-        <dt>@claim.Type</dt>
-        <dd>@claim.Value</dd>
-    }
-
-    <dd> @ViewBag.testtext</dd>
-</dl>
-
 
 <h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
 
-<p>Use this area to provide additional information.</p>
+
+<p>Liste over ikke godkjente brukere.</p>
 
 <table class="table table-bordered table-hover">
     <tr>
@@ -71,7 +61,7 @@ else
                 @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.user_id }, null)
             </td>
             <td>
-                <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.user_id }, null)</button>
+                <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.user_id , view = "AdminUserListForm"}, null)</button>
             </td>
         </tr>
     }

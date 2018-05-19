@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<BachelorMVC.Models.Testbruker>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 ﻿<link rel="stylesheet" type="text/css" href="~/css/InnloggetStyle.css">
 <link rel="stylesheet" type="text/css" href="~/css/site.css">
 
 <script src="~/js/userform.js"></script>
 @{
-    Layout = "_signedInLayout";
+    Layout = "_userSignedIn";
 }
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="~/js/signeringseventer.js"></script>
@@ -73,24 +74,11 @@
 </section>
 
 
-<dl>
-        @foreach (var claim in User.Claims)
-        {
-            <dt>@claim.Type</dt>
-            <dd>@claim.Value</dd>
-        }
-
-        <dd> @ViewBag.testtext</dd>
-    </dl>
-
-
-
-
 <!--##################################
     todo: flytt til ekstern .js -->
 <script>
     $(document).ready(function () {
-        
+
         $("#input-upload").change(function () {
             var formData = new FormData();
             var totalFiles = document.getElementById("input-upload").files.length;
