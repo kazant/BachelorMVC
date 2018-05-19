@@ -136,16 +136,11 @@ namespace BachelorMVC.Controllers {
 
         //Setter godkjent (Nickname = 1) på brukere
         public async Task<ActionResult> setGodkjent (string id) {
-            //gi verdi til nickname
-            var client = new RestClient ("https://document.eu.auth0.com/api/v2/users/" + id);
-            var request = new RestRequest (Method.PATCH);
-            request.AddHeader ("content-type", "application/json");
-            request.AddHeader("authorization", HttpHeaderValue);
-            request.AddParameter ("application/json", "{\"user_metadata\": {\"nickname\": \"1\"}}", ParameterType.RequestBody);
-            IRestResponse response = client.Execute (request);
+            string parameter = "{\"user_metadata\": {\"nickname\": \"1\"}}";
+            patchAuth0(id, parameter);
             DBController.SetGodkjent(id);
-
             await Task.Run (() => waitTimer ());
+
             return RedirectToAction ("AdminUserListForm");
         }
 
@@ -163,21 +158,27 @@ namespace BachelorMVC.Controllers {
             return RedirectToAction (view);
         }
 
+        //Metode for å oppdatere firma
         [HttpPost]
         public async Task<ActionResult> oppdaterFirma(string idBruker, string firmaNavn)
         {
-            //Oppdaterer firma
+            string parameter = "{\"user_metadata\": {\"Firma\": \"" + firmaNavn + "\"}}";
+            patchAuth0(idBruker, parameter);
+            await Task.Run(() => waitTimer());
+
+            return RedirectToAction("AdminAlleBrukere");
+        }
+
+        //Metode for patching (type oppdatering som parameter med id på bruker)
+        public async void patchAuth0(string idBruker, string parameter)
+        {
             var client = new RestClient("https://document.eu.auth0.com/api/v2/users/" + idBruker);
             var request = new RestRequest(Method.PATCH);
             request.AddHeader("content-type", "application/json");
             request.AddHeader("authorization", HttpHeaderValue);
-            request.AddParameter("application/json", "{\"user_metadata\": {\"Firma\": \""+ firmaNavn + "\"}}", ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);
-
-            await Task.Run(() => waitTimer());
-            return RedirectToAction("AdminAlleBrukere");
+            request.AddParameter("application/json", parameter, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);       
         }
-
         //Bruker for å sette en await (auth0 er treig)
         public void waitTimer () {
             Thread.Sleep (2000);
