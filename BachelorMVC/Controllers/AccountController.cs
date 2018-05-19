@@ -90,12 +90,9 @@ namespace BachelorMVC.Controllers {
         public JsonResult getAlleBrukere () {
             var client = new RestClient (" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%221%22&search_engine=v2");
             var request = new RestRequest (Method.GET);
-            request.AddHeader ("authorization", HttpHeaderValue
-);
+            request.AddHeader ("authorization", HttpHeaderValue);
             IRestResponse response = client.Execute (request);
-
             List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (response.Content);
-
             return Json (response.Content);
 
         }
@@ -105,14 +102,10 @@ namespace BachelorMVC.Controllers {
             //var client = new RestClient("https://document.eu.auth0.com/api/v2/users?q=godkjent%3A%220%22&search_engine=v2");
             var client = new RestClient (" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%220%22&search_engine=v2");
             var request = new RestRequest (Method.GET);
-            request.AddHeader("authorization", HttpHeaderValue
-);
+            request.AddHeader("authorization", HttpHeaderValue);
             IRestResponse response = client.Execute (request);
-
             List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (response.Content);
-
             return Json (response.Content);
-
         }
 
         //ActionResult for UserList view'et
@@ -121,7 +114,6 @@ namespace BachelorMVC.Controllers {
             if (sjekkAutentisering () == "admin") {
                 JsonResult myobjs = getIkkeGodkjenteKunder();
                 List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (myobjs.Value.ToString ());
-
                 return View ("AdminUserListForm", myobj);
             }
 
@@ -148,8 +140,7 @@ namespace BachelorMVC.Controllers {
             var client = new RestClient ("https://document.eu.auth0.com/api/v2/users/" + id);
             var request = new RestRequest (Method.PATCH);
             request.AddHeader ("content-type", "application/json");
-            request.AddHeader("authorization", HttpHeaderValue
-);
+            request.AddHeader("authorization", HttpHeaderValue);
             request.AddParameter ("application/json", "{\"user_metadata\": {\"nickname\": \"1\"}}", ParameterType.RequestBody);
             IRestResponse response = client.Execute (request);
             DBController.SetGodkjent(id);
@@ -159,18 +150,17 @@ namespace BachelorMVC.Controllers {
         }
 
         //Sletter valgt bruker
-        public async Task<ActionResult> deleteUser (string id) {
+        public async Task<ActionResult> deleteUser (string id, string view) {
             //gi verdi til nickname
             var client = new RestClient ("https://document.eu.auth0.com/api/v2/users/" + id);
             var request = new RestRequest (Method.DELETE);
             request.AddHeader ("content-type", "application/json");
             request.AddHeader("authorization", HttpHeaderValue);
-            //request.AddParameter("application/json", "{\"user_metadata\": {\"nickname\": \"1\"}}", ParameterType.RequestBody);
             IRestResponse response = client.Execute (request);
             DBController.DeleteOppretter(id);
-
             await Task.Run (() => waitTimer ());
-            return RedirectToAction ("AdminUserListForm");
+
+            return RedirectToAction (view);
         }
 
         //Bruker for å sette en await (auth0 er treig)

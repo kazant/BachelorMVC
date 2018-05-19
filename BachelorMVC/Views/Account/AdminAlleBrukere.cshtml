@@ -1,19 +1,18 @@
 ﻿@model IEnumerable<BachelorMVC.Models.Testbruker>
 
 @{
-    Layout = "_signedInLayout";
+    Layout = "_adminSignedIn";
 }
 
 @{
-    ViewData["Title"] = "Liste over brukere";
+    ViewData["Title"] = "Brukere";
 }
 <h2>Velkommen @User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value</h2>
 
 
 <h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>Liste over alle brukere.</p>
 
 <table class="table table-bordered table-hover">
     <tr>
@@ -61,7 +60,7 @@
                     </td>
                 }
             <td>
-                <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.user_id }, null)</button>
+                <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.user_id , view = "AdminAlleBrukere"}, null)</button>
             </td>
             <td>
                 @item.user_metadata.antallSigneringer

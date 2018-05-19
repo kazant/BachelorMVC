@@ -7,7 +7,7 @@
 
 <script src="~/js/userform.js"></script>
 @{
-    Layout = "_signedInLayout";
+    Layout = "_userSignedIn";
 }
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="~/js/signeringseventer.js"></script>
@@ -71,19 +71,6 @@
         </form>
     </div>
 </section>
-
-
-<dl>
-        @foreach (var claim in User.Claims)
-        {
-            <dt>@claim.Type</dt>
-            <dd>@claim.Value</dd>
-        }
-
-        <dd> @ViewBag.testtext</dd>
-    </dl>
-
-
 
 
 <!--##################################

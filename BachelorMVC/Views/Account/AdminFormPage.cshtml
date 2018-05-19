@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BachelorMVC.Models.Testbruker>
 
 @{
-    Layout = "_signedInLayout";
+    Layout = "_adminSignedIn";
 }
 
 @{
@@ -11,7 +11,7 @@
 
 
 <h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
+
 
 <button class="btn btn-default">
     @Html.ActionLink("Liste over ikke godkjente brukere", "AdminUserListForm", "Account")
