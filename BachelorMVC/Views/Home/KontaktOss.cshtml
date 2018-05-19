@@ -1,104 +1,109 @@
-@model IEnumerable<BachelorMVC.Models.Testbruker>
+ï»¿@model IEnumerable<BachelorMVC.Models.Testbruker>
 
-@{
+    @{
     ViewData["Title"] = "KontaktOss";
-}
-@if (User.Claims.Count() == 0)
+    }
+    @if (User.Claims.Count() == 0)
 {
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 else
 {
     Layout = "~/Views/Shared/_userSignedIn.cshtml";
-
-
 }
-<section class="content topspace">
-    <div class="row">
-        <div class="col-md-6 order-md-1 text-left text-md-left pr-md-5 ">
-            <h1 class="mb-3 bd-text-purple-bright">INVENTUM DOKUMENTPARTNER ECIT</h1><br />
-            <p>
-                Fra å være en bedrift som utelukkende solgte og drev service av kopimaskiner, samt Copyshop, har Dokumentpartner Ecit utviklet seg til å bli en totalleverandør av alt til kontoret. Vi leverer et bredt spekter av digitale dokumentløsninger, alt innen kontorrekvisita, IT-løsninger, hardware, software, ASP, frankeringsmaskiner, kaffemaskiner, AV-utstyr og kontormøbler. Med lang erfaring med Xerox maskiner og service, de beste IT konsulentene, dyktige selgere og spesialutdannede serviceteknikere, skaper vi trygghet for kunden og garanterer for driftssikkerheten. Hovedkontoret vårt ligger i Hønefoss, med avdelingskontorer i Drammen og på Gran.
+    <section class="content topspace">
+        <div class="row">
+            <div class="col-md-6 order-md-1 text-left text-md-left pr-md-5 ">
+                <h1 class="mb-3 bd-text-purple-bright">INVENTUM DOKUMENTPARTNER ECIT</h1><br />
+                <p>
+                    Fra Ã¥ vÃ¦re en bedrift som utelukkende solgte og drev service av kopimaskiner,
+                    samt Copyshop, har Dokumentpartner Ecit utviklet seg til Ã¥ bli en totalleverandÃ¸r av alt
+                    til kontoret. Vi leverer et bredt spekter av digitale dokumentlÃ¸sninger, alt innen
+                    kontorrekvisita, IT-lÃ¸sninger, hardware, software, ASP, frankeringsmaskiner, kaffemaskiner,
+                    AV-utstyr og kontormÃ¸bler. Med lang erfaring med Xerox maskiner og service, de beste IT
+                    konsulentene, dyktige selgere og spesialutdannede serviceteknikere, skaper vi trygghet for
+                    kunden og garanterer for driftssikkerheten. Hovedkontoret vÃ¥rt ligger i HÃ¸nefoss, med
+                    avdelingskontorer i Drammen og pÃ¥ Gran.
 
-            </p>
-            <br />
-            <a class="btn btn-primary btn-lg" href="http://dokumentpartner.no/">Les mer om Dokumentpartner</a>
-            <br />
+                </p>
+                <br />
+                <a class="btn btn-primary btn-lg" href="http://dokumentpartner.no/">Les mer om Dokumentpartner</a>
+                <br />
 
-        </div>
-        <div class="col-md-6 order-md-1 text-left text-md-left pr-md-5 ">
-            <img class="img img-responsive" src="~/images/kontaktbilde.png" alt="">
-        </div>
-    </div>
-</section>
-<div class="container topspace">
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <div class="jumbotron text-center">
-                <h1 class="mb-3 bd-text-purple-brigh">Kontaktinformasjon</h1>
+            </div>
+            <div class="col-md-6 order-md-1 text-left text-md-left pr-md-5 ">
+                <img class="img img-responsive" src="~/images/kontaktbilde.png" alt="">
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4 text-center">
-            <div class="feature feature-icon-large" vht="parent">
-                <!--
-                <div class="">
-                    <p><i class="fa fa-map-marker style=""></i></p>
+    </section>
+    <div class="container topspace">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="jumbotron text-center">
+                    <h1 class="mb-3 bd-text-purple-brigh">Kontaktinformasjon</h1>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 text-center">
+                <div class="feature feature-icon-large" vht="parent">
+                    <!--
+                    <div class="">
+                        <p><i class="fa fa-map-marker style=""></i></p>
+                    </div>
+                            -->
+                    <div class="tekst">
+                        <h3>Adresse</h3>
+
+                        <address>
+                            Hvervenmoveien 49<br />
+                            3511 HÃ¸nefoss<br />
+                        </address>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 text-center">
+                <div class="feature feature-icon-large" vht="parent">
+                    <!--
+                    <div class="">
+                        <p><i class="fa fa-phone" style=""></i></p>
+                    </div>
                         -->
-                <div class="tekst">
-                    <h3>Adresse</h3>
+                    <div class="tekst">
+                        <h3>Telefon</h3>
 
-                    <address>
-                        Hvervenmoveien 49<br />
-                        3511 Hønefoss<br />
-                    </address>
+                        <address>
+                            <a href="tel:+4732181530"> 32 18 15 30</a>
+                        </address>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-sm-4 text-center">
-            <div class="feature feature-icon-large" vht="parent">
-                <!--
-                <div class="">
-                    <p><i class="fa fa-phone" style=""></i></p>
-                </div>
+            <div class="col-sm-4 text-center">
+                <div class="feature feature-icon-large">
+                    <!--
+                    <div class="">
+                        <p><i class="fa fa-envelope" style=""></i></p>
+                    </div>
                     -->
-                <div class="tekst">
-                    <h3>Telefon</h3>
+                    <div class="tekst">
+                        <h3>E-post</h3>
+                        <address>
+                            <a href="mailto:post@dokumentpartner.no">Post@dokumentpartner.no</a><br />
+                        </address>
 
-                    <address>
-                        <a href="tel:+4732181530"> 32 18 15 30</a>
-                    </address>
+                    </div>
                 </div>
             </div>
+            <div class="clearfix"></div>
         </div>
-        <div class="col-sm-4 text-center">
-            <div class="feature feature-icon-large">
-                <!--
-                <div class="">
-                    <p><i class="fa fa-envelope" style=""></i></p>
-                </div>
-                -->
-                <div class="tekst">
-                    <h3>E-post</h3>
-                    <address>
-                        <a href="mailto:post@dokumentpartner.no">Post@dokumentpartner.no</a><br />
-                    </address>
-
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <iframe width="100%"
+                        height="450"
+                        frameborder="0" style="border:0"
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRML5RzKR-tgiH0_HYigSW1TwB0mOWTpk &q=Hvervenmoveien 49+3511 hÃ¸nefoss" allowfullscreen></iframe>
             </div>
         </div>
-        <div class="clearfix"></div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <iframe width="100%"
-                    height="450"
-                    frameborder="0" style="border:0"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRML5RzKR-tgiH0_HYigSW1TwB0mOWTpk &q=Hvervenmoveien 49+3511 hønefoss" allowfullscreen></iframe>
-        </div>
-    </div>
-</div>
 
