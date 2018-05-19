@@ -163,6 +163,21 @@ namespace BachelorMVC.Controllers {
             return RedirectToAction (view);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> oppdaterFirma(string idBruker, string firmaNavn)
+        {
+            //Oppdaterer firma
+            var client = new RestClient("https://document.eu.auth0.com/api/v2/users/" + idBruker);
+            var request = new RestRequest(Method.PATCH);
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("authorization", HttpHeaderValue);
+            request.AddParameter("application/json", "{\"user_metadata\": {\"Firma\": \""+ firmaNavn + "\"}}", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            await Task.Run(() => waitTimer());
+            return RedirectToAction("AdminAlleBrukere");
+        }
+
         //Bruker for å sette en await (auth0 er treig)
         public void waitTimer () {
             Thread.Sleep (2000);

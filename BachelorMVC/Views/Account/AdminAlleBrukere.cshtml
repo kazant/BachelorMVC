@@ -47,7 +47,17 @@
                 @item.email
             </td>
             <td>
-                @item.user_metadata.firma
+
+                @using (Html.BeginForm("oppdaterFirma", "Account", FormMethod.Post))
+                {
+                    <input type="text" name="firmaNavn" id="firmaNavn" value="@item.user_metadata.firma"/>
+                    <input type="hidden" name="idBruker" id="idBruker" value="@item.user_id"/>
+                    <button onlick="oppdaterFirmaNavn" type="submit">
+                        <i class="fas fa-check"/>
+                    </button>
+                }
+
+                
             </td>
             
                 @if(@item.user_metadata.nickname == "0") {
@@ -69,3 +79,13 @@
     }
 
 </table>
+
+<script>
+
+    function oppdaterFirmaNavn() {
+        var nyttFirma = document.getElementById("firmaNavn").value;
+        document.getElementById("firmaNavn").innerHTML = nyttFirma;
+    }
+    
+</script>
+
