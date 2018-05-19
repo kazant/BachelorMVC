@@ -237,7 +237,6 @@ a img {
 #navn-signeringsoppdrag,
 #buttons-members{
     border: 0px solid #003050;
-    padding: 1.5em 0em;
 }
 .radio-buttons-signaturetypes {
     font-family: "Roboto", sans-serif;
@@ -298,6 +297,7 @@ a img {
         outline: 0;
         background: #012f53;
         width: 100%;
+        margin: 15px 0;
         border: 0;
         padding: 15px;
         color: #FFFFFF;
