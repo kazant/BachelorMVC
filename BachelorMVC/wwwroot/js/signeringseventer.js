@@ -54,7 +54,6 @@ function uploadDocument() {
         type: 'POST',
         url: '@Url.Action("Upload", "Home")',
         data: formData,
-        dataType: 'json',
         contentType: 'false',
         processData: 'false',
         cache: 'false',
@@ -67,4 +66,21 @@ function uploadDocument() {
 
     });
 
+}
+
+function DeleteSigneringsOppdrag(id) {
+    console.log(id);
+    
+    $.ajax({
+        type: 'POST',
+        url: '@Url.Action("DeleteSigningCase", "Home")',
+        data: { id: id },
+        contentType: 'false',
+        processData: 'false',
+        traditional: true,
+        cache: 'false',
+        success: function (data) {
+            alert("sendt");
+        }
+    });
 }

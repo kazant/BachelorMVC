@@ -23,6 +23,8 @@ namespace BachelorMVC.Controllers
         string navn;
         int antallSign;
         private DBController DBController = new DBController ();
+        private AssentlyClient client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "OMw4uXqu1QgCX_ESA8XpI00Z7EKyIlypwgrlv-qu");
+
         public string HttpHeaderValue = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik9UUTJOelJDT1VRNVF6Y3pRakk1TnpReFFUTkZOMEkwTmt" +
                 "ZMU56YzBOa1V3TVVFMlJVUXlSQSJ9.eyJpc3MiOiJodHRwczovL2RvY3VtZW50LmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJKbGk5SU0wQXF1QTdYZWlDcW5pcmhPd0FYRmcxSDY" +
                 "4UUBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9kb2N1bWVudC5ldS5hdXRoMC5jb20vYXBpL3YyLyIsImlhdCI6MTUyMzYxMjg1MiwiZXhwIjoxMDUyMzYxMjg1MiwiYXpwIjoiSmx" +
@@ -88,7 +90,6 @@ namespace BachelorMVC.Controllers
                 return; 
             }
             
-            var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "OMw4uXqu1QgCX_ESA8XpI00Z7EKyIlypwgrlv-qu");
 
             //En CreateCaseModel skal bestå av et dokument, en eller flere brukere og annen info
             CreateCaseModel model = new CreateCaseModel();
@@ -169,21 +170,44 @@ namespace BachelorMVC.Controllers
 
         }
 
-        public void LastNedSignertDokument()
+        [HttpPost]
+        public void DeleteSigningCase(string id)
         {
-            var client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "E76l9Vt91QiU6AJTZPX4vzXXjloVWpVa4vib4mio");
+            Guid guid = new Guid(id);
+            client.DeleteCase(guid);
+        }
 
-            //Må her hente en eksisterende CaseModel fra Assently ved hjelp av et GUID
-            CaseModel caseModel = null;  //client.GetCase(Guid.Parse(caseId guid));
+        public FileContentResult DownloadLink(string id)
+        {
+            Guid guid = new Guid(id);
+            String stringGuid = guid.ToString("D");
+            Guid formattedGuid = new Guid(stringGuid);
+
+            CaseModel caseModel = client.GetCase(guid);
 
             if (caseModel.Status == CaseStatus.Sent)
             {
+                var filnavn = DBController.GetDokument(id).filnavn;
 
                 var receipt = caseModel.Documents.Where(d => d.Type == DocumentType.Original).Single();
-                var stream = client.GetDocumentData(Guid.Parse(receipt.Id), ".\\Controllers\\debug_attest.pfd");
+                List<byte> fileContent = new List<byte>();
+                byte[] returnedFile;
+
+                using (Stream stream = client.GetDocumentData(formattedGuid, receipt.Id))
+                {
+                    StreamReader reader = new StreamReader(stream);
+                    string payload = reader.ReadToEnd();
+                    returnedFile = System.Text.Encoding.UTF8.GetBytes(payload);
+                }
+                //byte[] returnedFile2 = new byte[fileContent.Count()];
+                //fileContent.CopyTo(returnedFile2);
+                return File(returnedFile, System.Net.Mime.MediaTypeNames.Application.Pdf, filnavn);
 
 
             }
+
+            return null;
+
 
         }
         public void OppdaterAntallOppdragTeller()
