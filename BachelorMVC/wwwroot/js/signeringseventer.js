@@ -16,7 +16,6 @@ function OpprettSigneringsOppdrag(url) {
         //Hvis bruker selv ønsker å signere dokumentet
         let chkSignereSelv = document.getElementById('signere-selv');
         if(chkSignereSelv.checked) {
-            alert("");
             emails += chkSignereSelv.value + ",";
         }
 

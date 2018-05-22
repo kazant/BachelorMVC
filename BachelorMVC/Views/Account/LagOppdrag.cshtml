@@ -76,7 +76,9 @@
                         </div>
                     </div>
 
-                    <span id="button-create-signevent-container"><input class="submitButton" id="button-create-signevent" type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send"/></span>
+                    <span id="button-create-signevent-container">
+                        <input class="submitButton" id="button-create-signevent" type="button" onclick="OpprettSigneringsOppdrag('@Url.Action("OpprettCaseOgSendEpost", "Home")')" value="Send"/>
+                    </span>
                 </div>
             </div>
         </form>
@@ -102,7 +104,6 @@
 <script>
     $(document).ready(function () {
 
-        
         $("#input-upload").change(function () {
             var formData = new FormData();
             var totalFiles = document.getElementById("input-upload").files.length;

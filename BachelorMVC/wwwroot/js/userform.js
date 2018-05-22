@@ -66,7 +66,7 @@ function getSignMethod() {
 function validated() {
     //fildocument.getElementById("input-upload").files[0].type
     let userFile = document.getElementById("input-upload");
-    let selfsignChk = document.getElementById("checkbox-self-sign");
+    let selfsignChk = document.getElementById("signere-selv");
     let emails = document.getElementsByClassName("inputFields");
 
     //sjekk om fil er lastet opp
@@ -82,7 +82,7 @@ function validated() {
     }
 
     //sjekk størrelse
-    if((userFile.size > 5000000)) {
+    if((userFile.size > 50000000)) {
         alert("filen er for stor");
         return false;
     }

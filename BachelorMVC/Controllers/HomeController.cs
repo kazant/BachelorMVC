@@ -94,13 +94,14 @@ namespace BachelorMVC.Controllers
             CreateCaseModel model = new CreateCaseModel();
             List<CaseEvent> events = new List<CaseEvent>();
             events.Add(CaseEvent.SignatureAdded);
+            
             //Påkrevd
             model.Id = Guid.NewGuid();
             model.SendSignRequestEmailToParties = true;
             model.SendFinishEmailToParties = true;
             model.SendFinishEmailToCreator = true;
             model.Name = caseNavn;
-            model.NameAlias = "TestAlias";
+            model.NameAlias = "Alias";
             model.EventCallback = new CaseEventSubscription {
                 Events = events,
                 Url = "http://158.36.13.131:52817/DBController/WriteNewSignature"
@@ -155,10 +156,8 @@ namespace BachelorMVC.Controllers
         [HttpPost]
        public void Upload()
         {
-            
             for (int i = 0; i < Request.Form.Files.Count; i++)
             {
-
                 var file = Request.Form.Files[i];
                 var fileName = "./Persistence/Dokumenter/" + System.IO.Path.GetFileName(file.FileName);
 
@@ -167,7 +166,6 @@ namespace BachelorMVC.Controllers
                     file.CopyTo(fileStream);
                 }
             }
-
         }
 
         [HttpPost]
