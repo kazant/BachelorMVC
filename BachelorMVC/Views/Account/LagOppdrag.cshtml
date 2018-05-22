@@ -45,10 +45,15 @@
                     </div>
 
                     <div id="radio-buttons-signaturetypes" class="radio-buttons-signaturetypes">
-                        <span>E-Signatur</span>
-                        <input type="radio" class="sign-method-radio" value="electronicid" name="sign-method" />
-                        <span>Elektronisk penn</span>
-                        <input type="radio" class="sign-method-radio" value="touch" name="sign-method" />
+                        <div class="sign-method-radio-container">
+                         <span class="sign-method-radio-description">BankID</span>
+                         <input type="radio" class="sign-method-radio" value="electronicid" name="sign-method" />
+                        </div>
+                        <div class="sign-method-radio-container">
+                             <span class="sign-method-radio-description">Elektronisk penn</span>
+                            <input type="radio" class="sign-method-radio" value="touch" name="sign-method" />
+                        </div>
+                        
                         <span id="link-learn-more" onclick="ShowModalLearnMore()"><a href="#">Lær mer</a></span>
                     </div>
 
@@ -60,7 +65,7 @@
 
                     <div id="self-sign" class="radio-buttons-signaturetypes">
                         <span>Signere selv?</span>
-                        <input type="checkbox" id="signere-selv">
+                        <input type="checkbox" id="signere-selv" value=@User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value>
                     </div>
 
                     <div id="buttons-members">

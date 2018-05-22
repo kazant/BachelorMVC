@@ -19,8 +19,7 @@ namespace BachelorMVC.Controllers
     public class HomeController : Controller
     {
 
-        string id;
-        string navn;
+        string id, navn;
         int antallSign;
         private DBController DBController = new DBController ();
         private AssentlyClient client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "OMw4uXqu1QgCX_ESA8XpI00Z7EKyIlypwgrlv-qu");
@@ -121,8 +120,9 @@ namespace BachelorMVC.Controllers
 
                 model.Parties.Add(new PartyModel
                 {
-                    Name = "Erlend",
-                    EmailAddress = Invitasjonsemails[i]
+                    Name = "Signatør-navn",
+                    EmailAddress = Invitasjonsemails[i],
+                    PartyUrl = "https://test.assently.com/c/nobgBHa_1Qi2gNCjBeTGKZK5uwt58yewsHdKNxRD/ETrhBHa_1Qj46B_pHET3CGN8zsYUiItJ80HdH1CP"
                 });
             }
             
@@ -176,6 +176,7 @@ namespace BachelorMVC.Controllers
             Guid guid = new Guid(id);
             client.DeleteCase(guid);
         }
+
 
         public FileContentResult DownloadLink(string id)
         {

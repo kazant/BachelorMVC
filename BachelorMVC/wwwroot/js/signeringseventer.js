@@ -13,6 +13,13 @@ function OpprettSigneringsOppdrag(url) {
                 emails += emailInputs[i].value + ",";
         }
 
+        //Hvis bruker selv ønsker å signere dokumentet
+        let chkSignereSelv = document.getElementById('signere-selv');
+        if(chkSignereSelv.checked) {
+            alert("");
+            emails += chkSignereSelv.value + ",";
+        }
+
         //Hent filnavn
         var dokumentNavn = $('input[type=file]').val().split('\\').pop();
 
@@ -20,19 +27,19 @@ function OpprettSigneringsOppdrag(url) {
 
         if(validated()) {
         //Send oppdrag til backend for videre behandling
-        $.ajax({
-        type: 'POST',
-        data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn, signeringsmetode: signeringsmetode},
-        url: url,
-        traditional: true,
-        success: function (data) {
-            alert("sendt");
-         },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
+            $.ajax({
+            type: 'POST',
+            data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn, signeringsmetode: signeringsmetode },
+            url: url,
+            traditional: true,
+            success: function (data) {
+                alert("sendt");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
 
-        });
+            });
     }
 
 }

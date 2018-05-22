@@ -32,31 +32,22 @@ lag dokumentboks-->
         <section class="document-container" >
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-4">bilde*<img src="" /></div>
+                    <div class="col-xs-4"><img src="~/images/document-icon.png" class="document-icon" width="40" height="40" /></div>
                     <div class="col-xs-8">
                         <div class="row">
                             <div class="col-md-4 col-md-push-8">
 
-                                    <input type="hidden" value='@oppdrag.dokument.Id' class="hidden-DokumentID">
-                                     <div class="dropdown">
-                                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Handlinger
-                                      <span class="caret"></span></button>
-                                      <ul class="dropdown-menu">
-                                        <li><a onclick="DeleteSigneringsOppdrag('@oppdrag.dokument.Id')">Signering</a></li>
-                                        <li><a href="#">Endre</a></li>
-                                        <li><a href="#">Slett</a></li>
-                                        <li><a href="/Home/DownloadLink/@oppdrag.dokument.Id">Click to get file</a></li>
-                                      </ul>
-                                    </div> 
-                                    <!--<select class="@dokumentId">
-                                        <option value="to-signing">Til signering</option>
-                                        <option value="change-signing">Endre</option>
-                                        <span onclick="DeleteSigneringsOppdrag(@oppdrag.dokument.Id)"><option value="delete-signing" >Slett</option></span>
-                                        <option value="download">Last ned</option>
-                                    </select>-->
-
+                                <input type="hidden" value='@oppdrag.dokument.Id' class="hidden-DokumentID">
+                                    <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Handlinger
+                                    <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                    <li><a href="#">Signer</a></li>
+                                    <li><a onclick="DeleteSigneringsOppdrag('@oppdrag.dokument.Id')" style="cursor: pointer">Slett</a></li>
+                                    <li><a href="/Home/DownloadLink/@oppdrag.dokument.Id">Last ned</a></li>
+                                    </ul>
+                                </div> 
                                 </div>
-
                                 <div class="col-md-8 col-md-pull-4">
                                     
                                     <div>@oppdrag.dokument.filnavn</div>

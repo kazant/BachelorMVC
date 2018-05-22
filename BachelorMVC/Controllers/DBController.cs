@@ -172,6 +172,9 @@ namespace BachelorMVC.Controllers {
                 cmd.Parameters.AddWithValue("@AntallSignaturer", antallSignaturer);
                 cmd.Parameters.AddWithValue("@Navn", navn);
                 cmd.Parameters.AddWithValue("@email", email);
+                
+                //todo: url til signering
+                //cmd.Parameters.AddWithValue("@url", url);
                 cmd.ExecuteNonQuery();
             }
         }

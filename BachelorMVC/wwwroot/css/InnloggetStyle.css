@@ -38,6 +38,10 @@
     padding: 15px;
 }
 
+#link-learn-more {
+    text-decoration: underline;
+}
+
 #learn-more {
     text-decoration: underline;
     font-weight: bold;
@@ -45,4 +49,13 @@
     color: #012f53;
     background: #eeeeee;
     border-radius: 2em;
+}
+
+.document-icon {
+    margin: 0;
+}
+
+.sign-method-radio-container {
+    display: inline;
+    margin: 0 1em 0 0;
 }
