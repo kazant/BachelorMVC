@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using BachelorMVC.Models;
-using BachelorMVC.Persistence;
-using BachelorMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Assently.Client;
 using Assently.ServiceModel;

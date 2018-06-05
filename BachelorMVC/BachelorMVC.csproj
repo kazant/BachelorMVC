@@ -45,6 +45,7 @@
 
   <ItemGroup>
     <Folder Include="Persistence\Dokumenter\" />
+    <Folder Include="Utfaset\" />
   </ItemGroup>
 
 </Project>

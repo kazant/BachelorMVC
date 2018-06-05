@@ -11,8 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using BachelorMVC.Persistence;
-using BachelorMVC.Services;
 
 namespace BachelorMVC
 {
