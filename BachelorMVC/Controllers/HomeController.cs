@@ -17,7 +17,7 @@ namespace BachelorMVC.Controllers
     public class HomeController : Controller
     {
 
-        string id, navn;
+        string id;
         int antallSign;
         private DBController DBController = new DBController();
         private AssentlyClient client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "OMw4uXqu1QgCX_ESA8XpI00Z7EKyIlypwgrlv-qu");

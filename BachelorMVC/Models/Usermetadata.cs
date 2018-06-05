@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BachelorMVC.Models
+﻿namespace BachelorMVC.Models
 {
-    public class Usermetadata
+    public class UserMetadata
     {
         public string Godkjent { get; set; }
         public string Firma { get; set; }

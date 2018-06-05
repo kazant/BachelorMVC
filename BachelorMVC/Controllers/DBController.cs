@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MySql.Data;
 using MySql.Data.MySqlClient;
-using client = MySql.Data.MySqlClient;
 using System.Web.Mvc;
 using BachelorMVC.Models;
 
@@ -89,7 +85,7 @@ namespace BachelorMVC.Controllers
 
                 while (reader.Read())
                 {
-                    oppretter.UserMetadata = new Usermetadata();
+                    oppretter.UserMetadata = new UserMetadata();
                     oppretter.UserMetadata.Firma = reader.GetString("firma");
                     oppretter.Email = reader.GetString("email");
 
@@ -165,7 +161,7 @@ namespace BachelorMVC.Controllers
                         {
                             Email = reader.GetString("email"),
                             UserID = "email er ID",
-                            UserMetadata = new Usermetadata
+                            UserMetadata = new UserMetadata
                             {
                                 Godkjent = "todo: nickname",
                                 Firma = reader.GetString("firma"),
