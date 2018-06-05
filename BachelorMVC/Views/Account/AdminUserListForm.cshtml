@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BachelorMVC.Models.Testbruker>
+﻿@model IEnumerable<BachelorMVC.Models.Bruker>
 
 @{
     Layout = "_adminSignedIn";
@@ -49,19 +49,19 @@ else
     {
         <tr>
             <td>
-                @item.user_id
+                @item.UserID
             </td>
             <td>
-                @item.email
+                @item.Email
             </td>
             <td>
-                @item.user_metadata.firma
+                @item.UserMetadata.Firma
             </td>
             <td>
-                @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.user_id }, null)
+                @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.UserID }, null)
             </td>
             <td>
-                <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.user_id , view = "AdminUserListForm"}, null)</button>
+                <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.UserID, view = "AdminUserListForm"}, null)</button>
             </td>
         </tr>
     }

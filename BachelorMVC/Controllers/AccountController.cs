@@ -14,11 +14,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Authentication;
 
-namespace BachelorMVC.Controllers {
+namespace BachelorMVC.Controllers
+{
 
-    public class AccountController : Controller {
+    public class AccountController : Controller
+    {
         private String autString = "";
-        private DBController DBController = new DBController ();
+        private DBController DBController = new DBController();
         public string HttpHeaderValue = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik9UUTJOelJDT1VRNVF6Y3pRakk1TnpReFFUTkZOMEkwTmt" +
                 "ZMU56YzBOa1V3TVVFMlJVUXlSQSJ9.eyJpc3MiOiJodHRwczovL2RvY3VtZW50LmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJKbGk5SU0wQXF1QTdYZWlDcW5pcmhPd0FYRmcxSDY" +
                 "4UUBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9kb2N1bWVudC5ldS5hdXRoMC5jb20vYXBpL3YyLyIsImlhdCI6MTUyMzYxMjg1MiwiZXhwIjoxMDUyMzYxMjg1MiwiYXpwIjoiSmx" +
@@ -39,159 +41,183 @@ namespace BachelorMVC.Controllers {
         // The Authorize attribute requires the user to be authenticated and will
         // kick off the OIDC authentication flow 
         [Microsoft.AspNetCore.Authorization.Authorize]
-        public IActionResult loginForm () {
+        public IActionResult LoginForm()
+        {
 
             /* Når bruker logger inn sjekker vi 'Roles', og dirigerer deretter */
-            foreach (Claim claim in User.Claims) {
-                if (claim.Value == "admin") {
-                    return RedirectToAction ("AdminFormPage");
-                } else if (claim.Value == "user") {
-                    return RedirectToAction ("DokumentOversikt");
+            foreach (Claim claim in User.Claims)
+            {
+                if (claim.Value == "admin")
+                {
+                    return RedirectToAction("AdminFormPage");
+                }
+                else if (claim.Value == "user")
+                {
+                    return RedirectToAction("DokumentOversikt");
                 }
 
             }
-            
-            return RedirectToAction ("Index", "Home");
+
+            return RedirectToAction("Index", "Home");
         }
 
         [Microsoft.AspNetCore.Authorization.Authorize]
-        public IActionResult AdminFormPage () {
+        public IActionResult AdminFormPage()
+        {
 
-            if (sjekkAutentisering () == "admin") {
-                return View ();
+            if (SjekkAutentisering() == "admin")
+            {
+                return View();
             }
 
-            return View ("NotAuthorized");
+            return View("NotAuthorized");
         }
 
         [Microsoft.AspNetCore.Authorization.Authorize]
-        public IActionResult LagOppdrag () {
-            if (sjekkAutentisering () == "user") {
-                return View ();
+        public IActionResult LagOppdrag()
+        {
+            if (SjekkAutentisering() == "user")
+            {
+                return View();
             }
 
-            return View ("NotAuthorized");
+            return View("NotAuthorized");
         }
 
         [Microsoft.AspNetCore.Authorization.Authorize]
-        public IActionResult DokumentOversikt () {
+        public IActionResult DokumentOversikt()
+        {
 
-            string epost = User.Claims.Where (c => c.Type == "name").FirstOrDefault ().Value;
-            List<Signeringsoppdrag> oppdrag = DBController.OppdragModellerer (epost);
+            string epost = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
+            List<Signeringsoppdrag> oppdrag = DBController.OppdragModellerer(epost);
 
-            if (sjekkAutentisering () == "user") {
-                return View ("DokumentOversikt", oppdrag);
+            if (SjekkAutentisering() == "user")
+            {
+                return View("DokumentOversikt", oppdrag);
             }
 
-            return View ("NotAuthorized");
+            return View("NotAuthorized");
         }
 
         //Henter alle brukere
-        public JsonResult getAlleBrukere () {
-            var client = new RestClient (" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%221%22&search_engine=v2");
-            var request = new RestRequest (Method.GET);
-            request.AddHeader ("authorization", HttpHeaderValue);
-            IRestResponse response = client.Execute (request);
-            List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (response.Content);
-            return Json (response.Content);
+        public JsonResult getAlleBrukere()
+        {
+            var client = new RestClient(" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%221%22&search_engine=v2");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("authorization", HttpHeaderValue);
+            IRestResponse response = client.Execute(request);
+            List<Bruker> myobj = JsonConvert.DeserializeObject<List<Bruker>>(response.Content);
+            return Json(response.Content);
 
         }
 
         //Henter JSON Resultat utifra spørring (nickname = 0)
-        public JsonResult getIkkeGodkjenteKunder () {
-            //var client = new RestClient("https://document.eu.auth0.com/api/v2/users?q=godkjent%3A%220%22&search_engine=v2");
-            var client = new RestClient (" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%220%22&search_engine=v2");
-            var request = new RestRequest (Method.GET);
+        public JsonResult GetIkkeGodkjenteKunder()
+        {
+            var client = new RestClient(" https://document.eu.auth0.com/api/v2/users?q=user_metadata%3Anickname%3D%220%22&search_engine=v2");
+            var request = new RestRequest(Method.GET);
             request.AddHeader("authorization", HttpHeaderValue);
-            IRestResponse response = client.Execute (request);
-            List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (response.Content);
-            return Json (response.Content);
+            IRestResponse response = client.Execute(request);
+            List<Bruker> myobj = JsonConvert.DeserializeObject<List<Bruker>>(response.Content);
+            return Json(response.Content);
         }
 
         //ActionResult for UserList view'et
         [Microsoft.AspNetCore.Authorization.Authorize]
-        public ActionResult AdminUserListForm () {
-            if (sjekkAutentisering () == "admin") {
-                JsonResult myobjs = getIkkeGodkjenteKunder();
-                List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (myobjs.Value.ToString ());
-                return View ("AdminUserListForm", myobj);
+        public ActionResult AdminUserListForm()
+        {
+            if (SjekkAutentisering() == "admin")
+            {
+                JsonResult myobjs = GetIkkeGodkjenteKunder();
+                List<Bruker> myobj = JsonConvert.DeserializeObject<List<Bruker>>(myobjs.Value.ToString());
+                return View("AdminUserListForm", myobj);
             }
 
-            return View ("NotAuthorized");
+            return View("NotAuthorized");
         }
 
         //ActionResult for Alle Brukere view
-        public ActionResult AdminAlleBrukere () {
+        public ActionResult AdminAlleBrukere()
+        {
 
-            if (sjekkAutentisering () == "admin") {
+            if (SjekkAutentisering() == "admin")
+            {
                 JsonResult myobjs = getAlleBrukere();
-                List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>> (myobjs.Value.ToString ());
-                return View ("AdminAlleBrukere", myobj);
+                List<Bruker> myobj = JsonConvert.DeserializeObject<List<Bruker>>(myobjs.Value.ToString());
+                return View("AdminAlleBrukere", myobj);
 
             }
 
-            return View ("NotAuthorized");
+            return View("NotAuthorized");
 
         }
 
         //Setter godkjent (Nickname = 1) på brukere
-        public async Task<ActionResult> setGodkjent (string id) {
+        public async Task<ActionResult> SetGodkjent(string id)
+        {
             string parameter = "{\"user_metadata\": {\"nickname\": \"1\"}}";
-            patchAuth0(id, parameter);
+            PatchAuth0(id, parameter);
             DBController.SetGodkjent(id);
-            await Task.Run (() => waitTimer ());
+            await Task.Run(() => waitTimer());
 
-            return RedirectToAction ("AdminUserListForm");
+            return RedirectToAction("AdminUserListForm");
         }
 
         //Sletter valgt bruker
-        public async Task<ActionResult> deleteUser (string id, string view) {
+        public async Task<ActionResult> DeleteUser(string id, string view)
+        {
             //gi verdi til nickname
-            var client = new RestClient ("https://document.eu.auth0.com/api/v2/users/" + id);
-            var request = new RestRequest (Method.DELETE);
-            request.AddHeader ("content-type", "application/json");
+            var client = new RestClient("https://document.eu.auth0.com/api/v2/users/" + id);
+            var request = new RestRequest(Method.DELETE);
+            request.AddHeader("content-type", "application/json");
             request.AddHeader("authorization", HttpHeaderValue);
-            IRestResponse response = client.Execute (request);
-            DBController.DeleteOppretter(id);
-            await Task.Run (() => waitTimer ());
+            IRestResponse response = client.Execute(request);
+            DBController.SlettOppretter(id);
+            await Task.Run(() => waitTimer());
 
-            return RedirectToAction (view);
+            return RedirectToAction(view);
         }
 
         //Metode for å oppdatere firma
         [HttpPost]
-        public async Task<ActionResult> oppdaterFirma(string idBruker, string firmaNavn)
+        public async Task<ActionResult> OppdaterFirma(string idBruker, string firmaNavn)
         {
             string parameter = "{\"user_metadata\": {\"Firma\": \"" + firmaNavn + "\"}}";
-            patchAuth0(idBruker, parameter);
+            PatchAuth0(idBruker, parameter);
             await Task.Run(() => waitTimer());
 
             return RedirectToAction("AdminAlleBrukere");
         }
 
         //Metode for patching (type oppdatering som parameter med id på bruker)
-        public async void patchAuth0(string idBruker, string parameter)
+        public async void PatchAuth0(string idBruker, string parameter)
         {
             var client = new RestClient("https://document.eu.auth0.com/api/v2/users/" + idBruker);
             var request = new RestRequest(Method.PATCH);
             request.AddHeader("content-type", "application/json");
             request.AddHeader("authorization", HttpHeaderValue);
             request.AddParameter("application/json", parameter, ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);       
+            IRestResponse response = client.Execute(request);
         }
         //Bruker for å sette en await (auth0 er treig)
-        public void waitTimer () {
-            Thread.Sleep (2000);
+        public void waitTimer()
+        {
+            Thread.Sleep(2000);
         }
 
-        public String sjekkAutentisering () {
+        public String SjekkAutentisering()
+        {
 
-            foreach (Claim claim in User.Claims) {
-                string rolle = User.Claims.FirstOrDefault (c => c.Type == "https://example.com/roles")?.Value;
+            foreach (Claim claim in User.Claims)
+            {
+                string rolle = User.Claims.FirstOrDefault(c => c.Type == "https://example.com/roles")?.Value;
 
-                if (rolle == "admin") {
+                if (rolle == "admin")
+                {
                     autString = "admin";
-                } else if (rolle == "user") {
+                }
+                else if (rolle == "user")
+                {
                     autString = "user";
                 }
             }
@@ -199,13 +225,18 @@ namespace BachelorMVC.Controllers {
             return autString;
         }
 
-        public IActionResult LogoutAuth0 () {
+        public IActionResult LogoutAuth0()
+        {
             //Finnes sikkert noen bedre måte. Dette er bare en quick-fix som vi kan evt endre på senere
-            foreach (var cookie in Request.Cookies.Keys) {
+            /*foreach (var cookie in Request.Cookies.Keys) {
                 Response.Cookies.Delete (cookie);
             }
 
-            return RedirectToAction ("Index", "Home");
+            return RedirectToAction ("Index", "Home");*/
+
+            //valid URL eller server IP
+            string returnTo = "158.36.13.133:52817";
+            return Redirect("https://document.eu.auth0.com/v2/logout?returnTo=http%3A%2F%2Fwww.example.com");
         }
 
     }

@@ -37,20 +37,20 @@ lag dokumentboks-->
                         <div class="row">
                             <div class="col-md-4 col-md-push-8">
 
-                                <input type="hidden" value='@oppdrag.dokument.Id' class="hidden-DokumentID">
+                                <input type="hidden" value='@oppdrag.Dokument.Id' class="hidden-DokumentID">
                                     <div class="dropdown">
                                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Handlinger
                                     <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                     <li><a href="#">Signér</a></li>
-                                    <li><a onclick="DeleteSigneringsOppdrag('@oppdrag.dokument.Id')" style="cursor: pointer">Slett</a></li>
-                                    <li><a href="/Home/DownloadLink/@oppdrag.dokument.Id">Last ned</a></li>
+                                    <li><a onclick="DeleteSigneringsOppdrag('@oppdrag.Dokument.Id')" style="cursor: pointer">Slett</a></li>
+                                    <li><a href="/Home/DownloadLink/@oppdrag.Dokument.Id">Last ned</a></li>
                                     </ul>
                                 </div> 
                                 </div>
                                 <div class="col-md-8 col-md-pull-4">
                                     
-                                    <div>@oppdrag.dokument.filnavn</div>
+                                    <div>@oppdrag.Dokument.Filnavn</div>
                                 </div>
                             </div>
                     </div>

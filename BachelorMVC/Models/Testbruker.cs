@@ -5,14 +5,11 @@ using System.Threading.Tasks;
 
 namespace BachelorMVC.Models
 {
-    public class Testbruker
+    public class Bruker
     {
-
-        public string email { get; set; }
-        public string user_id { get; set; }
-        public Usermetadata user_metadata { get; set; }
-
-
+        public string Email { get; set; }
+        public string UserID { get; set; }
+        public Usermetadata UserMetadata { get; set; }
 
     }
 }

@@ -17,7 +17,7 @@ namespace BachelorMVC.Services
 
         public Bruker addbruker(string fornavn, string etternavn, string id) {
 
-            Bruker nybruker = new Bruker { Fornavn = fornavn, Etternavn = etternavn, unikID = id };
+            Bruker nybruker = new Bruker { Fornavn = fornavn, Etternavn = etternavn, UnikId = id };
             _context.Bruker.Add(nybruker);//lag bruker
             _context.SaveChanges();// lagre med await = kan kjøre flere ting men må vente på at denne er ferdig før den kan returne.
             return nybruker;
@@ -28,7 +28,7 @@ namespace BachelorMVC.Services
             string fornavn = fulltnavn[1];
             string etternavn = fulltnavn[0];
 
-            var result = _context.Bruker.FirstOrDefault(x => x.unikID == id);
+            var result = _context.Bruker.FirstOrDefault(x => x.UnikId == id);
 
             if (result != null)
             {

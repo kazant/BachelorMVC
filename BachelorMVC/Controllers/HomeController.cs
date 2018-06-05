@@ -21,7 +21,7 @@ namespace BachelorMVC.Controllers
 
         string id, navn;
         int antallSign;
-        private DBController DBController = new DBController ();
+        private DBController DBController = new DBController();
         private AssentlyClient client = new AssentlyClient("https://test.assently.com", "1ab291ce-7486-488a-a5dc-de81ae692eae", "OMw4uXqu1QgCX_ESA8XpI00Z7EKyIlypwgrlv-qu");
 
         public string HttpHeaderValue = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik9UUTJOelJDT1VRNVF6Y3pRakk1TnpReFFUTkZOMEkwTmt" +
@@ -51,7 +51,7 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-        
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -70,31 +70,33 @@ namespace BachelorMVC.Controllers
             return View();
         }
 
-        public IActionResult InspiserDokument() {
+        public IActionResult InspiserDokument()
+        {
 
             return View();
         }
 
-       
+
         public void OpprettCaseOgSendEpost(string epost, string caseNavn, string dokumentNavn, string signeringsmetode)
         {
 
             string[] Invitasjonsemails;
 
-            if(!(epost == null))
+            if (!(epost == null))
             {
                 Invitasjonsemails = epost.Split(',');
-            } else
-            {
-                return; 
             }
-            
+            else
+            {
+                return;
+            }
+
 
             //En CreateCaseModel skal bestå av et dokument, en eller flere brukere og annen info
             CreateCaseModel model = new CreateCaseModel();
             List<CaseEvent> events = new List<CaseEvent>();
             events.Add(CaseEvent.SignatureAdded);
-            
+
             //Påkrevd
             model.Id = Guid.NewGuid();
             model.SendSignRequestEmailToParties = true;
@@ -102,15 +104,19 @@ namespace BachelorMVC.Controllers
             model.SendFinishEmailToCreator = true;
             model.Name = caseNavn;
             model.NameAlias = "Alias";
-            model.EventCallback = new CaseEventSubscription {
+            model.EventCallback = new CaseEventSubscription
+            {
                 Events = events,
                 Url = "http://158.36.13.131:52817/DBController/WriteNewSignature"
             };
 
             //Kan gi valg mellom eID signatur eller signbyhand (på mobil). Påkrevd
-            if(signeringsmetode == "electronicid") {
+            if (signeringsmetode == "electronicid")
+            {
                 model.AllowedSignatureTypes.Add(SignatureType.ElectronicId);
-            } else {
+            }
+            else
+            {
                 model.AllowedSignatureTypes.Add(SignatureType.Touch);
             }
 
@@ -126,20 +132,21 @@ namespace BachelorMVC.Controllers
                     PartyUrl = "https://test.assently.com/c/nobgBHa_1Qi2gNCjBeTGKZK5uwt58yewsHdKNxRD/ETrhBHa_1Qj46B_pHET3CGN8zsYUiItJ80HdH1CP"
                 });
             }
-            
+
             //En eller flere dokumenter angis til en Liste med dokumenter
             model.Documents.Add("./Persistence/Dokumenter/" + dokumentNavn);
-            model.Metadata.Add("nøkkel","verdi");
+            model.Metadata.Add("nøkkel", "verdi");
 
-            using (var fileStream = new FileStream("./Persistence/guid.txt", FileMode.Create)) {
+            using (var fileStream = new FileStream("./Persistence/guid.txt", FileMode.Create))
+            {
                 byte[] data = model.Id.ToByteArray();
                 fileStream.Write(data, 0, data.Length);
             }
 
             string oppretterEmail = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
-            DBController.WriteDocument(model.Id, dokumentNavn, Invitasjonsemails.Length, caseNavn, oppretterEmail);
-            DBController.WriteKunde(Invitasjonsemails);
-            
+            DBController.DokumentTilDatabase(model.Id, dokumentNavn, Invitasjonsemails.Length, caseNavn, oppretterEmail);
+            DBController.KundeTilDatabase(Invitasjonsemails);
+
             //CreateCaseModel objektet sendes til Assently
             client.CreateCase(model);
 
@@ -154,7 +161,7 @@ namespace BachelorMVC.Controllers
 
 
         [HttpPost]
-       public void Upload()
+        public void Upload()
         {
             for (int i = 0; i < Request.Form.Files.Count; i++)
             {
@@ -186,7 +193,7 @@ namespace BachelorMVC.Controllers
 
             if (caseModel.Status == CaseStatus.Sent)
             {
-                var filnavn = DBController.GetDokument(id).filnavn;
+                var filnavn = DBController.HentDokument(id).Filnavn;
 
                 var receipt = caseModel.Documents.Where(d => d.Type == DocumentType.Original).Single();
                 List<byte> fileContent = new List<byte>();
@@ -215,14 +222,14 @@ namespace BachelorMVC.Controllers
             string epost = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
             var client = new RestClient("https://document.eu.auth0.com/api/v2/users-by-email?email=" + epost);
             var requestGet = new RestRequest(Method.GET);
-            requestGet.AddHeader("authorization",  HttpHeaderValue);
+            requestGet.AddHeader("authorization", HttpHeaderValue);
             IRestResponse response = client.Execute(requestGet);
-            List<Testbruker> myobj = JsonConvert.DeserializeObject<List<Testbruker>>(response.Content);
+            List<Bruker> myobj = JsonConvert.DeserializeObject<List<Bruker>>(response.Content);
 
-            foreach(Testbruker bruker in myobj)
+            foreach (Bruker bruker in myobj)
             {
-                antallSign = bruker.user_metadata.antallSigneringer;
-                id = bruker.user_id;
+                antallSign = bruker.UserMetadata.AntallSigneringer;
+                id = bruker.UserID;
             }
             antallSign++;
 
@@ -231,12 +238,12 @@ namespace BachelorMVC.Controllers
             var requestPatch = new RestRequest(Method.PATCH);
             requestPatch.AddHeader("content-type", "application/json");
             requestPatch.AddHeader("authorization", HttpHeaderValue);
-            requestPatch.AddParameter("application/json", "{\"user_metadata\": {\"antallSigneringer\": \""+antallSign+"\"}}", ParameterType.RequestBody);
+            requestPatch.AddParameter("application/json", "{\"user_metadata\": {\"antallSigneringer\": \"" + antallSign + "\"}}", ParameterType.RequestBody);
 
             IRestResponse respons = clientPatch.Execute(requestPatch);
         }
 
-        
+
 
     }
 
