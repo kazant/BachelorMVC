@@ -142,8 +142,7 @@ namespace BachelorMVC.Controllers
             }
 
             string oppretterEmail = User.Claims.Where(c => c.Type == "name").FirstOrDefault().Value;
-            DBController.DokumentTilDatabase(model.Id, dokumentNavn, Invitasjonsemails.Length, caseNavn, oppretterEmail);
-            DBController.KundeTilDatabase(Invitasjonsemails);
+            
 
             //CreateCaseModel objektet sendes til Assently
             client.CreateCase(model);
@@ -155,6 +154,9 @@ namespace BachelorMVC.Controllers
             //Oppdater antallsignatur teller Auth0
             OppdaterAntallOppdragTeller();
 
+            DBController.DokumentTilDatabase(model.Id, dokumentNavn, Invitasjonsemails.Length, 
+                                                caseNavn, oppretterEmail);
+            DBController.KundeTilDatabase(Invitasjonsemails);
         }
 
 
@@ -226,8 +228,8 @@ namespace BachelorMVC.Controllers
 
             foreach (Bruker bruker in myobj)
             {
-                antallSign = bruker.UserMetadata.AntallSigneringer;
-                id = bruker.UserID;
+                antallSign = bruker.user_metadata.antallSigneringer;
+                id = bruker.user_id;
             }
             antallSign++;
 

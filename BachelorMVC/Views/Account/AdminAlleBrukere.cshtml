@@ -41,42 +41,39 @@
     {
         <tr>
             <td>
-                @item.UserID
+                @item.user_id
             </td>
             <td>
-                @item.Email
+                @item.email
             </td>
             <td>
 
                 @using (Html.BeginForm("oppdaterFirma", "Account", FormMethod.Post))
                 {
-                    <input type="text" name="firmaNavn" id="firmaNavn" value="@item.UserMetadata.Firma" />
-                    <input type="hidden" name="idBruker" id="idBruker" value="@item.UserID" />
+                    <input type="text" name="firmaNavn" id="firmaNavn" value="@item.user_metadata.firma"/>
+                    <input type="hidden" name="idBruker" id="idBruker" value="@item.user_id"/>
                     <button onlick="oppdaterFirmaNavn" type="submit">
                         <i class="fas fa-check"></i>
                     </button>
                 }
 
-
+                
             </td>
-
-            @if (@item.UserMetadata.Godkjent == "0")
-            {
-                <td>
-                    @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.UserID }, null)
-                </td>
-            }
-            else
-            {
-                <td>
-                    Godkjent
-                </td>
-            }
+            
+                @if(@item.user_metadata.nickname == "0") {
+                    <td>
+                        @Html.ActionLink("Ikke godkjent", "setGodkjent", "Account", new { id = item.user_id }, null) 
+                    </td>
+                } else {
+                    <td>
+                        Godkjent
+                    </td>
+                }
             <td>
-                <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.UserID, view = "AdminAlleBrukere" }, null)</button>
+                <button>@Html.ActionLink("Slett", "deleteUser", "Account", new { id = item.user_id , view = "AdminAlleBrukere"}, null)</button>
             </td>
             <td>
-                @item.UserMetadata.AntallSigneringer
+                @item.user_metadata.antallSigneringer
             </td>
         </tr>
     }
@@ -89,6 +86,6 @@
         var nyttFirma = document.getElementById("firmaNavn").value;
         document.getElementById("firmaNavn").innerHTML = nyttFirma;
     }
-
+    
 </script>
 

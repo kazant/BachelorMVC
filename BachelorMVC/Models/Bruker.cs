@@ -3,9 +3,9 @@ namespace BachelorMVC.Models
 {
     public class Bruker
     {
-        public string Email { get; set; }
-        public string UserID { get; set; }
-        public UserMetadata UserMetadata { get; set; }
+        public string email { get; set; }
+        public string user_id { get; set; }
+        public Usermetadata user_metadata { get; set; }
 
     }
 }

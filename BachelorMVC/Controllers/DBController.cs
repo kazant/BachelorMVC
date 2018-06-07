@@ -85,17 +85,17 @@ namespace BachelorMVC.Controllers
 
                 while (reader.Read())
                 {
-                    oppretter.UserMetadata = new UserMetadata();
-                    oppretter.UserMetadata.Firma = reader.GetString("firma");
-                    oppretter.Email = reader.GetString("email");
+                    oppretter.user_metadata = new Usermetadata();
+                    oppretter.user_metadata.firma = reader.GetString("firma");
+                    oppretter.email = reader.GetString("email");
 
 
                     while (reader.Read())
                     {
                         if (reader.GetString("firma") != null)
                         {
-                            oppretter.UserMetadata.AntallSigneringer = reader.GetInt32("AntallSigneringer");
-                            oppretter.UserMetadata.Godkjent = reader.GetString("nickname");
+                            oppretter.user_metadata.antallSigneringer = reader.GetInt32("AntallSigneringer");
+                            oppretter.user_metadata.nickname = reader.GetString("nickname");
                         }
 
                     }
@@ -159,13 +159,13 @@ namespace BachelorMVC.Controllers
                     kunder.Add(
                         new Bruker
                         {
-                            Email = reader.GetString("email"),
-                            UserID = "email er ID",
-                            UserMetadata = new UserMetadata
+                            email = reader.GetString("email"),
+                            user_id = "email er ID",
+                            user_metadata = new Usermetadata
                             {
-                                Godkjent = "todo: nickname",
-                                Firma = reader.GetString("firma"),
-                                AntallSigneringer = reader.GetInt32("AntallSigneringer")
+                                nickname = "todo: nickname",
+                                firma = reader.GetString("firma"),
+                                antallSigneringer = reader.GetInt32("AntallSigneringer")
                             }
                         }
                     );
@@ -179,16 +179,16 @@ namespace BachelorMVC.Controllers
             using (MySqlCommand cmd = new MySqlCommand())
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "insert into dokument(DokumentID,filnavn,AntallSignaturer,Navn,email) " +
-                "values(@DokumentID, @filnavn, @AntallSignaturer, @Navn, @email)";
+                cmd.CommandText = "insert into dokument(DokumentID,filnavn,AntallSignaturer,Navn,email,url) " +
+                "values(@DokumentID, @filnavn, @AntallSignaturer, @Navn, @email, @url)";
                 cmd.Parameters.AddWithValue("@DokumentID", dokumentId.ToString("D"));
                 cmd.Parameters.AddWithValue("@filnavn", filnavn);
                 cmd.Parameters.AddWithValue("@AntallSignaturer", antallSignaturer);
                 cmd.Parameters.AddWithValue("@Navn", navn);
                 cmd.Parameters.AddWithValue("@email", email);
-
+                
                 //todo: url til signering
-                //cmd.Parameters.AddWithValue("@url", url);
+                cmd.Parameters.AddWithValue("@url", "https://test.assently.com/a/case/ToSignView/" + dokumentId);
                 cmd.ExecuteNonQuery();
             }
         }
