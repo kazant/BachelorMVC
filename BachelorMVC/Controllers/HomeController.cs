@@ -125,9 +125,8 @@ namespace BachelorMVC.Controllers
 
                 model.Parties.Add(new PartyModel
                 {
-                    Name = "Signatør-navn",
-                    EmailAddress = Invitasjonsemails[i],
-                    PartyUrl = "https://test.assently.com/c/nobgBHa_1Qi2gNCjBeTGKZK5uwt58yewsHdKNxRD/ETrhBHa_1Qj46B_pHET3CGN8zsYUiItJ80HdH1CP"
+                    Name = "Undertegnede",
+                    EmailAddress = Invitasjonsemails[i]
                 });
             }
 

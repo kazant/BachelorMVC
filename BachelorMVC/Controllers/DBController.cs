@@ -179,16 +179,13 @@ namespace BachelorMVC.Controllers
             using (MySqlCommand cmd = new MySqlCommand())
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "insert into dokument(DokumentID,filnavn,AntallSignaturer,Navn,email,url) " +
-                "values(@DokumentID, @filnavn, @AntallSignaturer, @Navn, @email, @url)";
+                cmd.CommandText = "insert into dokument(DokumentID,filnavn,AntallSignaturer,Navn,email) " +
+                "values(@DokumentID, @filnavn, @AntallSignaturer, @Navn, @email)";
                 cmd.Parameters.AddWithValue("@DokumentID", dokumentId.ToString("D"));
                 cmd.Parameters.AddWithValue("@filnavn", filnavn);
                 cmd.Parameters.AddWithValue("@AntallSignaturer", antallSignaturer);
                 cmd.Parameters.AddWithValue("@Navn", navn);
                 cmd.Parameters.AddWithValue("@email", email);
-                
-                //todo: url til signering
-                cmd.Parameters.AddWithValue("@url", "https://test.assently.com/a/case/ToSignView/" + dokumentId);
                 cmd.ExecuteNonQuery();
             }
         }

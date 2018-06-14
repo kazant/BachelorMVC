@@ -59,3 +59,8 @@
     display: inline;
     margin: 0 1em 0 0;
 }
+
+#signevent-confirm {
+    color: green;
+    font-size: medium;
+}

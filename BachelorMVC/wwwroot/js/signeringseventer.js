@@ -31,8 +31,8 @@ function OpprettSigneringsOppdrag(url) {
             data: { epost: emails, caseNavn: navn, dokumentNavn: dokumentNavn, signeringsmetode: signeringsmetode },
             url: url,
             traditional: true,
-            success: function (data) {
-                alert("sendt");
+                success: function (data) {
+                    $('#signevent-confirm').show();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(errorThrown);
